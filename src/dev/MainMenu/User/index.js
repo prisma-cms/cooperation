@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import PropTypes from 'prop-types';
- 
-import {UserLink} from '../../../components/ui';
- 
+
+import { UserLink } from '../../../components/ui';
+
+// import { Timer } from "../../../components/ui";
 
 export default class UserMenuItem extends Component {
 
@@ -58,12 +59,16 @@ export default class UserMenuItem extends Component {
 
     let connection;
 
-    return <UserLink
-      user={user}
-      style={{
-        margin: 0,
-      }}
-    />;
+    return <Fragment>
+      {/* <Timer /> */}
+      <UserLink
+        user={user}
+        style={{
+          margin: 0,
+        }}
+      />
+    </Fragment>
+      ;
 
   }
 

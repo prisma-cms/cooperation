@@ -13,7 +13,6 @@ import { Link } from 'react-router-dom';
 import UserItem from './User';
 import { withStyles } from 'material-ui/styles';
 
-// import Modal from './AuthModal';
 
 const styles = theme => {
 

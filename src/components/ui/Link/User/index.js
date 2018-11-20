@@ -85,8 +85,8 @@ export class UserLink extends Component {
 
     const name = fullname || username;
 
-    const url = `/profile/${username}/`;
-    // const url = `/users/${id}`;
+    // const url = `/profile/${username}/`;
+    const url = `/users/${id}`;
 
 
     let avatarLink = <Link

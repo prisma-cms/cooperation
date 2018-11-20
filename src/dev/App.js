@@ -18,6 +18,8 @@ import App, {
   SubscriptionProvider,
   ProjectsPage,
   ProjectPage,
+  TasksPage,
+  TaskPage,
 } from "../App";
 
 
@@ -134,6 +136,32 @@ class DevRenderer extends PrismaCmsRenderer {
             key={projectId}
             where={{
               id: projectId,
+            }}
+            {...props}
+          />
+        }
+      },
+      {
+        exact: true,
+        path: "/tasks",
+        component: TasksPage,
+      },
+      {
+        exact: true,
+        path: "/tasks/:taskId",
+        render: (props) => {
+          const {
+            params,
+          } = props.match;
+
+          const {
+            taskId,
+          } = params || {};
+
+          return <TaskPage
+            key={taskId}
+            where={{
+              id: taskId,
             }}
             {...props}
           />
