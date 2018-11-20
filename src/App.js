@@ -11,10 +11,15 @@ import ProjectPage from "./components/pages/Projects/Project";
 import TasksPage from "./components/pages/Tasks";
 import TaskPage from "./components/pages/Tasks/Task";
 
+import TimersPage from "./components/pages/Timers";
+import TimerPage from "./components/pages/Timers/Timer";
+
 export {
   SubscriptionProvider,
   ProjectsPage,
   ProjectPage,
+  TimersPage,
+  TimerPage,
   TasksPage,
   TaskPage,
 }

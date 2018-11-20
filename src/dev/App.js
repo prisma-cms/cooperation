@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import PrismaCmsApp from '@prisma-cms/front'
 import { Renderer as PrismaCmsRenderer } from '@prisma-cms/front'
 
+import { withStyles } from 'material-ui';
+
 import MainMenu from './MainMenu';
 
 import * as queryFragments from "@prisma-cms/front/lib/schema/generated/api.fragments";
@@ -20,12 +22,13 @@ import App, {
   ProjectPage,
   TasksPage,
   TaskPage,
+  TimersPage,
+  TimerPage,
 } from "../App";
 
 
 
 
-// import { withStyles } from 'material-ui';
 
 
 // class TestApp extends Component {
@@ -78,13 +81,6 @@ import App, {
 
 // }
 
-
-// const TestRenderer = withStyles({
-//   root: {
-//     fontSize: 16,
-//     fontFamily: "serif",
-//   },
-// })(TestApp)
 
 
 class DevRenderer extends PrismaCmsRenderer {
@@ -167,6 +163,32 @@ class DevRenderer extends PrismaCmsRenderer {
           />
         }
       },
+      {
+        exact: true,
+        path: "/timers",
+        component: TimersPage,
+      },
+      {
+        exact: true,
+        path: "/timers/:timerId",
+        render: (props) => {
+          const {
+            params,
+          } = props.match;
+
+          const {
+            timerId,
+          } = params || {};
+
+          return <TimerPage
+            key={timerId}
+            where={{
+              id: timerId,
+            }}
+            {...props}
+          />
+        }
+      },
       // {
       //   path: "*",
       //   render: props => this.renderOtherPages(props),
@@ -203,6 +225,7 @@ class DevRenderer extends PrismaCmsRenderer {
 
     const {
       pure,
+      classes,
       ...other
     } = this.props;
 
@@ -213,19 +236,40 @@ class DevRenderer extends PrismaCmsRenderer {
       // loadApiData,
     } = this.context;
 
-    return <SubscriptionProvider
-      user={currentUser}
-      client={client}
-    // loadApiData={loadApiData}
+    return <div
+      className={classes.root}
     >
-      {pure ? <App
-        {...other}
-      /> : super.render()}
-    </SubscriptionProvider>
+      <SubscriptionProvider
+        user={currentUser}
+        client={client}
+      // loadApiData={loadApiData}
+      >
+        {pure ? <App
+          {...other}
+        /> : super.render()}
+      </SubscriptionProvider>
+    </div>
 
   }
 
 }
+
+
+
+const DevRendererWithStyles = withStyles({
+  root: {
+    fontSize: 16,
+    fontFamily: "serif",
+
+    "& #Renderer--body": {
+      "& a": {
+        "&, & span": {
+          color: "#0369ce",
+        },
+      },
+    },
+  },
+})(DevRenderer)
 
 export default class DevApp extends Component {
 
@@ -247,7 +291,7 @@ export default class DevApp extends Component {
 
     return <PrismaCmsApp
       queryFragments={queryFragments}
-      Renderer={DevRenderer}
+      Renderer={DevRendererWithStyles}
       // pure={true}
       {...other}
     />
