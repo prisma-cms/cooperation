@@ -50,16 +50,15 @@ class TimerPage extends Page {
     }
 
     const {
-      TimerTarget: Topic,
+      Task: Task,
     } = timer;
 
     const {
       name,
-      longtitle,
-    } = Topic || {};
+    } = Task || {};
 
     return super.setPageMeta({
-      title: `Комментарий к топику ${longtitle || name}`,
+      title: `Таймер к задаче ${name}`,
       ...meta,
     });
 

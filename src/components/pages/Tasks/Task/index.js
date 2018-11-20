@@ -50,16 +50,12 @@ class TaskPage extends Page {
     }
 
     const {
-      TaskTarget: Topic,
-    } = task;
-
-    const {
       name,
-      longtitle,
-    } = Topic || {};
+    } = task;
+ 
 
     return super.setPageMeta({
-      title: `Комментарий к топику ${longtitle || name}`,
+      title: `Задача ${name}`,
       ...meta,
     });
 

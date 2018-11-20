@@ -7,6 +7,7 @@ import SubscriptionProvider from "./components/SubscriptionProvider";
 
 import ProjectsPage from "./components/pages/Projects";
 import ProjectPage from "./components/pages/Projects/Project";
+import ProjectCreatePage from "./components/pages/Projects/Project/Create";
 
 import TasksPage from "./components/pages/Tasks";
 import TaskPage from "./components/pages/Tasks/Task";
@@ -18,6 +19,7 @@ export {
   SubscriptionProvider,
   ProjectsPage,
   ProjectPage,
+  ProjectCreatePage,
   TimersPage,
   TimerPage,
   TasksPage,

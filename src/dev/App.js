@@ -20,6 +20,7 @@ import App, {
   SubscriptionProvider,
   ProjectsPage,
   ProjectPage,
+  ProjectCreatePage,
   TasksPage,
   TaskPage,
   TimersPage,
@@ -115,6 +116,11 @@ class DevRenderer extends PrismaCmsRenderer {
         exact: true,
         path: "/projects",
         component: ProjectsPage,
+      },
+      {
+        exact: true,
+        path: "/projects/create",
+        component: ProjectCreatePage,
       },
       {
         exact: true,

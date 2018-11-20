@@ -114,15 +114,6 @@ class ProjectView extends EditableView {
 
     const inEditMode = this.isInEditMode();
 
-    if (!projectId) {
-
-      return <Typography
-        variant="subheading"
-        className={classes.addProjectTitle}
-      >
-        Добавить проект
-      </Typography>;
-    }
 
     return <div
       className={classes.header}

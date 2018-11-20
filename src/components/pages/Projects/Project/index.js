@@ -8,6 +8,7 @@ import { graphql } from 'react-apollo';
 
 import {
   Project as ProjectQuery,
+  createProjectProcessor,
   updateProjectProcessor,
 } from "../query";
 
@@ -21,9 +22,10 @@ import { Typography } from 'material-ui';
 // } from "../../../../components/ui";
 
 const UpdateProject = graphql(updateProjectProcessor)(ProjectView);
+const CreateProject = graphql(createProjectProcessor)(ProjectView);
 
 
-class ProjectPage extends Page {
+export class ProjectPage extends Page {
 
   static propTypes = {
     ...Page.propTypes,
@@ -50,16 +52,11 @@ class ProjectPage extends Page {
     }
 
     const {
-      ProjectTarget: Topic,
+      name,
     } = project;
 
-    const {
-      name,
-      longtitle,
-    } = Topic || {};
-
     return super.setPageMeta({
-      title: `Комментарий к топику ${longtitle || name}`,
+      title: `Проект ${name}`,
       ...meta,
     });
 
@@ -88,11 +85,24 @@ class ProjectPage extends Page {
       }
     }
 
+
+    const {
+      id: projectId,
+    } = project;
+
+    let Mutation;
+
+    if (projectId) {
+      Mutation = UpdateProject;
+    }
+    else {
+      Mutation = CreateProject;
+    }
+
     return super.render(
       <div>
-        <UpdateProject
+        <Mutation
           data={data}
-          linkType="target"
           {...other}
         />
       </div>

@@ -31,7 +31,7 @@ class ProjectsPage extends Page {
   setPageMeta(meta = {}) {
 
     return super.setPageMeta({
-      title: "Комментарии",
+      title: "Проекты",
       ...meta,
     });
 

@@ -31,7 +31,7 @@ class TimersPage extends Page {
   setPageMeta(meta = {}) {
 
     return super.setPageMeta({
-      title: "Комментарии",
+      title: "Таймеры",
       ...meta,
     });
 

@@ -114,15 +114,6 @@ class TaskView extends EditableView {
 
     const inEditMode = this.isInEditMode();
 
-    if (!taskId) {
-
-      return <Typography
-        variant="subheading"
-        className={classes.addTaskTitle}
-      >
-        Добавить проект
-      </Typography>;
-    }
 
     return <div
       className={classes.header}

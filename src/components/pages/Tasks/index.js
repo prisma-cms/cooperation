@@ -31,7 +31,7 @@ class TasksPage extends Page {
   setPageMeta(meta = {}) {
 
     return super.setPageMeta({
-      title: "Комментарии",
+      title: "Задачи",
       ...meta,
     });
 

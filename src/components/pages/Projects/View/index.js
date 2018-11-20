@@ -5,7 +5,10 @@ import PropTypes from 'prop-types';
 import { Typography } from 'material-ui';
 
 import Grid from "../../../ui/Grid"
-import Pagination from "../../../ui/Pagination"
+import {
+  Pagination,
+  Link,
+} from "../../../ui"
 
 import ProjectsList from "./List";
 
@@ -42,29 +45,28 @@ class ProjectsView extends Component {
       count = 0,
     } = aggregate || {};
 
+
+    let output;
+
     if (!edges || !edges.length) {
 
       if (loading) {
-        return null;
+        output = null;
       }
       else {
-        return <Typography>
+        output = <Typography
+          variant="title"
+        >
           Данные не были получены
         </Typography>
       }
 
     }
+    else {
 
+      let projects = edges.map(n => n.node);
 
-    let projects = edges.map(n => n.node);
-
-
-    let content = <Grid
-      container
-      spacing={0}
-    >
-
-      {edges && edges.length ? <Grid
+      output = <Grid
         item
         xs={12}
 
@@ -82,8 +84,34 @@ class ProjectsView extends Component {
             marginTop: 20,
           }}
         />
-      </Grid> : null
-      }
+      </Grid>
+
+    }
+
+
+
+
+    let content = <Grid
+      container
+      spacing={0}
+    >
+      <Grid
+        item
+        xs={12}
+
+      >
+        <Link
+          to="/projects/create"
+        >
+          <Typography
+
+          >
+            Добавить проект
+          </Typography>
+        </Link>
+      </Grid>
+
+      {output}
 
     </Grid>
 

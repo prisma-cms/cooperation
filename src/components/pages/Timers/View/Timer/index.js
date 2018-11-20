@@ -177,15 +177,6 @@ class TimerView extends EditableView {
 
     const inEditMode = this.isInEditMode();
 
-    if (!timerId) {
-
-      return <Typography
-        variant="subheading"
-        className={classes.addTimerTitle}
-      >
-        Добавить проект
-      </Typography>;
-    }
 
     return <div
       className={classes.header}
