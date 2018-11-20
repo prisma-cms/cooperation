@@ -3,6 +3,18 @@ import PropTypes from 'prop-types';
 
 import "./styles/less/styles.css";
 
+import SubscriptionProvider from "./components/SubscriptionProvider";
+
+import ProjectsPage from "./components/pages/Projects";
+import ProjectPage from "./components/pages/Projects/Project";
+
+export {
+  SubscriptionProvider,
+  ProjectsPage,
+  ProjectPage,
+}
+
+
 class App extends Component {
 
   static propTypes = {
@@ -17,5 +29,5 @@ class App extends Component {
     );
   }
 }
- 
+
 export default App;

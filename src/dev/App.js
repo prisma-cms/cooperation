@@ -4,9 +4,85 @@ import PropTypes from "prop-types";
 import PrismaCmsApp from '@prisma-cms/front'
 import { Renderer as PrismaCmsRenderer } from '@prisma-cms/front'
 
+import MainMenu from './MainMenu';
+
 import * as queryFragments from "@prisma-cms/front/lib/schema/generated/api.fragments";
 
-import App from "../App";
+// import { Grid } from 'material-ui';
+// import { Typography } from 'material-ui';
+// import { Button } from 'material-ui';
+
+// import { Link } from "react-router-dom";
+
+import App, {
+  SubscriptionProvider,
+  ProjectsPage,
+  ProjectPage,
+} from "../App";
+
+
+
+
+// import { withStyles } from 'material-ui';
+
+
+// class TestApp extends Component {
+
+//   static defaultProps = {
+//   }
+
+
+
+//   constructor(props) {
+
+//     super(props);
+
+//     const {
+//       value,
+//       readOnly,
+//     } = props;
+
+//     this.state = {
+//       value,
+//       readOnly,
+//     }
+
+//   }
+
+
+//   render() {
+
+//     const {
+//       children,
+//       history,
+//       location,
+//       match,
+//       classes,
+//       ...other
+//     } = this.props;
+
+//     const {
+//     } = this.state;
+
+
+//     return <div
+//       className={classes.root}
+//     >
+//       <App
+//         {...other}
+//       />
+//     </div>
+//   }
+
+// }
+
+
+// const TestRenderer = withStyles({
+//   root: {
+//     fontSize: 16,
+//     fontFamily: "serif",
+//   },
+// })(TestApp)
 
 
 class DevRenderer extends PrismaCmsRenderer {
@@ -22,18 +98,77 @@ class DevRenderer extends PrismaCmsRenderer {
     pure: false,
   }
 
+  static contextTypes = {
+    ...PrismaCmsRenderer.contextTypes,
+    client: PropTypes.object.isRequired,
+    // loadApiData: PropTypes.func.isRequired,
+  }
+
+
   getRoutes() {
 
-    return [{
-      exact: true,
-      path: "/",
-      component: App,
-    }, {
-      path: "*",
-      render: props => this.renderOtherPages(props),
-    },];
+    let routes = [
+      // {
+      //   exact: true,
+      //   path: "/",
+      //   component: TestRenderer,
+      // },
+      {
+        exact: true,
+        path: "/projects",
+        component: ProjectsPage,
+      },
+      {
+        exact: true,
+        path: "/projects/:projectId",
+        render: (props) => {
+          const {
+            params,
+          } = props.match;
+
+          const {
+            projectId,
+          } = params || {};
+
+          return <ProjectPage
+            key={projectId}
+            where={{
+              id: projectId,
+            }}
+            {...props}
+          />
+        }
+      },
+      // {
+      //   path: "*",
+      //   render: props => this.renderOtherPages(props),
+      // },
+    ].concat(super.getRoutes());
+
+    return routes;
 
   }
+
+
+  renderMenu() {
+
+    return <MainMenu />
+  }
+
+
+
+  // renderRoutes() {
+
+  //   return <div
+  //     style={{
+  //       // maxWidth: 1200,
+  //       // margin: "20px auto 0",
+  //     }}
+  //   >
+  //     {super.renderRoutes()}
+  //   </div>
+
+  // }
 
 
   render() {
@@ -43,9 +178,22 @@ class DevRenderer extends PrismaCmsRenderer {
       ...other
     } = this.props;
 
-    return pure ? <App
-      {...other}
-    /> : super.render();
+
+    const {
+      user: currentUser,
+      client,
+      // loadApiData,
+    } = this.context;
+
+    return <SubscriptionProvider
+      user={currentUser}
+      client={client}
+    // loadApiData={loadApiData}
+    >
+      {pure ? <App
+        {...other}
+      /> : super.render()}
+    </SubscriptionProvider>
 
   }
 
