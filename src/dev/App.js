@@ -23,6 +23,7 @@ import App, {
   ProjectCreatePage,
   TasksPage,
   TaskPage,
+  TaskCreatePage,
   TimersPage,
   TimerPage,
 } from "../App";
@@ -147,6 +148,14 @@ class DevRenderer extends PrismaCmsRenderer {
         exact: true,
         path: "/tasks",
         component: TasksPage,
+      },
+      {
+        exact: false,
+        path: [
+          "/tasks/create/:projectId",
+          // "/tasks/create",
+        ],
+        component: TaskCreatePage,
       },
       {
         exact: true,

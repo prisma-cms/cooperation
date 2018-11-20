@@ -11,6 +11,7 @@ import ProjectCreatePage from "./components/pages/Projects/Project/Create";
 
 import TasksPage from "./components/pages/Tasks";
 import TaskPage from "./components/pages/Tasks/Task";
+import TaskCreatePage from "./components/pages/Tasks/Task/Create";
 
 import TimersPage from "./components/pages/Timers";
 import TimerPage from "./components/pages/Timers/Timer";
@@ -20,10 +21,11 @@ export {
   ProjectsPage,
   ProjectPage,
   ProjectCreatePage,
-  TimersPage,
-  TimerPage,
   TasksPage,
   TaskPage,
+  TaskCreatePage,
+  TimersPage,
+  TimerPage,
 }
 
 

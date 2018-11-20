@@ -13,6 +13,7 @@ import moment from "moment";
 import {
   UserLink,
   ProjectLink,
+  Link,
 } from "../../../../ui"
 
 
@@ -142,6 +143,7 @@ class ProjectView extends EditableView {
 
             <Grid
               item
+              xs={inEditMode}
             >
 
               {inEditMode
@@ -173,7 +175,7 @@ class ProjectView extends EditableView {
 
             <Grid
               item
-              xs
+              xs={!inEditMode}
             >
 
             </Grid>
@@ -221,6 +223,7 @@ class ProjectView extends EditableView {
     }
 
     const {
+      id: projectId,
       content,
       Tasks,
     } = project;
@@ -235,17 +238,24 @@ class ProjectView extends EditableView {
 
       details = <Fragment>
 
+        <Typography
+          variant="subheading"
+        >
+          Задачи в проекте {projectId ? <Link
+            to={`/tasks/create/${projectId}`}
+          >
+            Добавить
+          </Link>
+            : null
+          }
+        </Typography>
+
         {Tasks && Tasks.length ?
           <Grid
             item
             xs={12}
           >
 
-            <Typography
-              variant="subheading"
-            >
-              Задачи в проекте
-            </Typography>
 
             <TasksListView
               tasks={Tasks}

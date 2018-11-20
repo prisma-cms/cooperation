@@ -10,6 +10,7 @@ import {
   TaskNoNestingFragment,
   UserNoNestingFragment,
   TimerNoNestingFragment,
+  ProjectNoNestingFragment,
 } from "../../../schema/generated/api.fragments";
 
 
@@ -84,12 +85,20 @@ export const taskFragment = `
         ...UserNoNesting
       }
     }
+
+    Project{
+      ...ProjectNoNesting
+      CreatedBy{
+        ...UserNoNesting
+      }
+    }
     
   }
   
   ${TaskNoNestingFragment}
   ${UserNoNestingFragment}
   ${TimerNoNestingFragment}
+  ${ProjectNoNestingFragment}
 `
 
 export const tasksListFragment = `

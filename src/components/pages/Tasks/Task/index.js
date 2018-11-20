@@ -8,6 +8,7 @@ import { graphql } from 'react-apollo';
 
 import {
   Task as TaskQuery,
+  createTaskProcessor,
   updateTaskProcessor,
 } from "../query";
 
@@ -21,9 +22,10 @@ import { Typography } from 'material-ui';
 // } from "../../../../components/ui";
 
 const UpdateTask = graphql(updateTaskProcessor)(TaskView);
+const CreateTask = graphql(createTaskProcessor)(TaskView);
 
 
-class TaskPage extends Page {
+export class TaskPage extends Page {
 
   static propTypes = {
     ...Page.propTypes,
@@ -84,9 +86,23 @@ class TaskPage extends Page {
       }
     }
 
+
+    const {
+      id: taskId,
+    } = task;
+
+    let Mutation;
+
+    if (taskId) {
+      Mutation = UpdateTask;
+    }
+    else {
+      Mutation = CreateTask;
+    }
+
     return super.render(
       <div>
-        <UpdateTask
+        <Mutation
           data={data}
           linkType="target"
           showDetails={true}

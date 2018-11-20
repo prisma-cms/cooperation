@@ -14,6 +14,7 @@ import {
   UserLink,
   TaskLink,
   Editor,
+  ProjectLink,
 } from "../../../../ui"
 
 
@@ -114,6 +115,7 @@ class TaskView extends EditableView {
       id: taskId,
       CreatedBy,
       createdAt,
+      Project,
     } = object || {}
 
 
@@ -154,9 +156,14 @@ class TaskView extends EditableView {
                 })
                 :
 
-                taskId ? <TaskLink
-                  object={object}
-                />
+                taskId ? <Fragment>
+                  <TaskLink
+                    object={object}
+                  /> {Project ? <span> (<ProjectLink
+                    object={Project}
+                  />)
+                  </span> : null}
+                </Fragment>
                   :
                   null
               }

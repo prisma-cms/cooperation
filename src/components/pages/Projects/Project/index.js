@@ -29,11 +29,13 @@ export class ProjectPage extends Page {
 
   static propTypes = {
     ...Page.propTypes,
+    showDetails: PropTypes.bool.isRequired,
   };
 
 
   static defaultProps = {
     ...Page.defaultProps,
+    showDetails: true,
   }
 
 
@@ -103,7 +105,6 @@ export class ProjectPage extends Page {
       <div>
         <Mutation
           data={data}
-          showDetails={true}
           {...other}
         />
       </div>
