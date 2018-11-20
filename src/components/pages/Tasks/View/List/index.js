@@ -17,16 +17,24 @@ class TasksList extends Component {
 
   static propTypes = {
     tasks: PropTypes.array.isRequired,
+    showDetails: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
+    showDetails: false,
   };
 
   render() {
 
     const {
       tasks,
+      showDetails,
     } = this.props;
+
+
+    if (!tasks) {
+      return null;
+    }
 
     return (
       tasks.map(n => {
@@ -39,6 +47,7 @@ class TasksList extends Component {
           data={{
             object: n,
           }}
+          showDetails={showDetails}
         />
       })
     );

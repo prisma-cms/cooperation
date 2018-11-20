@@ -103,6 +103,7 @@ export class ProjectPage extends Page {
       <div>
         <Mutation
           data={data}
+          showDetails={true}
           {...other}
         />
       </div>

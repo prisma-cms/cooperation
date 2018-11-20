@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import EditableView from 'apollo-cms/lib/DataView/Object/Editable';
@@ -14,6 +14,9 @@ import {
   UserLink,
   ProjectLink,
 } from "../../../../ui"
+
+
+import TasksListView from "../../../Tasks/View/List";
 
 const styles = theme => {
 
@@ -31,10 +34,12 @@ class ProjectView extends EditableView {
   static propTypes = {
     ...EditableView.propTypes,
     classes: PropTypes.object.isRequired,
+    showDetails: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
     ...EditableView.defaultProps,
+    showDetails: false,
   };
 
   static contextTypes = {
@@ -108,6 +113,7 @@ class ProjectView extends EditableView {
       id: projectId,
       CreatedBy,
       createdAt,
+      Tasks,
     } = object || {}
 
 
@@ -203,6 +209,7 @@ class ProjectView extends EditableView {
 
     const {
       classes,
+      showDetails,
     } = this.props;
 
 
@@ -215,25 +222,49 @@ class ProjectView extends EditableView {
 
     const {
       content,
+      Tasks,
     } = project;
 
 
     const inEditMode = this.isInEditMode();
     const allow_edit = this.canEdit();
 
+    let details;
+
+    if (showDetails) {
+
+      details = <Fragment>
+
+        {Tasks && Tasks.length ?
+          <Grid
+            item
+            xs={12}
+          >
+
+            <Typography
+              variant="subheading"
+            >
+              Задачи в проекте
+            </Typography>
+
+            <TasksListView
+              tasks={Tasks}
+              showDetails={showDetails}
+            />
+
+          </Grid>
+          : null
+        }
+
+      </Fragment>
+
+    }
 
     return <Grid
       container
     >
 
-      <Grid
-        item
-      >
-
-
-
-      </Grid>
-
+      {details}
 
     </Grid>;
   }

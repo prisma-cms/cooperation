@@ -9,6 +9,8 @@ import { graphql, compose } from "react-apollo";
 import {
   ProjectNoNestingFragment,
   UserNoNestingFragment,
+  TaskNoNestingFragment,
+  TimerNoNestingFragment,
 } from "../../../schema/generated/api.fragments";
 
 
@@ -74,11 +76,34 @@ export const projectFragment = `
     CreatedBy{
       ...UserNoNesting
     }
+
+    Members{
+      id
+      User{
+        ...UserNoNesting
+      }
+    }
+    
+    Tasks{
+      ...TaskNoNesting
+      Timers(
+        where:{
+          stopedAt: null
+        }
+      ){
+        ...TimerNoNesting
+        CreatedBy{
+          ...UserNoNesting
+        }
+      }
+    }
     
   }
   
   ${ProjectNoNestingFragment}
   ${UserNoNestingFragment}
+  ${TaskNoNestingFragment}
+  ${TimerNoNestingFragment}
 `
 
 export const projectsListFragment = `

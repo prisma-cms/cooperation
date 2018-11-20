@@ -52,7 +52,7 @@ class TaskPage extends Page {
     const {
       name,
     } = task;
- 
+
 
     return super.setPageMeta({
       title: `Задача ${name}`,
@@ -89,6 +89,7 @@ class TaskPage extends Page {
         <UpdateTask
           data={data}
           linkType="target"
+          showDetails={true}
           {...other}
         />
       </div>

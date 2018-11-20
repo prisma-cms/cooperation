@@ -28,6 +28,10 @@ class TimersList extends Component {
       timers,
     } = this.props;
 
+    if(!timers){
+      return null;
+    }
+
     return (
       timers.map(n => {
         const {

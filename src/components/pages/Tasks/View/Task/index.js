@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import EditableView from 'apollo-cms/lib/DataView/Object/Editable';
@@ -14,6 +14,9 @@ import {
   UserLink,
   TaskLink,
 } from "../../../../ui"
+
+
+import TimersListView from "../../../Timers/View/List";
 
 const styles = theme => {
 
@@ -31,10 +34,12 @@ class TaskView extends EditableView {
   static propTypes = {
     ...EditableView.propTypes,
     classes: PropTypes.object.isRequired,
+    showDetails: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
     ...EditableView.defaultProps,
+    showDetails: false,
   };
 
   static contextTypes = {
@@ -203,6 +208,7 @@ class TaskView extends EditableView {
 
     const {
       classes,
+      showDetails,
     } = this.props;
 
 
@@ -215,6 +221,7 @@ class TaskView extends EditableView {
 
     const {
       content,
+      Timers,
     } = task;
 
 
@@ -222,18 +229,41 @@ class TaskView extends EditableView {
     const allow_edit = this.canEdit();
 
 
+    let details;
+
+    if (showDetails) {
+
+      details = <Fragment>
+
+        {Timers && Timers.length ?
+          <Grid
+            item
+            xs={12}
+          >
+
+            <Typography
+              variant="subheading"
+            >
+              Таймеры в задаче
+            </Typography>
+
+            <TimersListView
+              timers={Timers}
+            />
+
+          </Grid>
+          : null
+        }
+
+      </Fragment>
+
+    }
+
     return <Grid
       container
     >
 
-      <Grid
-        item
-      >
-
-
-
-      </Grid>
-
+      {details}
 
     </Grid>;
   }
