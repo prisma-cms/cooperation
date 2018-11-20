@@ -9,6 +9,8 @@ import Pagination from "./Pagination";
 import Grid from "./Grid";
 // import Timer from "./Timer";
 
+import Editor from "@prisma-cms/editor";
+
 export {
   Link,
   UserLink,
@@ -18,5 +20,6 @@ export {
 
   Pagination,
   Grid,
+  Editor,
   // Timer,
 }

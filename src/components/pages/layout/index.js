@@ -13,8 +13,8 @@ export default class PageLayout extends PrismaCmsPageLayout {
 
     return <div
       style={{
-        maxWidth: 1200,
-        margin: "20px auto 0",
+        // maxWidth: 1200,
+        // margin: "20px auto 0",
       }}
     >
       {super.renderRoutes(content)}

@@ -13,6 +13,7 @@ import moment from "moment";
 import {
   UserLink,
   TaskLink,
+  Editor,
 } from "../../../../ui"
 
 
@@ -141,6 +142,7 @@ class TaskView extends EditableView {
 
             <Grid
               item
+              xs={inEditMode}
             >
 
               {inEditMode
@@ -148,6 +150,7 @@ class TaskView extends EditableView {
                 this.getTextField({
                   name: "name",
                   fullWidth: true,
+                  label: "Название задачи"
                 })
                 :
 
@@ -172,7 +175,7 @@ class TaskView extends EditableView {
 
             <Grid
               item
-              xs
+              xs={!inEditMode}
             >
 
             </Grid>
@@ -222,6 +225,10 @@ class TaskView extends EditableView {
     const {
       content,
       Timers,
+      startDatePlaning,
+      endDatePlaning,
+      startDate,
+      endDate,
     } = task;
 
 
@@ -261,7 +268,98 @@ class TaskView extends EditableView {
 
     return <Grid
       container
+      spacing={8}
     >
+
+      {inEditMode || content ?
+        <Grid
+          item
+          xs={12}
+        >
+          <Typography
+            variant="subheading"
+          >
+            Описание задачи
+          </Typography>
+
+          <Editor
+            value={content}
+            readOnly={!inEditMode}
+            onChange={content => this.updateObject({
+              content,
+            })}
+          />
+        </Grid>
+        : null
+      }
+
+      {inEditMode || startDatePlaning ?
+        <Grid
+          item
+          xs={12}
+        >
+
+          {this.getTextField({
+            name: "startDatePlaning",
+            label: "Планируемая дата начала",
+            type: "date",
+            value: startDatePlaning && moment(startDatePlaning).format("YYYY-MM-DD") || "дд.мм.гггг",
+          })}
+
+        </Grid>
+        : null
+      }
+
+      {inEditMode || endDatePlaning ?
+        <Grid
+          item
+          xs={12}
+        >
+
+          {this.getTextField({
+            name: "endDatePlaning",
+            label: "Планируемая дата завершения",
+            type: "date",
+            value: endDatePlaning && moment(endDatePlaning).format("YYYY-MM-DD") || "дд.мм.гггг",
+          })}
+
+        </Grid>
+        : null
+      }
+
+      {inEditMode || startDate ?
+        <Grid
+          item
+          xs={12}
+        >
+
+          {this.getTextField({
+            name: "startDate",
+            label: "Дата начала",
+            type: "date",
+            value: startDate && moment(startDate).format("YYYY-MM-DD") || "дд.мм.гггг",
+          })}
+
+        </Grid>
+        : null
+      }
+
+      {inEditMode || endDate ?
+        <Grid
+          item
+          xs={12}
+        >
+
+          {this.getTextField({
+            name: "endDate",
+            label: "Дата завершения",
+            type: "date",
+            value: endDate && moment(endDate).format("YYYY-MM-DD") || "дд.мм.гггг",
+          })}
+
+        </Grid>
+        : null
+      }
 
       {details}
 
