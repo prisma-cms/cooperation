@@ -10,11 +10,6 @@ import MainMenu from './MainMenu';
 
 import * as queryFragments from "@prisma-cms/front/lib/schema/generated/api.fragments";
 
-// import { Grid } from 'material-ui';
-// import { Typography } from 'material-ui';
-// import { Button } from 'material-ui';
-
-// import { Link } from "react-router-dom";
 
 import App, {
   SubscriptionProvider,
@@ -28,61 +23,29 @@ import App, {
   TimerPage,
 } from "../App";
 
+import "moment/locale/ru";
 
+export const styles = {
+  root: {
+    fontSize: 16,
+    fontFamily: "serif",
+    height: "100%",
+    // border: "1px solid red",
+    display: "flex",
+    flexDirection: "column",
+    
+    "& #Renderer--body": {
+      flex: 1,
+      // border: "1px solid blue",
 
-
-
-
-// class TestApp extends Component {
-
-//   static defaultProps = {
-//   }
-
-
-
-//   constructor(props) {
-
-//     super(props);
-
-//     const {
-//       value,
-//       readOnly,
-//     } = props;
-
-//     this.state = {
-//       value,
-//       readOnly,
-//     }
-
-//   }
-
-
-//   render() {
-
-//     const {
-//       children,
-//       history,
-//       location,
-//       match,
-//       classes,
-//       ...other
-//     } = this.props;
-
-//     const {
-//     } = this.state;
-
-
-//     return <div
-//       className={classes.root}
-//     >
-//       <App
-//         {...other}
-//       />
-//     </div>
-//   }
-
-// }
-
+      "& a": {
+        "&, & span": {
+          color: "#0369ce",
+        },
+      },
+    },
+  },
+}
 
 
 class DevRenderer extends PrismaCmsRenderer {
@@ -271,20 +234,7 @@ class DevRenderer extends PrismaCmsRenderer {
 
 
 
-const DevRendererWithStyles = withStyles({
-  root: {
-    fontSize: 16,
-    fontFamily: "serif",
-
-    "& #Renderer--body": {
-      "& a": {
-        "&, & span": {
-          color: "#0369ce",
-        },
-      },
-    },
-  },
-})(DevRenderer)
+const DevRendererWithStyles = withStyles(styles)(DevRenderer)
 
 export default class DevApp extends Component {
 

@@ -7,7 +7,8 @@ import {
   TasksConnector,
 } from "./query";
 
-import View from "./View";
+// import View from "./View";
+import View from "./View/Gantt";
 
 
 class TasksPage extends Page {
