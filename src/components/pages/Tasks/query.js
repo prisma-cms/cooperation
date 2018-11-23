@@ -92,6 +92,10 @@ export const taskFragment = `
         ...UserNoNesting
       }
     }
+
+    RelatedTo{
+      ...TaskNoNesting
+    }
     
   }
   

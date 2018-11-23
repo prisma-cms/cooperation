@@ -16,54 +16,52 @@ import {
 
 export const createTimerProcessor = gql`
  
-
-mutation createTimerProcessor(
-  $data: TimerCreateInput!
-){
-  response: createTimerProcessor(
-    data: $data
+  mutation createTimerProcessor(
+    $data: TimerCreateInput!
   ){
-    success
-    message
-    errors{
-      key
+    response: createTimerProcessor(
+      data: $data
+    ){
+      success
       message
-    }
-    data{
-      ...TimerNoNesting
+      errors{
+        key
+        message
+      }
+      data{
+        ...TimerNoNesting
+      }
     }
   }
-}
 
-${TimerNoNestingFragment}
+  ${TimerNoNestingFragment}
 
 `;
 
 
 export const updateTimerProcessor = gql`
 
-
-mutation updateTimerProcessor(
-  $data: TimerUpdateInput!
-  $where: TimerWhereUniqueInput!
-){
-  response: updateTimerProcessor(
-    data: $data
-    where: $where
+  mutation updateTimerProcessor(
+    $data: TimerUpdateInput!
+    $where: TimerWhereUniqueInput!
   ){
-    success
-    message
-    errors{
-      key
+    response: updateTimerProcessor(
+      data: $data
+      where: $where
+    ){
+      success
       message
-    }
-    data{
-      ...TimerNoNesting
+      errors{
+        key
+        message
+      }
+      data{
+        ...TimerNoNesting
+      }
     }
   }
-}
 
-${TimerNoNestingFragment}
+  ${TimerNoNestingFragment}
 
 `;
 

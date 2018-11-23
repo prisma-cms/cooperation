@@ -5,8 +5,10 @@ import { withStyles } from 'material-ui';
 
 
 import moment from "moment";
+
 import TimeLine from "@prisma-cms/react-timeline-gantt";
 import TaskList from "./TaskList";
+import DataTask from "./DataTask";
 
 import { graphql, compose } from 'react-apollo';
 
@@ -235,6 +237,27 @@ class GanttView extends Component {
 
     let links = [];
 
+    tasksData.map(n => {
+      const {
+        id: start,
+        RelatedTo,
+      } = n;
+
+      RelatedTo && RelatedTo.map(({
+        id: end,
+      }) => {
+
+        links.push({
+          start,
+          end,
+        });
+
+      });
+
+    })
+
+    // links = [{ "id": "21c3f718-e89a-4219-9cc4-51ccf0366d3a", "start": "cjopiax4v01er09606cweyk08", "startPosition": 0, "end": "cjopiana701eg0960uopuhen9", "endPosition": 0 }, { "id": "98e514bf-99ab-41fb-895b-252da37e1bb5", "start": "cjopi9ank01dt0960cj3rfoin", "startPosition": 0, "end": "cjopi3ee301cq0960xsgy1wz2", "endPosition": 0 }];
+
 
 
     const config = {
@@ -336,6 +359,7 @@ class GanttView extends Component {
       <div className="time-line-container">
         <TimeLine
           TaskList={TaskList}
+          DataTask={DataTask}
           data={tasksData}
           links={links}
           config={config}

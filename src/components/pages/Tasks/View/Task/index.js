@@ -311,6 +311,7 @@ class TaskView extends EditableView {
             label: "Планируемая дата начала",
             type: "date",
             value: startDatePlaning && moment(startDatePlaning).format("YYYY-MM-DD") || "дд.мм.гггг",
+            disabled: !inEditMode,
           })}
 
         </Grid>
@@ -328,6 +329,7 @@ class TaskView extends EditableView {
             label: "Планируемая дата завершения",
             type: "date",
             value: endDatePlaning && moment(endDatePlaning).format("YYYY-MM-DD") || "дд.мм.гггг",
+            disabled: !inEditMode,
           })}
 
         </Grid>
@@ -345,6 +347,7 @@ class TaskView extends EditableView {
             label: "Дата начала",
             type: "date",
             value: startDate && moment(startDate).format("YYYY-MM-DD") || "дд.мм.гггг",
+            disabled: !inEditMode,
           })}
 
         </Grid>
@@ -362,6 +365,7 @@ class TaskView extends EditableView {
             label: "Дата завершения",
             type: "date",
             value: endDate && moment(endDate).format("YYYY-MM-DD") || "дд.мм.гггг",
+            disabled: !inEditMode,
           })}
 
         </Grid>

@@ -1,6 +1,6 @@
 {
   "name": "@prisma-cms/cooperation",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": false,
   "main": "lib/App.js",
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@prisma-cms/editor": "^1.1.1",
-    "@prisma-cms/react-timeline-gantt": "^1.1.0",
+    "@prisma-cms/react-timeline-gantt": "latest",
     "react": "^16.6.0",
     "react-dom": "^16.6.0"
   },

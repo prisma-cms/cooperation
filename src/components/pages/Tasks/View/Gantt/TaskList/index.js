@@ -6,7 +6,9 @@ import {
 } from "@prisma-cms/react-timeline-gantt";
 import { withStyles } from 'material-ui';
 
-import Row from "./Row";
+// import Row from "./Row";
+
+import TaskView from "../../../../Tasks/View/Task";
 
 import {
   Task as TaskQuery,
@@ -77,7 +79,8 @@ class TaskListCustom extends TaskList {
 
 
     if (selectedItem) {
-      output = <Row
+      // output = <Row
+      output = <TaskView
         data={{
           object: selectedItem,
         }}

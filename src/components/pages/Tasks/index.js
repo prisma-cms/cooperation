@@ -22,8 +22,8 @@ class TasksPage extends Page {
 
   static defaultProps = {
     ...Page.defaultProps,
-    first: 10,
-    orderBy: "createdAt_DESC",
+    first: 1000,
+    orderBy: "createdAt_ASC",
     View,
   }
 
