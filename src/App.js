@@ -28,20 +28,3 @@ export {
   TimerPage,
 }
 
-
-class App extends Component {
-
-  static propTypes = {
-
-  };
-
-  render() {
-    return (
-      <div>
-        My awesome component
-      </div>
-    );
-  }
-}
-
-export default App;

@@ -177,6 +177,38 @@ export const TasksConnector = TasksQuery(props => {
 
 
 
+
+export const taskStatusesQuery = gql`
+
+  query {
+    taskStatuses: __type(
+      name: "TaskStatus"
+    ){
+      values: enumValues{
+        name
+        description
+      }
+    }
+  }
+
+`;
+
+
+const TaskStatusesQuery = graphql(taskStatusesQuery);
+export const TaskStatusesConnector = TaskStatusesQuery(props => {
+
+  const {
+    View,
+    ...other
+  } = props;
+
+  return <View
+    {...other}
+  />;
+});
+
+
+
 const TaskQuery = graphql(taskQuery);
 export const Task = TaskQuery(props => {
 

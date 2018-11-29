@@ -12,6 +12,8 @@ import DataTask from "./DataTask";
 
 import { graphql, compose } from 'react-apollo';
 
+import PrismaCmsComponent from '@prisma-cms/component';
+
 import {
   Task as TaskQuery,
   createTaskProcessor,
@@ -21,7 +23,7 @@ import {
 // const UpdateTask = graphql(updateTaskProcessor)(TaskView);
 // const CreateTask = graphql(createTaskProcessor)(TaskView);
 
-const styles = {
+export const styles = {
   root: {
     "fontFamily": "Helvetica, Arial, sans-serif",
     "height": "100%",
@@ -58,34 +60,38 @@ const styles = {
   },
 }
 
-class GanttView extends Component {
 
-  static propTypes = {
+export class GanttView extends PrismaCmsComponent {
 
+  // static propTypes = {
+
+  // }
+
+  static defaultProps = {
+    createTaskProcessor,
+    updateTaskProcessor,
   }
 
-  static contextTypes = {
-    // client: PropTypes.object.isRequired,
-    user: PropTypes.object,
-  }
+  // static contextTypes = {
+  //   // client: PropTypes.object.isRequired,
+  //   user: PropTypes.object,
+  // }
 
   state = {
     // daysWidth: 1,
     // itemheight: 1,
+    ...super.state,
+    relationItemTo: null,
+    relationItemFrom: null,
   }
 
 
 
   onSelectItem = (item) => {
-    // console.log(`Select Item ${item}`)
     this.setState({ selectedItem: item })
   }
 
   onUpdateTask = async (item, props) => {
-    // item.start = props.start;
-    // item.end = props.end;
-    // this.setState({ data: [...this.state.data] })
-    console.log(`Update Item ${item}`, props)
 
     let {
       start,
@@ -142,10 +148,126 @@ class GanttView extends Component {
 
   onCreateLink = (item) => {
 
-    // let newLink = Generator.createLink(item.start, item.end)
-    // this.setState({ links: [...this.state.links, newLink] })
-    console.log(`onCreateLink Item ${item}`, item)
   }
+
+
+  onStartRelationTo(item) {
+
+    const {
+      relationItemTo,
+    } = this.state;
+
+    if (relationItemTo && relationItemTo.id === item.id) {
+
+      this.setState({
+        relationItemTo: null,
+      });
+
+      return;
+
+    }
+
+    this.setState({
+      relationItemTo: item,
+    });
+
+    return;
+
+  }
+
+
+  async onSetRelationTo(item) {
+
+    const {
+      relationItemTo,
+    } = this.state;
+
+    await this.mutate({
+      mutation: updateTaskProcessor,
+      variables: {
+        where: {
+          id: relationItemTo.id,
+        },
+        data: {
+          RelatedFrom: {
+            connect: {
+              id: item.id,
+            },
+          },
+        },
+      },
+    })
+      .then(r => {
+        this.setState({
+          relationItemTo: null,
+        });
+
+        return r;
+      });
+
+    return;
+
+  }
+
+
+  onStartRelationFrom(item) {
+
+    const {
+      relationItemFrom,
+    } = this.state;
+
+    if (relationItemFrom && relationItemFrom.id === item.id) {
+
+      this.setState({
+        relationItemFrom: null,
+      });
+
+      return;
+
+    }
+
+    this.setState({
+      relationItemFrom: item,
+    });
+
+    return;
+
+  }
+
+
+  async onSetRelationFrom(item) {
+
+    const {
+      relationItemFrom,
+    } = this.state;
+
+    await this.mutate({
+      mutation: updateTaskProcessor,
+      variables: {
+        where: {
+          id: relationItemFrom.id,
+        },
+        data: {
+          RelatedTo: {
+            connect: {
+              id: item.id,
+            },
+          },
+        },
+      },
+    })
+      .then(r => {
+        this.setState({
+          relationItemFrom: null,
+        });
+
+        return r;
+      });
+
+    return;
+
+  }
+
 
   render() {
 
@@ -158,6 +280,8 @@ class GanttView extends Component {
 
     const {
       selectedItem,
+      relationItemTo,
+      relationItemFrom,
     } = this.state;
 
     // let d1 = new Date();
@@ -227,11 +351,25 @@ class GanttView extends Component {
         name,
         start,
         end,
+        onStartRelationTo: (item) => {
+          // console.log("startRelation item", item);
+          this.onStartRelationTo(item);
+        },
+        onSetRelationTo: (item) => {
+          this.onSetRelationTo(item);
+        },
+        relationItemTo,
+        onStartRelationFrom: (item) => {
+          // console.log("startRelation item", item);
+          this.onStartRelationFrom(item);
+        },
+        onSetRelationFrom: (item) => {
+          this.onSetRelationFrom(item);
+        },
+        relationItemFrom,
       }
 
     });
-
-    console.log("tasksData", tasksData);
 
     // let links = [{ id: 1, start: 1, end: 2 }];
 
@@ -333,7 +471,7 @@ class GanttView extends Component {
       }
     }
 
-    return <div
+    return super.render(<div
       className={classes.root}
     >
 
@@ -369,12 +507,12 @@ class GanttView extends Component {
           selectedItem={selectedItem ? tasksData && tasksData.find(n => n.id === selectedItem.id) : null}
         />
       </div>
-    </div>
+    </div>)
       ;
   }
 }
 
-export default compose(
+export const processors = compose(
 
   graphql(createTaskProcessor, {
     name: "createTask",
@@ -383,4 +521,6 @@ export default compose(
     name: "updateTask",
   }),
 
-)(withStyles(styles)(GanttView));
+)
+
+export default processors(withStyles(styles)(GanttView));

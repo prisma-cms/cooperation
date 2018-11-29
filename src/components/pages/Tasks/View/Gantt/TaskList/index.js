@@ -70,8 +70,6 @@ class TaskListCustom extends TaskList {
 
     let output = null;
 
-    console.log("renderTaskRow data", data);
-
     const {
       selectedItem,
       mutate,

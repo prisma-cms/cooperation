@@ -10,8 +10,6 @@ class CreateTaskPage extends Component {
 
   onSave(result) {
 
-    console.log("onSave", result);
-
     if (result) {
 
       const {

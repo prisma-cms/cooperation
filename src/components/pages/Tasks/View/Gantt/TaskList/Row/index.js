@@ -55,48 +55,7 @@ class TaskListRow extends EditableView {
 
     return !id || (createdById && createdById === currentUserId) || sudo === true;
   }
-
-  renderDefaultView__() {
-
-
-    const object = this.getObjectWithMutations();
-
-    const {
-      id,
-      name,
-    } = object;
-
-    // console.log("renderTaskRow object", object);
-
-    const inEditMode = this.isInEditMode();
-
-    return <Grid
-      container
-      spacing={8}
-    >
-      <Grid
-        item
-        xs
-      >
-        {inEditMode ?
-          this.getTextField({
-            name: "name",
-          })
-          : <Typography
-            variant="title"
-          >
-            {name}
-          </Typography>
-        }
-      </Grid>
-      <Grid
-        item
-      >
-        {this.getButtons()}
-      </Grid>
-
-    </Grid>
-  }
+  
 
   renderDefaultView() {
 

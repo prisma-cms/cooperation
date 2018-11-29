@@ -11,7 +11,7 @@ import MainMenu from './MainMenu';
 import * as queryFragments from "@prisma-cms/front/lib/schema/generated/api.fragments";
 
 
-import App, {
+import {
   SubscriptionProvider,
   ProjectsPage,
   ProjectPage,
@@ -222,9 +222,7 @@ class DevRenderer extends PrismaCmsRenderer {
         client={client}
       // loadApiData={loadApiData}
       >
-        {pure ? <App
-          {...other}
-        /> : super.render()}
+        {pure ? null : super.render()}
       </SubscriptionProvider>
     </div>
 

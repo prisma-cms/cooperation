@@ -1,3 +1,8 @@
+1.3.0
+=================================
+- Added set tasks relations
+- Added Gantt tasks colors by status
+
 1.2.1
 =================================
 - Added start/stop timer
