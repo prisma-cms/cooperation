@@ -1,3 +1,7 @@
+1.3.2
+=================================
+- Get ui items via context
+
 1.3.1
 =================================
 - Added edit task statuses

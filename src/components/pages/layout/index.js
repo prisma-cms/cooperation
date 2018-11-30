@@ -5,21 +5,57 @@ import PropTypes from 'prop-types';
 
 import PrismaCmsPageLayout from "@prisma-cms/front/lib/modules/pages/layout";
 
+import {
+  UserLink,
+  TaskLink,
+  Editor,
+  ProjectLink,
+} from "../../ui"
 
 export default class PageLayout extends PrismaCmsPageLayout {
 
+  static propTypes = {
+    ...PrismaCmsPageLayout.propTypes,
+    UserLink: PropTypes.func.isRequired,
+    TaskLink: PropTypes.func.isRequired,
+    Editor: PropTypes.func.isRequired,
+    ProjectLink: PropTypes.func.isRequired,
+  }
 
-  // render(content) {
+  static childContextTypes = {
+    ...PrismaCmsPageLayout.childContextTypes,
+    UserLink: PropTypes.func,
+    TaskLink: PropTypes.func,
+    Editor: PropTypes.func,
+    ProjectLink: PropTypes.func,
+  }
 
-  //   return <div
-  //     style={{
-  //       // maxWidth: 1200,
-  //       // margin: "20px auto 0",
-  //     }}
-  //   >
-  //     {super.render(content)}
-  //   </div>
+  static defaultProps = {
+    UserLink,
+    TaskLink,
+    Editor,
+    ProjectLink,
+  }
 
-  // }
+  getChildContext() {
+
+    const context = super.getChildContext && super.getChildContext() || undefined;
+
+    const {
+      UserLink,
+      TaskLink,
+      Editor,
+      ProjectLink,
+    } = this.props;
+
+    return {
+      ...context,
+      UserLink,
+      TaskLink,
+      Editor,
+      ProjectLink,
+    }
+
+  }
 
 }

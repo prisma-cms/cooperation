@@ -16,12 +16,6 @@ import Grid from "@prisma-cms/front/lib/modules/ui/Grid";
 
 import moment from "moment";
 
-import {
-  UserLink,
-  TaskLink,
-  Editor,
-  ProjectLink,
-} from "../../../../ui"
 
 
 import TimersListView from "../../../Timers/View/List";
@@ -90,6 +84,10 @@ export class TaskView extends EditableView {
 
   static contextTypes = {
     ...EditableView.contextTypes,
+    UserLink: PropTypes.func.isRequired,
+    TaskLink: PropTypes.func.isRequired,
+    Editor: PropTypes.func.isRequired,
+    ProjectLink: PropTypes.func.isRequired,
     openLoginForm: PropTypes.func.isRequired,
   };
 
@@ -209,6 +207,13 @@ export class TaskView extends EditableView {
       updateTimer,
       classes,
     } = this.props;
+
+    const {
+      UserLink,
+      //   TaskLink,
+      //   Editor,
+      //   ProjectLink,
+    } = this.context;
 
     const object = this.getObjectWithMutations();
 
@@ -439,6 +444,13 @@ export class TaskView extends EditableView {
       classes,
     } = this.props;
 
+    const {
+      UserLink,
+      TaskLink,
+      //   Editor,
+      ProjectLink,
+    } = this.context;
+
     const object = this.getObjectWithMutations();
 
     const {
@@ -561,6 +573,9 @@ export class TaskView extends EditableView {
       TaskStatusSelect,
     } = this.props;
 
+    const {
+      Editor,
+    } = this.context;
 
     const task = this.getObjectWithMutations();
 

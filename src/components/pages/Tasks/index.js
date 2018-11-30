@@ -17,6 +17,7 @@ class TasksPage extends Page {
     ...Page.propTypes,
     first: PropTypes.number.isRequired,
     orderBy: PropTypes.string.isRequired,
+    TasksConnector: PropTypes.func.isRequired,
   };
 
 
@@ -25,6 +26,7 @@ class TasksPage extends Page {
     first: 1000,
     orderBy: "createdAt_ASC",
     View,
+    TasksConnector,
   }
 
 
@@ -97,6 +99,7 @@ class TasksPage extends Page {
   render() {
 
     let {
+      TasksConnector,
       first,
       // where,
       ...other
