@@ -39,7 +39,7 @@ import {
 
 import { compose, graphql } from 'react-apollo';
 
-import TaskStatus from "./Status";
+import TaskStatusSelect from "./Status/Select";
 
 export const styles = theme => {
 
@@ -78,19 +78,26 @@ export class TaskView extends EditableView {
     ...EditableView.propTypes,
     classes: PropTypes.object.isRequired,
     showDetails: PropTypes.bool.isRequired,
-    TaskStatus: PropTypes.func.isRequired,
+    TaskStatusSelect: PropTypes.func.isRequired,
+    mutate: PropTypes.func,
   };
 
   static defaultProps = {
     ...EditableView.defaultProps,
     showDetails: false,
-    TaskStatus,
+    TaskStatusSelect,
   };
 
   static contextTypes = {
     ...EditableView.contextTypes,
     openLoginForm: PropTypes.func.isRequired,
   };
+
+
+  constructor(props) {
+    super(props);
+
+  }
 
 
   canEdit() {
@@ -158,19 +165,25 @@ export class TaskView extends EditableView {
       }
       else {
         // throw (new Error("Mutate not defined"));
-        return super.saveObject(data);
+        return await super.saveObject(data);
       }
 
     }
 
     const mutation = this.getMutation(data);
 
-    const result = await mutate(mutation).then(r => r).catch(e => {
+    return mutate(mutation);
 
-      return e;
-    });
+    // const result = await mutate(mutation).then(r => r).catch(e => {
 
-    return result;
+    //   return e;
+    // });
+
+    // // this.setState({
+    // //   loading: false,
+    // // });
+
+    // return result;
 
   }
 
@@ -545,7 +558,7 @@ export class TaskView extends EditableView {
     const {
       classes,
       showDetails,
-      TaskStatus,
+      TaskStatusSelect,
     } = this.props;
 
 
@@ -608,7 +621,7 @@ export class TaskView extends EditableView {
     >
 
       {status ?
-        <TaskStatus
+        <TaskStatusSelect
           value={status}
           inEditMode={inEditMode}
           onChange={event => {

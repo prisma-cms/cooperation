@@ -181,7 +181,7 @@ export const TasksConnector = TasksQuery(props => {
 export const taskStatusesQuery = gql`
 
   query {
-    taskStatuses: __type(
+    objects: __type(
       name: "TaskStatus"
     ){
       values: enumValues{

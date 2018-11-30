@@ -10,13 +10,9 @@ import { withStyles } from 'material-ui';
 
 import TaskView from "../../../../Tasks/View/Task";
 
-import {
-  Task as TaskQuery,
-  createTaskProcessor,
-  updateTaskProcessor,
-} from "../../../query";
-import { compose, graphql } from 'react-apollo';
 
+import StatusesList from "./Statuses";
+import { Button } from 'material-ui';
 
 const styles = {
 }
@@ -24,16 +20,21 @@ const styles = {
 
 class TaskListCustom extends TaskList {
 
-  // static propTypes = {
+  static propTypes = {
+    ...TaskList.propTypes,
+    taskStatuses: PropTypes.object,
+    getFilters: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired,
+  };
 
-  // };
+
+  constructor(props) {
+    super(props);
+
+  }
 
   // render() {
-  //   return (
-  //     <div>
-  //       efef
-  //     </div>
-  //   );
+  //   return null;
   // }
 
 
@@ -73,6 +74,9 @@ class TaskListCustom extends TaskList {
     const {
       selectedItem,
       mutate,
+      // taskStatuses,
+      getFilters,
+      setFilters,
     } = this.props;
 
 
@@ -86,22 +90,78 @@ class TaskListCustom extends TaskList {
       />
     }
 
+    const {
+      status_in,
+    } = getFilters();
 
-    return output;
+    let statuses = status_in || [];
+
+    let statusesFilter = <div>
+      <div>
+        <Button
+          onClick={event => {
+            setFilters({
+              status_in: undefined,
+            });
+          }}
+          size="small"
+          disabled={!statuses.length ? true : false}
+        >
+          Все
+        </Button>
+        <Button
+          onClick={event => {
+            setFilters({
+              status_in: ["New", "Accepted", "Progress", "Paused", "RevisionsRequired", "Discuss", "Approved", "Done"],
+            });
+          }}
+          size="small"
+        >
+          Активные
+        </Button>
+        <Button
+          onClick={event => {
+            setFilters({
+              status_in: ["Progress", "Discuss"],
+            });
+          }}
+          size="small"
+        >
+          В работе
+        </Button>
+      </div>
+      <StatusesList
+        // data={taskStatuses}
+        // mutate={() => {}}
+        active={statuses}
+        onClick={status => {
+
+          const index = statuses.indexOf(status);
+
+          if (index !== -1) {
+            statuses.splice(index, 1);
+          }
+          else {
+            statuses.push(status);
+          }
+
+          setFilters({
+            status_in: statuses,
+          });
+
+        }}
+      />
+    </div>
+
+    return <div>
+
+      {statusesFilter}
+
+      {output}
+    </div>
   }
 }
 
 
-// export default withStyles(styles)(TaskListCustom);
+export default withStyles(styles)(TaskListCustom);
 
-
-export default compose(
-
-  // graphql(createTaskProcessor, {
-  //   name: "createTask",
-  // }),
-  graphql(updateTaskProcessor, {
-    // name: "updateTask",
-  }),
-
-)(withStyles(styles)(TaskListCustom));

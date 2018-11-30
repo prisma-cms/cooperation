@@ -29,7 +29,7 @@ import { compose, graphql } from 'react-apollo';
 
 import TaskView from "./Task";
 
-// console.log("DataTask", DataTask);
+
 
 const {
   styles: PrismaCmsDataTaskStyles,

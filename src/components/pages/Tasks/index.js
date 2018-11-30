@@ -39,11 +39,66 @@ class TasksPage extends Page {
   }
 
 
+  getFilters() {
+
+    const {
+      uri,
+    } = this.context;
+
+
+
+
+    let {
+      status_in,
+    } = uri.query(true);
+
+    if(status_in && !Array.isArray(status_in)){
+      status_in = [status_in];
+    }
+
+
+
+    let filters = {
+      status_in,
+    };
+
+    return filters;
+  }
+
+
+  setFilters(filters) {
+
+
+
+    const {
+      uri,
+      router: {
+        history,
+      },
+    } = this.context;
+
+    let newUri = uri.clone();
+
+    let query = newUri.query(true);
+
+    Object.assign(query, {
+      ...filters,
+    });
+
+
+
+
+    newUri.query(query);
+
+    history.push(newUri.toString());
+  }
+
+
   render() {
 
     let {
       first,
-      where,
+      // where,
       ...other
     } = this.props;
 
@@ -66,12 +121,18 @@ class TasksPage extends Page {
       skip = (page - 1) * first;
     }
 
+    const where = this.getFilters();
+
+
+
     return super.render(
       <TasksConnector
         where={where}
         first={first}
         skip={skip}
         page={page ? parseInt(page) : undefined}
+        setFilters={filters => this.setFilters(filters)}
+        getFilters={filters => this.getFilters()}
         {...other}
       />
     );

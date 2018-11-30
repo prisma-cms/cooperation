@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Select } from 'material-ui';
+import { withStyles } from 'material-ui';
 
 
 import {
@@ -33,109 +33,70 @@ export const locales = {
 
 export const styles = {
 
+  root: {},
+  item: {
+    cursor: "pointer",
+  },
+  status: {
+    color: "#333",
+  },
+  statusNew: {
+    backgroundColor: "#aa8cb9",
+  },
+  statusAccepted: {
+    backgroundColor: "#c7ecc5",
+  },
+  statusRejected: {
+    backgroundColor: "lightgray",
+  },
+  statusProgress: {
+    backgroundColor: "#92f78c",
+  },
+  statusPaused: {
+    backgroundColor: "#afecec",
+  },
+  statusDone: {
+    backgroundColor: "#4dfb43",
+  },
+  statusDiscuss: {
+    backgroundColor: "#f7c78c",
+  },
+  statusApproved: {
+    backgroundColor: "#0bdc0b",
+  },
+  statusRevisionsRequired: {
+    backgroundColor: "#8ccbf5",
+  },
+  statusCompleted: {
+    backgroundColor: "#05c305",
+  },
 }
+
 
 export class TaskStatus extends PrismaCmsComponent {
 
   static propTypes = {
     ...PrismaCmsComponent.propTypes,
     inEditMode: PropTypes.bool.isRequired,
-    value: PropTypes.string.isRequired,
-    defaultValue: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     ...PrismaCmsComponent.defaultProps,
     inEditMode: false,
-    defaultValue: "New",
-    name: "status",
     locales,
   }
 
 
-
-
   render() {
 
-
-    const {
-      value,
-      data,
-      classes,
-      defaultValue,
-      name,
-      inEditMode,
-      inputProps,
-      ...other
-    } = this.props;
-
-    const {
-      taskStatuses,
-      loading,
-    } = data;
-
-    if (!taskStatuses) {
-      return null;
-    }
-
-    const values = taskStatuses.values;
-
-    let output = null;
-
-    if (inEditMode) {
-
-      output = <Select
-        value={value || ""}
-        // defaultValue={defaultValue}
-        inputProps={{
-          name,
-          label: "Статус",
-          ...inputProps,
-        }}
-        {...other}
-      >
-        {values.map(n => {
-
-          const {
-            name: value,
-          } = n;
-
-          let name = this.lexicon(value);
-
-
-          return <option
-            key={name}
-            value={value}
-          >
-            {name}
-          </option>
-
-        })}
-      </Select>;
-
-    }
-    else {
-      output = <div>
-        <Typography
-          variant="caption"
-        >
-          {this.lexicon("Status")}
-        </Typography>
-        <Typography>
-          {this.lexicon(value)}
-        </Typography>
-      </div>
-    }
-
-    return output;
+    return null;
   }
+
 }
 
 
 
-const processors = compose(
+export const processors = compose(
 
   graphql(taskStatusesQuery),
   // graphql(createTaskProcessor, {
@@ -147,8 +108,5 @@ const processors = compose(
 
 );
 
-export {
-  processors,
-}
 
 export default processors(withStyles(styles)(TaskStatus));

@@ -1,3 +1,8 @@
+1.3.1
+=================================
+- Added edit task statuses
+- Added filter tasks by statuses
+
 1.3.0
 =================================
 - Added set tasks relations

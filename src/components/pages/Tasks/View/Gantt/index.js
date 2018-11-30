@@ -18,6 +18,7 @@ import {
   Task as TaskQuery,
   createTaskProcessor,
   updateTaskProcessor,
+  taskStatusesQuery,
 } from "../../query";
 
 // const UpdateTask = graphql(updateTaskProcessor)(TaskView);
@@ -63,19 +64,21 @@ export const styles = {
 
 export class GanttView extends PrismaCmsComponent {
 
-  // static propTypes = {
-
-  // }
+  static propTypes = {
+    ...PrismaCmsComponent.propTypes,
+    getFilters: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired,
+  }
 
   static defaultProps = {
     createTaskProcessor,
     updateTaskProcessor,
   }
 
-  // static contextTypes = {
-  //   // client: PropTypes.object.isRequired,
-  //   user: PropTypes.object,
-  // }
+  static contextTypes = {
+    ...PrismaCmsComponent.contextTypes,
+    uri: PropTypes.object.isRequired,
+  }
 
   state = {
     // daysWidth: 1,
@@ -269,6 +272,17 @@ export class GanttView extends PrismaCmsComponent {
   }
 
 
+  // getFilters() {
+
+  //   const {
+  //     uri,
+  //   } = this.context;
+
+
+
+  // }
+
+
   render() {
 
     const {
@@ -276,6 +290,9 @@ export class GanttView extends PrismaCmsComponent {
       data: {
         objectsConnection,
       },
+      taskStatuses,
+      getFilters,
+      setFilters,
     } = this.props;
 
     const {
@@ -284,31 +301,7 @@ export class GanttView extends PrismaCmsComponent {
       relationItemFrom,
     } = this.state;
 
-    // let d1 = new Date();
-    // let d2 = new Date();
-    // d2.setDate(d2.getDate() + 5);
-    // let d3 = new Date();
-    // d3.setDate(d3.getDate() + 8);
-    // let d4 = new Date();
-    // d4.setDate(d4.getDate() + 20);
-
-    // let data = [
-    //   {
-    //     id: 1,
-    //     start: d1,
-    //     end: d2,
-    //     name: "Demo Task 1"
-    //   },
-    //   {
-    //     id: 2,
-    //     start: d3,
-    //     end: d4,
-    //     name: "Demo Task 2",
-    //     color: "orange",
-    //     label: "sdfsdf",
-    //     showLabel: true
-    //   }
-    // ];
+    // const filters = this.getFilters();
 
     let tasks = objectsConnection && objectsConnection.edges.map(({ node }) => node) || [];
 
@@ -330,20 +323,12 @@ export class GanttView extends PrismaCmsComponent {
       let end = endDate || endDatePlaning;
 
       if (!end) {
-        // end = moment(start.getDate() + 5).toDate();
-        // end = start.getDate() + 5;
-        // end.setDate(end.getDate() + 5);
-        // end = new Date()
-        // end = moment();
       }
       else {
         end = moment(end).toDate();
       }
 
 
-      // let start = new Date();
-      // let end = new Date();
-      // end.setDate(start.getDate() + 5);
 
       return {
         ...n,
@@ -352,7 +337,7 @@ export class GanttView extends PrismaCmsComponent {
         start,
         end,
         onStartRelationTo: (item) => {
-          // console.log("startRelation item", item);
+
           this.onStartRelationTo(item);
         },
         onSetRelationTo: (item) => {
@@ -360,7 +345,7 @@ export class GanttView extends PrismaCmsComponent {
         },
         relationItemTo,
         onStartRelationFrom: (item) => {
-          // console.log("startRelation item", item);
+
           this.onStartRelationFrom(item);
         },
         onSetRelationFrom: (item) => {
@@ -399,65 +384,12 @@ export class GanttView extends PrismaCmsComponent {
 
 
     const config = {
-      // header: {
-      //   month: {
-      //     dateFormat: 'MMMM  YYYY',
-      //     style: {
-      //       background: "linear-gradient( grey, black)",
-      //       textShadow: '0.5px 0.5px black',
-      //       fontSize: 12
-      //     }
-      //   },
-      //   dayOfWeek: {
-      //     style: {
-      //       background: "linear-gradient( orange, grey)",
-      //       fontSize: 9
-      //     }
-      //   },
-      //   dayTime: {
-      //     style: {
-      //       background: "linear-gradient( grey, black)",
-      //       fontSize: 9,
-      //       color: "orange"
-      //     },
-      //     selectedStyle: {
-      //       background: "linear-gradient( #d011dd ,#d011dd)",
-      //       fontWeight: 'bold',
-      //       color: 'white'
-      //     }
-      //   }
-      // },
       taskList: {
         title: {
           label: "Задачи",
-          // style: {
-          //   background: "linear-gradient( grey, black)"
-          // }
         },
-        // task: {
-        //   style: {
-        //     backgroundColor: 'grey',
-        //     color: 'white'
-        //   }
-        // },
-        // verticalSeparator: {
-        //   style: {
-        //     backgroundColor: '#fbf9f9',
-        //   },
-        //   grip: {
-        //     style: {
-        //       backgroundColor: 'red',
-        //     }
-        //   }
-        // }
       },
       dataViewPort: {
-        // rows: {
-        //   style: {
-        //     backgroundColor: "white",
-        //     borderBottom: 'solid 0.5px silver'
-        //   }
-        // },
         task: {
           showLabel: true,
           style: {
@@ -496,6 +428,26 @@ export class GanttView extends PrismaCmsComponent {
 
       <div className="time-line-container">
         <TimeLine
+          // TaskList={props => {
+          //   return <TaskList
+          //     key="TaskList"
+          //     taskStatuses={taskStatuses}
+          //     {...props}
+          //   />
+          // }}
+          taskListProps={{
+            // taskStatuses,
+            // setFilters: (filters) => {
+
+            // },
+            // getFilters: () => {
+
+            // },
+            // setFilters: filters => this.setFilters(filters),
+            // getFilters: () => this.getFilters(),
+            getFilters,
+            setFilters,
+          }}
           TaskList={TaskList}
           DataTask={DataTask}
           data={tasksData}
@@ -520,7 +472,9 @@ export const processors = compose(
   graphql(updateTaskProcessor, {
     name: "updateTask",
   }),
-
+  graphql(taskStatusesQuery, {
+    name: "taskStatuses",
+  }),
 )
 
 export default processors(withStyles(styles)(GanttView));
