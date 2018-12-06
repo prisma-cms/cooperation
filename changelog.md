@@ -1,3 +1,7 @@
+1.4.0
+=================================
+- Added nested tasks view in project
+
 1.3.2
 =================================
 - Get ui items via context

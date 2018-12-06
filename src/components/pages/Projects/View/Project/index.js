@@ -17,9 +17,9 @@ import {
 } from "../../../../ui"
 
 
-import TasksListView from "../../../Tasks/View/List";
+import TasksListView from "./Tasks";
 
-const styles = theme => {
+export const styles = theme => {
 
   return {
 
@@ -29,7 +29,7 @@ const styles = theme => {
 
 }
 
-class ProjectView extends EditableView {
+export class ProjectView extends EditableView {
 
 
   static propTypes = {
@@ -207,6 +207,60 @@ class ProjectView extends EditableView {
   }
 
 
+  renderTasks() {
+
+    const {
+      showDetails,
+    } = this.props;
+
+
+    const project = this.getObjectWithMutations();
+
+
+    if (!project) {
+      return null;
+    }
+
+    const {
+      id: projectId,
+      Tasks,
+    } = project;
+
+
+    return <Fragment >
+      <Typography
+        variant="subheading"
+      >
+        Задачи в проекте {projectId ? <Link
+          to={`/tasks/create/${projectId}`}
+        >
+          Добавить
+          </Link>
+          : null
+        }
+      </Typography>
+
+      {
+        Tasks && Tasks.length ?
+          <Grid
+            item
+            xs={12}
+          >
+
+
+            <TasksListView
+              project={project}
+              tasks={Tasks}
+              showDetails={showDetails}
+            />
+
+          </Grid>
+          : null
+      }
+    </Fragment>
+  }
+
+
   renderDefaultView() {
 
     const {
@@ -238,33 +292,7 @@ class ProjectView extends EditableView {
 
       details = <Fragment>
 
-        <Typography
-          variant="subheading"
-        >
-          Задачи в проекте {projectId ? <Link
-            to={`/tasks/create/${projectId}`}
-          >
-            Добавить
-          </Link>
-            : null
-          }
-        </Typography>
-
-        {Tasks && Tasks.length ?
-          <Grid
-            item
-            xs={12}
-          >
-
-
-            <TasksListView
-              tasks={Tasks}
-              showDetails={showDetails}
-            />
-
-          </Grid>
-          : null
-        }
+        {this.renderTasks()}
 
       </Fragment>
 

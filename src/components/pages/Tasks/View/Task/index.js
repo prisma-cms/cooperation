@@ -61,6 +61,38 @@ export const styles = theme => {
     },
     button: {
     },
+    status: {
+      "&.New": {
+        backgroundColor: "#aa8cb9",
+      },
+      "&.Accepted": {
+        backgroundColor: "#c7ecc5",
+      },
+      "&.Rejected": {
+        backgroundColor: "lightgray",
+      },
+      "&.Progress": {
+        backgroundColor: "#92f78c",
+      },
+      "&.Paused": {
+        backgroundColor: "#afecec",
+      },
+      "&.Done": {
+        backgroundColor: "#4dfb43",
+      },
+      "&.Discuss": {
+        backgroundColor: "#f7c78c",
+      },
+      "&.Approved": {
+        backgroundColor: "#0bdc0b",
+      },
+      "&.RevisionsRequired": {
+        backgroundColor: "#8ccbf5",
+      },
+      "&.Completed": {
+        backgroundColor: "#05c305",
+      },
+    },
   }
 
 }

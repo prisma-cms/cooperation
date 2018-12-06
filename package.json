@@ -1,6 +1,6 @@
 {
   "name": "@prisma-cms/cooperation",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "private": false,
   "main": "lib/App.js",
   "scripts": {
@@ -12,11 +12,12 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@prisma-cms/component": "latest",
     "@prisma-cms/editor": "latest",
     "@prisma-cms/react-timeline-gantt": "latest",
-    "@prisma-cms/component": "latest",
     "react": "^16.6.0",
-    "react-dom": "^16.6.0"
+    "react-dom": "^16.6.0",
+    "react-sortable-tree": "^2.3.0"
   },
   "devDependencies": {
     "@prisma-cms/front": "latest",
