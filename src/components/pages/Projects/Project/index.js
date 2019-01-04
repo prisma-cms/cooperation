@@ -15,11 +15,6 @@ import {
 
 import ProjectView from "../View/Project";
 
-import { Typography } from 'material-ui';
-
-// import {
-//   Link,
-// } from "../../../../components/ui";
 
 const UpdateProject = graphql(updateProjectProcessor)(ProjectView);
 const CreateProject = graphql(createProjectProcessor)(ProjectView);

@@ -75,4 +75,6 @@ class GanttTaskView extends TaskView {
 
 
 // export default withStyles(styles)(GanttTaskView);
-export default processors(withStyles(styles)(GanttTaskView));
+export default processors(withStyles(styles)(props => <GanttTaskView
+  {...props}
+/>));

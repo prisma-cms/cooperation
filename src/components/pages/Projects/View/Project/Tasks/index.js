@@ -420,4 +420,6 @@ export class ProjectTasksListView extends TasksListView {
 }
 
 
-export default withStyles(styles)(ProjectTasksListView);
+export default withStyles(styles)(props => <ProjectTasksListView
+  {...props}
+/>);

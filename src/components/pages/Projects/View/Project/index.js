@@ -8,13 +8,6 @@ import { Typography } from 'material-ui';
 
 import Grid from "@prisma-cms/front/lib/modules/ui/Grid";
 
-import moment from "moment";
-
-import {
-  UserLink,
-  ProjectLink,
-  Link,
-} from "../../../../ui"
 
 
 import TasksListView from "./Tasks";
@@ -43,10 +36,10 @@ export class ProjectView extends EditableView {
     showDetails: false,
   };
 
-  static contextTypes = {
-    ...EditableView.contextTypes,
-    openLoginForm: PropTypes.func.isRequired,
-  };
+  // static contextTypes = {
+  //   ...EditableView.contextTypes,
+  //   openLoginForm: PropTypes.func.isRequired,
+  // };
 
 
   canEdit() {
@@ -121,6 +114,10 @@ export class ProjectView extends EditableView {
 
     const inEditMode = this.isInEditMode();
 
+    const {
+      UserLink,
+      ProjectLink,
+    } = this.context;
 
     return <div
       className={classes.header}
@@ -220,6 +217,10 @@ export class ProjectView extends EditableView {
     if (!project) {
       return null;
     }
+
+    const {
+      Link,
+    } = this.context;
 
     const {
       id: projectId,
@@ -352,4 +353,6 @@ export class ProjectView extends EditableView {
 }
 
 
-export default withStyles(styles)(ProjectView);
+export default withStyles(styles)(props => <ProjectView
+  {...props}
+/>);

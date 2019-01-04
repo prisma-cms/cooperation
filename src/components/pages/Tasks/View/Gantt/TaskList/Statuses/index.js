@@ -122,4 +122,6 @@ class TaskStatusesFilter extends TaskStatus {
 }
 
 
-export default processors(withStyles(styles)(TaskStatusesFilter));
+export default processors(withStyles(styles)(props => <TaskStatusesFilter 
+  {...props}
+/>));

@@ -4,22 +4,26 @@ import PropTypes from 'prop-types';
 
 import { Typography } from 'material-ui';
 
-import Grid from "../../../ui/Grid"
-import {
-  Pagination,
-  Link,
-} from "../../../ui"
+// import Grid from "../../../ui/Grid"
+// import {
+//   Pagination,
+//   Link,
+// } from "../../../ui"
 
 import ProjectsList from "./List";
+import { Context } from '../../../../App';
 
 class ProjectsView extends Component {
 
-  static propTypes = {
-
-  };
+  static contextType = Context;
 
   render() {
 
+    const {
+      Pagination,
+      Link,
+      Grid,
+    } = this.context;
 
     const {
       page,

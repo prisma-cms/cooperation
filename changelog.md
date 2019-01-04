@@ -1,3 +1,7 @@
+1.5.0
+=================================
+- Added @prisma-cms/context
+
 1.4.0
 =================================
 - Added nested tasks view in project

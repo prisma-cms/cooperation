@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 
 import PropTypes from 'prop-types';
+import { Context } from '../../../../App';
 
-import { UserLink } from '../../../components/ui';
 
 // import { Timer } from "../../../components/ui";
 
@@ -18,25 +18,12 @@ export default class UserMenuItem extends Component {
   }
 
 
-  static contextTypes = {
-    client: PropTypes.object.isRequired,
+  static contextType = Context;
+
+  state = {
   };
 
 
-  constructor(props) {
-
-    super(props);
-
-
-    this.state = {
-    };
-
-  }
-
-  componentDidMount() {
-
-
-  }
 
 
   render() {
@@ -47,17 +34,9 @@ export default class UserMenuItem extends Component {
     } = this.props;
 
     const {
-      id,
-      username,
-      fullname,
-      // firstname,
-      // lastname,
-      email,
-      etherwallet,
-    } = user;
+      UserLink,
+    } = this.context;
 
-
-    let connection;
 
     return <Fragment>
       {/* <Timer /> */}

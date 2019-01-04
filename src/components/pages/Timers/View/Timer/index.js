@@ -11,12 +11,6 @@ import Grid from "@prisma-cms/front/lib/modules/ui/Grid";
 
 import moment from "moment";
 
-import {
-  UserLink,
-  TimerLink,
-  ProjectLink,
-  TaskLink,
-} from "../../../../ui"
 
 const styles = theme => {
 
@@ -38,11 +32,6 @@ class TimerView extends EditableView {
 
   static defaultProps = {
     ...EditableView.defaultProps,
-  };
-
-  static contextTypes = {
-    ...EditableView.contextTypes,
-    openLoginForm: PropTypes.func.isRequired,
   };
 
 
@@ -152,6 +141,12 @@ class TimerView extends EditableView {
 
 
   renderHeader() {
+
+    const {
+      UserLink,
+      ProjectLink,
+      TaskLink,
+    } = this.context;
 
     const {
       classes,
@@ -373,4 +368,6 @@ class TimerView extends EditableView {
 }
 
 
-export default withStyles(styles)(TimerView);
+export default withStyles(styles)(props => <TimerView
+  {...props}
+/>);

@@ -114,14 +114,14 @@ export class TaskView extends EditableView {
     TaskStatusSelect,
   };
 
-  static contextTypes = {
-    ...EditableView.contextTypes,
-    UserLink: PropTypes.func.isRequired,
-    TaskLink: PropTypes.func.isRequired,
-    Editor: PropTypes.func.isRequired,
-    ProjectLink: PropTypes.func.isRequired,
-    openLoginForm: PropTypes.func.isRequired,
-  };
+  // static contextTypes = {
+  //   ...EditableView.contextTypes,
+  //   UserLink: PropTypes.func.isRequired,
+  //   TaskLink: PropTypes.func.isRequired,
+  //   Editor: PropTypes.func.isRequired,
+  //   ProjectLink: PropTypes.func.isRequired,
+  //   openLoginForm: PropTypes.func.isRequired,
+  // };
 
 
   constructor(props) {
@@ -856,5 +856,7 @@ export {
   processors,
 }
 
-export default processors(withStyles(styles)(TaskView));
+export default processors(withStyles(styles)(props => <TaskView 
+  {...props}
+/>));
 

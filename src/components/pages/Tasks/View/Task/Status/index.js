@@ -109,4 +109,6 @@ export const processors = compose(
 );
 
 
-export default processors(withStyles(styles)(TaskStatus));
+export default processors(withStyles(styles)(props => <TaskStatus 
+  {...props}
+/>));

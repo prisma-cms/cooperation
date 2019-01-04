@@ -75,10 +75,10 @@ export class GanttView extends PrismaCmsComponent {
     updateTaskProcessor,
   }
 
-  static contextTypes = {
-    ...PrismaCmsComponent.contextTypes,
-    uri: PropTypes.object.isRequired,
-  }
+  // static contextTypes = {
+  //   ...PrismaCmsComponent.contextTypes,
+  //   uri: PropTypes.object.isRequired,
+  // }
 
   state = {
     // daysWidth: 1,
@@ -477,4 +477,6 @@ export const processors = compose(
   }),
 )
 
-export default processors(withStyles(styles)(GanttView));
+export default processors(withStyles(styles)(props => <GanttView
+  {...props}
+/>));

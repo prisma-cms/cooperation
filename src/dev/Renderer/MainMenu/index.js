@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import {Grid} from '../../components/ui';
+// import {Grid} from '../../../components/ui';
 
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import UserItem from './User';
 import { withStyles } from 'material-ui/styles';
+import { Context } from '../../../App';
 
 
 const styles = theme => {
@@ -44,12 +45,7 @@ export class MainMenu extends Component {
   }
 
 
-  static contextTypes = {
-    logout: PropTypes.func.isRequired,
-    onAuthSuccess: PropTypes.func.isRequired,
-    user: PropTypes.object,
-    openLoginForm: PropTypes.func.isRequired,
-  }
+  static contextType = Context;
 
   state = {
     // opened: false,
@@ -78,6 +74,8 @@ export class MainMenu extends Component {
 
     const {
       user,
+      Link,
+      Grid,
     } = this.context;
 
     const {
@@ -246,4 +244,6 @@ export class MainMenu extends Component {
   }
 }
 
-export default withStyles(styles)(MainMenu);
+export default withStyles(styles)(props => <MainMenu 
+  {...props}
+/>);

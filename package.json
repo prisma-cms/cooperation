@@ -1,6 +1,6 @@
 {
   "name": "@prisma-cms/cooperation",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "private": false,
   "main": "lib/App.js",
   "scripts": {
@@ -8,22 +8,25 @@
     "build": "yarn build-less && nwb build --copy-files",
     "build-app": "react-scripts build",
     "build-less": "node-less-chokidar src/styles/less",
+    "get-api-schema": "graphql get-schema -o src/schema/generated/api.graphql",
+    "build-api-fragments": "node --experimental-modules src/server/scripts/deploy/build-api-fragments",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@prisma-cms/component": "latest",
-    "@prisma-cms/editor": "latest",
-    "@prisma-cms/react-timeline-gantt": "latest",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
-    "react-sortable-tree": "^2.3.0"
+    "@prisma-cms/context": "latest",
+    "graphql": "14.0.2"
   },
   "devDependencies": {
     "@prisma-cms/front": "latest",
-    "node-less-chokidar": "^0.3.1",
+    "@prisma-cms/server": "latest",
+    "graphql-cli": "2.17.0",
+    "node-less-chokidar": "latest",
     "nwb": "^0.23.0",
-    "react-scripts": "2.0.5"
+    "react-scripts": "2.1.2"
+  },
+  "resolutions": {
+    "graphql": "14.0.2"
   },
   "eslintConfig": {
     "extends": "react-app"

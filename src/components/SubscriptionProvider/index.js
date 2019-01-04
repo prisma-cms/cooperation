@@ -4,49 +4,46 @@ import PropTypes from 'prop-types'
 
 import gql from "graphql-tag";
 
+import {
+  Context,
+} from "../../App";
+
 
 export default class SubscriptionProvider extends Component {
 
-  static propTypes = {
-    client: PropTypes.object.isRequired,
-    user: PropTypes.object,
-  }
 
+  static contextType = Context;
 
-  static contextTypes = { 
-  };
- 
 
   state = {
     subscriptions: [],
-  } 
- 
+  }
 
-  componentDidMount() { 
+
+  componentDidMount() {
 
     this.subscribe();
 
   }
 
-  componentWillUnmount() { 
+  componentWillUnmount() {
 
     this.unsubscribe();
 
   }
 
 
-
   async subscribe() {
 
-    const { 
-      client,
-    } = this.props;
- 
-
     const {
-      localStorage,
+      client,
     } = this.context;
- 
+
+
+    if (!client) {
+      console.error("client is empty");
+      return;
+    }
 
     await this.unsubscribe();
 
@@ -54,9 +51,8 @@ export default class SubscriptionProvider extends Component {
     let {
       subscriptions,
     } = this.state;
-  
 
- 
+
     const subscribeProject = gql`
       subscription project{
         project{
@@ -66,16 +62,16 @@ export default class SubscriptionProvider extends Component {
           }
         }
       }
-    `; 
+    `;
 
     const projectSub = await client
       .subscribe({
         query: subscribeProject,
-        variables: { 
+        variables: {
         },
       })
       .subscribe({
-        next: async (data) => { 
+        next: async (data) => {
 
           await client.reFetchObservableQueries();
 
@@ -87,7 +83,7 @@ export default class SubscriptionProvider extends Component {
 
     subscriptions.push(projectSub);
 
- 
+
 
     const subscribeTask = gql`
       subscription task{
@@ -98,16 +94,16 @@ export default class SubscriptionProvider extends Component {
           }
         }
       }
-    `; 
+    `;
 
     const taskSub = await client
       .subscribe({
         query: subscribeTask,
-        variables: { 
+        variables: {
         },
       })
       .subscribe({
-        next: async (data) => { 
+        next: async (data) => {
 
           await client.reFetchObservableQueries();
 
@@ -119,7 +115,7 @@ export default class SubscriptionProvider extends Component {
 
     subscriptions.push(taskSub);
 
- 
+
 
     const subscribeTimer = gql`
       subscription timer{
@@ -130,16 +126,16 @@ export default class SubscriptionProvider extends Component {
           }
         }
       }
-    `; 
+    `;
 
     const timerSub = await client
       .subscribe({
         query: subscribeTimer,
-        variables: { 
+        variables: {
         },
       })
       .subscribe({
-        next: async (data) => { 
+        next: async (data) => {
 
           await client.reFetchObservableQueries();
 
@@ -151,17 +147,16 @@ export default class SubscriptionProvider extends Component {
 
     subscriptions.push(timerSub);
 
- 
+
     this.setState({
       subscriptions,
     });
- 
 
   }
 
 
   unsubscribe() {
- 
+
 
     return new Promise((resolve) => {
 
@@ -170,12 +165,12 @@ export default class SubscriptionProvider extends Component {
       } = this.state;
 
       if (subscriptions && subscriptions.length) {
- 
+
 
         subscriptions.map(n => {
           n.unsubscribe();
         });
- 
+
         Object.assign(this.state, {
           subscriptions: [],
         });
@@ -188,7 +183,21 @@ export default class SubscriptionProvider extends Component {
 
   }
 
-  
+
+  async reloadData() {
+
+    const {
+      client,
+      loadApiData,
+    } = this.context;
+
+    await loadApiData();
+
+    await client.reFetchObservableQueries();
+
+  }
+
+
   render() {
 
     const {

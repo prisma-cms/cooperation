@@ -35,10 +35,10 @@ class TasksList extends PrismaCmsComponent {
   };
 
 
-  static contextTypes = {
-    ...PrismaCmsComponent.contextTypes,
-    ProjectLink: PropTypes.func.isRequired,
-  }
+  // static contextTypes = {
+  //   ...PrismaCmsComponent.contextTypes,
+  //   ProjectLink: PropTypes.func.isRequired,
+  // }
 
 
   constructor(props) {

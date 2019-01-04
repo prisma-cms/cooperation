@@ -4,19 +4,22 @@ import PropTypes from 'prop-types';
 
 import { Typography } from 'material-ui';
 
-import Grid from "../../../ui/Grid"
-import Pagination from "../../../ui/Pagination"
 
 import TimersList from "./List";
+import { Context } from '../../../../App';
 
 class TimersView extends Component {
 
-  static propTypes = {
-
-  };
+  
+  static contextType = Context;
+  
 
   render() {
 
+    const {
+      Grid,
+      Pagination,
+    } = this.context;
 
     const {
       page,

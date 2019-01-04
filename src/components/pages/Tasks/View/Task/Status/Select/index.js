@@ -104,4 +104,6 @@ class TaskStatusSelect extends TaskStatus {
 }
 
 
-export default processors(withStyles(styles)(TaskStatusSelect));
+export default processors(withStyles(styles)(props => <TaskStatusSelect
+  {...props}
+/>));

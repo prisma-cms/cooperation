@@ -27,4 +27,6 @@ export class TaskView extends BaseTaskView {
 }
 
 
-export default processors(withStyles(styles)(TaskView));
+export default processors(withStyles(styles)(props => <TaskView
+  {...props}
+/>));
