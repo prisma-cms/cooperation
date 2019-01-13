@@ -1,3 +1,8 @@
+1.5.3
+=================================
+- Upgrade component-boilerplate
+- Fix object query
+
 1.5.2
 =================================
 - Upgrade component-boilerplate

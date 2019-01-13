@@ -151,7 +151,7 @@ class CooperationContextProvider extends Component {
       query project (
         $where: ProjectWhereUniqueInput!
       ){
-        object: projects (
+        object: project (
           where: $where
         ){
           ...ProjectNoNesting
@@ -301,7 +301,7 @@ class CooperationContextProvider extends Component {
       query task (
         $where: TaskWhereUniqueInput!
       ){
-        object: tasks (
+        object: task (
           where: $where
         ){
           ...TaskNoNesting
@@ -451,7 +451,7 @@ class CooperationContextProvider extends Component {
       query timer (
         $where: TimerWhereUniqueInput!
       ){
-        object: timers (
+        object: timer (
           where: $where
         ){
           ...TimerNoNesting
@@ -601,7 +601,7 @@ class CooperationContextProvider extends Component {
       query team (
         $where: TeamWhereUniqueInput!
       ){
-        object: teams (
+        object: team (
           where: $where
         ){
           ...TeamNoNesting
@@ -751,7 +751,7 @@ class CooperationContextProvider extends Component {
       query position (
         $where: PositionWhereUniqueInput!
       ){
-        object: positions (
+        object: position (
           where: $where
         ){
           ...PositionNoNesting
@@ -901,7 +901,7 @@ class CooperationContextProvider extends Component {
       query projectMember (
         $where: ProjectMemberWhereUniqueInput!
       ){
-        object: projectMembers (
+        object: projectMember (
           where: $where
         ){
           ...ProjectMemberNoNesting
@@ -1051,7 +1051,7 @@ class CooperationContextProvider extends Component {
       query service (
         $where: ServiceWhereUniqueInput!
       ){
-        object: services (
+        object: service (
           where: $where
         ){
           ...ServiceNoNesting
@@ -1201,7 +1201,7 @@ class CooperationContextProvider extends Component {
       query taskMember (
         $where: TaskMemberWhereUniqueInput!
       ){
-        object: taskMembers (
+        object: taskMember (
           where: $where
         ){
           ...TaskMemberNoNesting
@@ -1351,7 +1351,7 @@ class CooperationContextProvider extends Component {
       query teamMember (
         $where: TeamMemberWhereUniqueInput!
       ){
-        object: teamMembers (
+        object: teamMember (
           where: $where
         ){
           ...TeamMemberNoNesting
