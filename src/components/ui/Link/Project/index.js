@@ -51,4 +51,6 @@ export class ProjectLink extends Component {
 }
 
 
-export default withStyles(styles)(ProjectLink);
+export default withStyles(styles)(props => <ProjectLink 
+  {...props}
+/>);

@@ -11,7 +11,7 @@ import { Typography } from 'material-ui';
 // } from "../../../ui"
 
 import ProjectsList from "./List";
-import { Context } from '../../../../App';
+import Context from "@prisma-cms/context";
 
 class ProjectsView extends Component {
 

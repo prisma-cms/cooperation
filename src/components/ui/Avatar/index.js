@@ -119,4 +119,6 @@ export class UserAvatar extends Component {
   }
 }
 
-export default withStyles(styles)(UserAvatar);
+export default withStyles(styles)(props => <UserAvatar 
+  {...props}
+/>);

@@ -51,4 +51,6 @@ export class TimerLink extends Component {
 }
 
 
-export default withStyles(styles)(TimerLink);
+export default withStyles(styles)(props => <TimerLink 
+  {...props}
+/>);

@@ -163,5 +163,7 @@ class TaskListCustom extends TaskList {
 }
 
 
-export default withStyles(styles)(TaskListCustom);
+export default withStyles(styles)(props => <TaskListCustom 
+  {...props}
+/>);
 

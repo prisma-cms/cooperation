@@ -341,4 +341,6 @@ class DataTaskCustom extends PrismaCmsDataTask {
 // }
 
 // export default processors(withStyles(styles)(DataTaskCustom));
-export default withStyles(styles)(DataTaskCustom);
+export default withStyles(styles)(props => <DataTaskCustom 
+  {...props}
+/>);

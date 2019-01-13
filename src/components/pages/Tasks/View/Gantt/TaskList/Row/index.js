@@ -272,4 +272,6 @@ class TaskListRow extends EditableView {
 }
 
 
-export default withStyles(styles)(TaskListRow);
+export default withStyles(styles)(props => <TaskListRow 
+  {...props}
+/>);

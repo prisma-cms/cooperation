@@ -12,7 +12,7 @@ import Typography from 'material-ui/Typography';
 
 import UserItem from './User';
 import { withStyles } from 'material-ui/styles';
-import { Context } from '../../../App';
+import Context from "@prisma-cms/context";
 
 
 const styles = theme => {

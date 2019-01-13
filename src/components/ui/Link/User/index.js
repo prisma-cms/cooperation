@@ -156,4 +156,6 @@ export class UserLink extends Component {
 }
 
 
-export default withStyles(styles)(UserLink);
+export default withStyles(styles)(props => <UserLink 
+  {...props}
+/>);

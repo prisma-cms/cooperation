@@ -113,4 +113,6 @@ class Timer extends Component {
 
 export default compose(
   graphql(updateTimerProcessor)
-)(withStyles(styles)(Timer));
+)(withStyles(styles)(props => <Timer 
+  {...props}
+/>));

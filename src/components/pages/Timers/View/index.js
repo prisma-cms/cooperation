@@ -6,7 +6,7 @@ import { Typography } from 'material-ui';
 
 
 import TimersList from "./List";
-import { Context } from '../../../../App';
+import Context from "@prisma-cms/context";
 
 class TimersView extends Component {
 

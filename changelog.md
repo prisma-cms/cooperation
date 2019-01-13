@@ -1,3 +1,6 @@
+=================================
+- Upgrade component-boilerplate
+
 1.5.1
 =================================
 - Fix dependencies

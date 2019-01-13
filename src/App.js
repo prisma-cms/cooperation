@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import "./styles/less/styles.css";
 
-import Context from "@prisma-cms/context";
-
 import SubscriptionProvider from "./components/SubscriptionProvider";
 import ContextProvider from "./components/ContextProvider";
 
@@ -19,10 +17,10 @@ import TaskCreatePage from "./components/pages/Tasks/Task/Create";
 import TimersPage from "./components/pages/Timers";
 import TimerPage from "./components/pages/Timers/Timer";
 
+
 export {
-  Context,
-  SubscriptionProvider,
   ContextProvider,
+  SubscriptionProvider,
   ProjectsPage,
   ProjectPage,
   ProjectCreatePage,

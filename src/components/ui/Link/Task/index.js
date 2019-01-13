@@ -51,4 +51,6 @@ export class TaskLink extends Component {
 }
 
 
-export default withStyles(styles)(TaskLink);
+export default withStyles(styles)(props => <TaskLink 
+  {...props}
+/>);
