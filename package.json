@@ -1,6 +1,6 @@
 {
   "name": "@prisma-cms/cooperation",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "private": false,
   "main": "lib/App.js",
   "scripts": {

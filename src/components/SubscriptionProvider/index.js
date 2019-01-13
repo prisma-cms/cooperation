@@ -82,6 +82,131 @@ export default class SubscriptionProvider extends Component {
     subscriptions.push(projectSub);
 
 
+    const subscribeProjectMember = gql`
+      subscription projectMember{
+        projectMember{
+          mutation
+          node{
+            id
+          }
+        }
+      }
+    `;
+
+    const projectMemberSub = await client
+      .subscribe({
+        query: subscribeProjectMember,
+        variables: {
+        },
+      })
+      .subscribe({
+        next: async (data) => {
+
+          await client.reFetchObservableQueries();
+
+        },
+        error(error) {
+          console.error('subscribeCalls callback with error: ', error)
+        },
+      });
+
+    subscriptions.push(projectMemberSub);
+
+
+
+    const subscribeTeam = gql`
+      subscription team{
+        team{
+          mutation
+          node{
+            id
+          }
+        }
+      }
+    `;
+
+    const teamSub = await client
+      .subscribe({
+        query: subscribeTeam,
+        variables: {
+        },
+      })
+      .subscribe({
+        next: async (data) => {
+
+          await client.reFetchObservableQueries();
+
+        },
+        error(error) {
+          console.error('subscribeCalls callback with error: ', error)
+        },
+      });
+
+    subscriptions.push(teamSub);
+
+
+    const subscribeTeamMember = gql`
+      subscription teamMember{
+        teamMember{
+          mutation
+          node{
+            id
+          }
+        }
+      }
+    `;
+
+    const teamMemberSub = await client
+      .subscribe({
+        query: subscribeTeamMember,
+        variables: {
+        },
+      })
+      .subscribe({
+        next: async (data) => {
+
+          await client.reFetchObservableQueries();
+
+        },
+        error(error) {
+          console.error('subscribeCalls callback with error: ', error)
+        },
+      });
+
+    subscriptions.push(teamMemberSub);
+
+
+    const subscribePosition = gql`
+      subscription position{
+        position{
+          mutation
+          node{
+            id
+          }
+        }
+      }
+    `;
+
+    const positionSub = await client
+      .subscribe({
+        query: subscribePosition,
+        variables: {
+        },
+      })
+      .subscribe({
+        next: async (data) => {
+
+          await client.reFetchObservableQueries();
+
+        },
+        error(error) {
+          console.error('subscribeCalls callback with error: ', error)
+        },
+      });
+
+    subscriptions.push(positionSub);
+
+
 
     const subscribeTask = gql`
       subscription task{
@@ -112,6 +237,37 @@ export default class SubscriptionProvider extends Component {
       });
 
     subscriptions.push(taskSub);
+
+
+    const subscribeService = gql`
+      subscription service{
+        service{
+          mutation
+          node{
+            id
+          }
+        }
+      }
+    `;
+
+    const serviceSub = await client
+      .subscribe({
+        query: subscribeService,
+        variables: {
+        },
+      })
+      .subscribe({
+        next: async (data) => {
+
+          await client.reFetchObservableQueries();
+
+        },
+        error(error) {
+          console.error('subscribeCalls callback with error: ', error)
+        },
+      });
+
+    subscriptions.push(serviceSub);
 
 
 

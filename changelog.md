@@ -1,3 +1,7 @@
+1.5.4
+=================================
+- Added subscriptions
+
 1.5.3
 =================================
 - Upgrade component-boilerplate
