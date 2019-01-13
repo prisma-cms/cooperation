@@ -1,5 +1,7 @@
+1.5.2
 =================================
 - Upgrade component-boilerplate
+- Added context queries
 
 1.5.1
 =================================
