@@ -1282,6 +1282,7 @@ class CooperationContextProvider extends Component {
 
     const {
       TeamMemberNoNestingFragment,
+      BatchPayloadNoNestingFragment,
     } = queryFragments;
 
 
@@ -1410,6 +1411,34 @@ class CooperationContextProvider extends Component {
     `;
 
 
+    const deleteTeamMember = `
+      mutation deleteTeamMember (
+        $where: TeamMemberWhereUniqueInput!
+      ){
+        deleteTeamMember(
+          where: $where
+        ){
+          ...TeamMemberNoNesting
+        }
+      }
+      ${TeamMemberNoNestingFragment}
+    `;
+
+
+    const deleteManyTeamMembers = `
+      mutation deleteManyTeamMembers (
+        $where: TeamMemberWhereInput
+      ){
+        deleteManyTeamMembers(
+          where: $where
+        ){
+          ...BatchPayloadNoNesting
+        }
+      }
+      ${BatchPayloadNoNestingFragment}
+    `;
+
+
 
     return {
       teamMembersConnection,
@@ -1417,6 +1446,8 @@ class CooperationContextProvider extends Component {
       teamMember,
       createTeamMemberProcessor,
       updateTeamMemberProcessor,
+      deleteTeamMember,
+      deleteManyTeamMembers,
     }
 
   }

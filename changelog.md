@@ -1,3 +1,8 @@
+1.5.5
+=================================
+- Added deleteTeamMember query
+- Added deleteManyTeamMembers query
+
 1.5.4
 =================================
 - Added subscriptions
