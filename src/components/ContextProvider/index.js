@@ -277,8 +277,47 @@ class CooperationContextProvider extends Component {
 
     const {
       TaskNoNestingFragment,
+      UserNoNestingFragment,
+      TimerNoNestingFragment,
+      ProjectNoNestingFragment,
     } = queryFragments;
 
+
+    const TaskFragment = `
+      fragment Task on Task{
+        ...TaskNoNesting
+
+        CreatedBy{
+          ...UserNoNesting
+        }
+
+        Timers(
+          orderBy: createdAt_DESC
+        ){
+          ...TimerNoNesting
+          CreatedBy{
+            ...UserNoNesting
+          }
+        }
+
+        Project{
+          ...ProjectNoNesting
+          CreatedBy{
+            ...UserNoNesting
+          }
+        }
+
+        RelatedTo{
+          ...TaskNoNesting
+        }
+        
+      }
+      
+      ${TaskNoNestingFragment}
+      ${UserNoNestingFragment}
+      ${TimerNoNestingFragment}
+      ${ProjectNoNestingFragment}
+    `
 
 
     const tasksConnection = `
@@ -305,13 +344,13 @@ class CooperationContextProvider extends Component {
           }
           edges{
             node{
-              ...TaskNoNesting
+              ...Task
             }
           }
         }
       }
 
-      ${TaskNoNestingFragment}
+      ${TaskFragment}
     `;
 
 
@@ -334,11 +373,11 @@ class CooperationContextProvider extends Component {
           first: $first
           last: $last
         ){
-          ...TaskNoNesting
+          ...Task
         }
       }
 
-      ${TaskNoNestingFragment}
+      ${TaskFragment}
     `;
 
 
@@ -349,11 +388,11 @@ class CooperationContextProvider extends Component {
         object: task (
           where: $where
         ){
-          ...TaskNoNesting
+          ...Task
         }
       }
 
-      ${TaskNoNestingFragment}
+      ${TaskFragment}
     `;
 
 
@@ -371,12 +410,12 @@ class CooperationContextProvider extends Component {
             message
           }
           data{
-            ...TaskNoNesting
+            ...Task
           }
         }
       }
 
-      ${TaskNoNestingFragment}
+      ${TaskFragment}
     `;
 
 
@@ -396,15 +435,27 @@ class CooperationContextProvider extends Component {
             message
           }
           data{
-            ...TaskNoNesting
+            ...Task
           }
         }
       }
 
-      ${TaskNoNestingFragment}
+      ${TaskFragment}
     `;
 
 
+    const taskStatusEnum = `
+      query {
+        objects: __type(
+          name: "TaskStatus"
+        ){
+          values: enumValues{
+            name
+            description
+          }
+        }
+      }
+    `;
 
     return {
       tasksConnection,
@@ -412,6 +463,7 @@ class CooperationContextProvider extends Component {
       task,
       createTaskProcessor,
       updateTaskProcessor,
+      taskStatusEnum,
     }
 
   }

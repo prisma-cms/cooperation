@@ -1,6 +1,7 @@
 
 =================================
 - Move Project query into context
+- Move Tasks query into context
 
 1.5.6
 =================================

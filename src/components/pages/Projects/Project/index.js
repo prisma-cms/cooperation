@@ -145,6 +145,8 @@ export class ProjectPage extends Page {
 export default class ProjectPageConnector extends Component {
 
 
+  static contextType = Context;
+
   componentWillMount() {
 
     const {
@@ -153,9 +155,7 @@ export default class ProjectPageConnector extends Component {
       },
     } = this.context;
 
-    // this.Renderer =
-
-    this.Renderer = graphql(project)(ProjectPage);
+    this.Renderer = graphql(gql(project))(ProjectPage);
 
     super.componentWillMount && super.componentWillMount();
   }

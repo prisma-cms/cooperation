@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 
 import { graphql } from 'react-apollo';
 
-import {
-  createTaskProcessor,
-  updateTaskProcessor,
-} from "../../query";
+// import {
+//   createTaskProcessor,
+//   updateTaskProcessor,
+// } from "../../query";
 
 import TaskView from "../Task";
 
 
 import PrismaCmsComponent from "@prisma-cms/component";
+import gql from 'graphql-tag';
 
 // const NewTask = graphql(createTaskProcessor)(Task);
 
@@ -21,16 +22,14 @@ class TasksList extends PrismaCmsComponent {
     ...PrismaCmsComponent.propTypes,
     tasks: PropTypes.array.isRequired,
     showDetails: PropTypes.bool.isRequired,
-    createTaskProcessorQuery: PropTypes.object.isRequired,
-    updateTaskProcessorQuery: PropTypes.object.isRequired,
     TaskView: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     ...PrismaCmsComponent.defaultProps,
     showDetails: false,
-    createTaskProcessorQuery: createTaskProcessor,
-    updateTaskProcessorQuery: updateTaskProcessor,
+    // createTaskProcessorQuery: createTaskProcessor,
+    // updateTaskProcessorQuery: updateTaskProcessor,
     TaskView,
   };
 
@@ -41,12 +40,20 @@ class TasksList extends PrismaCmsComponent {
   // }
 
 
-  constructor(props) {
+  // constructor(props) {
 
-    super(props);
+  //   super(props);
+
+  //   this.initProcessors();
+
+  // }
+
+
+  componentWillMount() {
 
     this.initProcessors();
 
+    super.componentWillMount && super.componentWillMount();
   }
 
 
@@ -54,12 +61,17 @@ class TasksList extends PrismaCmsComponent {
 
     const {
       TaskView,
-      createTaskProcessorQuery,
-      updateTaskProcessorQuery,
     } = this.props;
 
-    const UpdateTask = graphql(updateTaskProcessorQuery)(TaskView);
-    const CreateTask = graphql(createTaskProcessorQuery)(TaskView);
+    const {
+      query: {
+        createTaskProcessor,
+        updateTaskProcessor,
+      },
+    } = this.context;
+
+    const UpdateTask = graphql(gql(updateTaskProcessor))(TaskView);
+    const CreateTask = graphql(gql(createTaskProcessor))(TaskView);
 
     Object.assign(this.state, {
       UpdateTask,

@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import {
   styles,
   TaskView,
-  processors,
+  // processors,
+  TaskConnector,
 } from "../../../../../Tasks/View/Task";
 
 import { withStyles, IconButton } from 'material-ui';
@@ -75,6 +76,11 @@ class GanttTaskView extends TaskView {
 
 
 // export default withStyles(styles)(GanttTaskView);
-export default processors(withStyles(styles)(props => <GanttTaskView
+// export default processors(withStyles(styles)(props => <GanttTaskView
+//   {...props}
+// />));
+
+export default withStyles(styles)(props => <TaskConnector
   {...props}
-/>));
+  View={GanttTaskView}
+/>);
