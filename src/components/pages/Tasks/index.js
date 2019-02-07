@@ -71,6 +71,7 @@ class TasksPage extends Page {
 
     let {
       status_in,
+      projectId,
     } = uri.query(true);
 
     if (status_in && !Array.isArray(status_in)) {
@@ -81,6 +82,7 @@ class TasksPage extends Page {
 
     let filters = {
       status_in,
+      projectId,
     };
 
     return filters;
@@ -146,8 +148,20 @@ class TasksPage extends Page {
       skip = (page - 1) * first;
     }
 
-    const where = this.getFilters();
+    const {
+      projectId,
+      ...filters
+    } = this.getFilters();
 
+    let where = {
+      ...filters,
+    }
+
+    if(projectId) {
+      where.Project = {
+        id: projectId,
+      }
+    }
 
 
     return super.render(

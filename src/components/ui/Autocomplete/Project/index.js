@@ -1,72 +1,47 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-// import Autocomplete, { styles as stylesProto } from 'autocomplete';
-// import Avatar from 'Avatar';
+import PrismaCmsComponent from "@prisma-cms/component";
+import { graphql } from 'react-apollo';
 
-import { ListItem } from 'material-ui/List';
-
+import View from "./View";
 import gql from 'graphql-tag';
-// import { withState } from 'recompose';
-import { withStyles } from 'material-ui';
-import IconButton from 'material-ui/IconButton';
 
-import DoneIcon from 'material-ui-icons/Done';
-import ClearIcon from 'material-ui-icons/Clear';
+class ProjectAutocomplete extends PrismaCmsComponent {
 
-import Context from "@prisma-cms/context";
-
-// const styles = {
-//   ...stylesProto,
-//   menuListItemText: {
-//     ...stylesProto.menuListItemText,
-//     display: "flex",
-//     flexDirection: "row",
-//     alignItems: "center",
-//     fontWeight: "normal",
-//     fontSize: "1rem",
-//   },
-// }
-
-
-// const projectsQuery = gql`
-//   query projects(
-//     $where: ProjectWhereInput!
-//     $orderBy: ProjectOrderByInput
-//   ){
-//     projects(
-//       where: $where
-//       orderBy: $orderBy
-//     ){
-//       id
-//       projectname
-//       firstname
-//       lastname
-//       fullname
-//       photo
-//     }
-//   }
-// `;
-
-export class ProjectsAutocomplete extends Component {
-
-  static contextType = Context;
 
   static propTypes = {
-    classes: PropTypes.object.isRequired,
-
-    // Кого исключить из результатов поиска
-    exclude: PropTypes.array,
-
-    // Выполнение при подтверждении
-    onSubmit: PropTypes.func,
+    ...PrismaCmsComponent.propTypes,
+    View: PropTypes.func.isRequired,
   }
 
-  state = {
-    value: "",
-    project: undefined,
-    opened: false,
+
+  static defaultProps = {
+    ...PrismaCmsComponent.defaultProps,
+    View,
+    first: 10,
+    orderBy: "name_ASC",
+    label: "Проект",
   }
+
+
+  componentWillMount() {
+
+    const {
+      query: {
+        projects,
+      },
+    } = this.context;
+
+    const {
+      View,
+    } = this.props;
+
+    this.Renderer = graphql(gql(projects))(View);
+
+    super.componentWillMount && super.componentWillMount();
+  }
+
 
   onChange(event) {
 
@@ -74,80 +49,12 @@ export class ProjectsAutocomplete extends Component {
       value,
     } = event.target;
 
-    this.setState({
-      value,
-    }, () => this.loadData());
+    // this.setState({
+    //   value,
+    // }, () => this.loadData());
 
-
-  }
-
-
-  async loadData() {
-
-    const {
-      value,
-    } = this.state;
-
-    const {
-      client,
-      query: {
-        projects: projectsQuery,
-      },
-    } = this.context;
-
-    console.log("projectsQuery", projectsQuery);
-
-    // return null;
-
-    const {
-      exclude,
-    } = this.props;
-
-    let projects = [];
-
-    let $query = value;
-
-    let where = {
-      OR: [{
-        projectname_contains: $query
-      }, {
-        firstname_contains: $query
-      }, {
-        lastname_contains: $query
-      }, {
-        email_contains: $query
-      }]
-    };
-
-    if (exclude && exclude.length) {
-      where.id_not_in = exclude;
-    }
-
-    if (value) {
-
-      projects = await client.query({
-        query: gql(projectsQuery),
-        variables: {
-          where,
-        },
-      })
-        .then(r => {
-
-
-          const {
-            projects,
-          } = r.data;
-
-          return projects;
-
-        })
-        .catch(console.error);
-
-    }
-
-
-    this.setState({
-      projects,
+    this.setFilters({
+      projectQuery: value,
     });
 
   }
@@ -155,186 +62,93 @@ export class ProjectsAutocomplete extends Component {
 
   onSelect = (value, item) => {
 
-    this.setState({
-      project: item,
-    });
+    this.setObjectId(item.id);
   }
 
 
-  async submit() {
+  resetData = () => {
+
+    this.setState({
+      // item: null,
+      objectId: null,
+    });
+
+    this.cleanFilters();
+
+  }
+
+  setObjectId(objectId) {
+
+    this.setState({
+      objectId,
+    });
+  }
+
+  getObjectId() {
 
     const {
-      project,
+      // item,
+      objectId,
     } = this.state;
 
-    const {
-      onSubmit,
-    } = this.props;
+    return objectId;
 
-    await onSubmit(project)
-      .catch(console.error);
-
-    this.resetData();
   }
 
-
-  resetData() {
-    this.setState({
-      project: null,
-      value: "",
-      projects: [],
-    });
-  }
-
-
-  renderProject(item) {
-
-    const {
-      fullname,
-      projectname,
-    } = item;
-
-    const text = fullname || projectname;
-
-    const {
-      Avatar,
-    } = this.context;
-
-    return <Fragment>
-      <Avatar
-        project={item}
-        size="small"
-        style={{
-          marginRight: 5,
-        }}
-      /> {text}
-    </Fragment>
-  }
 
   render() {
 
     const {
-      Autocomplete,
-    } = this.context;
+      Renderer,
+    } = this;
 
     const {
-      classes,
+      View,
+      label,
+      helperText,
+      error,
+      inputProps,
       ...other
     } = this.props;
 
     const {
-      value,
-      projects,
-      project,
-      opened,
+      // item,
+      // objectId,
     } = this.state;
 
-    let items = [];
+    const objectId = this.getObjectId();
 
-    if (projects) {
-      projects.map(project => {
+    const filters = this.getFilters();
 
-        const {
-          id: value,
-          fullname,
-          projectname,
-        } = project;
+    // console.log("filters", filters);
 
-        items.push({
-          ...project,
-          value,
-          label: fullname || projectname,
-        });
-        // items.push(project);
-      })
-    }
+    const {
+      projectQuery: name_contains,
+    } = filters || {};
 
-    return (
-      <Autocomplete
+    return super.render(
+      <Renderer
         {...other}
         onChange={event => this.onChange(event)}
-        value={value || ""}
-        items={items}
-        onSelect={this.onSelect}
-        onMenuVisibilityChange={opened => this.setState({
-          opened,
-        })}
-        renderInput={!opened && project
-          ?
-          props => {
-
-
-
-            return <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "nowrap",
-                alignItems: "center",
-              }}
-            >
-              {this.renderProject(project)} <IconButton
-                style={{
-                  width: 34,
-                  height: 34,
-                }}
-                onClick={event => this.submit()}
-              >
-                <DoneIcon
-                  style={{
-                    color: "green",
-                  }}
-                />
-              </IconButton>
-              <IconButton
-                style={{
-                  width: 34,
-                  height: 34,
-                }}
-                onClick={event => this.resetData()}
-              >
-                <ClearIcon
-                  style={{
-                    color: "red",
-                  }}
-                />
-              </IconButton>
-            </div>
-          }
-          :
-          undefined
-        }
-        renderItem={(item, isHighlighted, style) => {
-
-
-
-
-          // const text = getItemText(item);
-
-          const {
-            label,
-          } = item;
-
-          const text = label;
-
-          return <ListItem
-            key={item.value}
-            className={[classes.menuListItem, (isHighlighted || item.label === value || item.value === value) ? "actived" : ""].join(" ")}
-          >
-            <div
-              className={classes.menuListItemText}
-            >
-              {this.renderProject(item)}
-            </div>
-          </ListItem>
+        onSelect={(value, item) => this.onSelect(value, item)}
+        resetData={() => this.resetData()}
+        value={name_contains || ""}
+        where={{
+          name_contains,
+        }}
+        // item={item}
+        objectId={objectId}
+        inputProps={{
+          label,
+          helperText,
+          error,
+          ...inputProps,
         }}
       />
-    )
+    );
   }
+
 }
 
-export default ProjectsAutocomplete;
 
-// export default withStyles(styles)(props => <ProjectsAutocomplete 
-//   {...props}
-// />);
+export default ProjectAutocomplete;

@@ -156,7 +156,9 @@ class TaskListCustom extends TaskList {
     </div>
 
     let projectsFilter = <Projects
-
+      setFilters={setFilters}
+      getFilters={getFilters}
+      helperText="Фильтр по проекту"
     />
 
     return <div>
