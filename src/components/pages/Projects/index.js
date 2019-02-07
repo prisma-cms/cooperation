@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 
 import Page from "../layout";
 
-import {
-  ProjectsConnector,
-} from "./query";
+// import {
+//   ProjectsConnector,
+// } from "./query";
 
 import View from "./View";
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 
 class ProjectsPage extends Page {
@@ -38,9 +40,34 @@ class ProjectsPage extends Page {
   }
 
 
+  componentWillMount() {
+
+    const {
+      query: {
+        projectsConnection,
+      },
+    } = this.context;
+
+    const {
+      View,
+    } = this.props;
+
+    // console.log("projectsConnection", projectsConnection);
+
+    this.Renderer = graphql(gql(projectsConnection))(View);
+
+    super.componentWillMount && super.componentWillMount();
+  }
+
+
   render() {
 
+    const {
+      Renderer,
+    } = this;
+
     let {
+      View,
       first,
       where,
       ...other
@@ -55,7 +82,7 @@ class ProjectsPage extends Page {
       page,
     } = uri.query(true);
 
-
+    // return null;
 
     let skip;
 
@@ -66,7 +93,7 @@ class ProjectsPage extends Page {
     }
 
     return super.render(
-      <ProjectsConnector
+      <Renderer
         where={where}
         first={first}
         skip={skip}

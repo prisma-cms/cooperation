@@ -71,9 +71,9 @@ class CooperationContextProvider extends Component {
     }
   }
 
-  
+
   prepareProjectQuery() {
-    
+
 
     const {
       queryFragments,
@@ -82,8 +82,53 @@ class CooperationContextProvider extends Component {
 
     const {
       ProjectNoNestingFragment,
+      UserNoNestingFragment,
+      TaskNoNestingFragment,
+      TimerNoNestingFragment,
     } = queryFragments;
 
+
+    const ProjectFragment = `fragment Project on Project {
+      ...ProjectNoNesting
+
+      CreatedBy{
+        ...UserNoNesting
+      }
+  
+      Members{
+        id
+        User{
+          ...UserNoNesting
+        }
+      }
+      
+      Tasks{
+        ...TaskNoNesting
+        Timers(
+          where:{
+            stopedAt: null
+          }
+        ){
+          ...TimerNoNesting
+          CreatedBy{
+            ...UserNoNesting
+          }
+        }
+        CreatedBy{
+          ...UserNoNesting
+        }
+        Parent {
+          ...TaskNoNesting
+        }
+      }
+
+    }
+    
+      ${ProjectNoNestingFragment}
+      ${UserNoNestingFragment}
+      ${TaskNoNestingFragment}
+      ${TimerNoNestingFragment}
+    `;
 
 
     const projectsConnection = `
@@ -110,13 +155,13 @@ class CooperationContextProvider extends Component {
           }
           edges{
             node{
-              ...ProjectNoNesting
+              ...Project
             }
           }
         }
       }
 
-      ${ProjectNoNestingFragment}
+      ${ProjectFragment}
     `;
 
 
@@ -139,11 +184,11 @@ class CooperationContextProvider extends Component {
           first: $first
           last: $last
         ){
-          ...ProjectNoNesting
+          ...Project
         }
       }
 
-      ${ProjectNoNestingFragment}
+      ${ProjectFragment}
     `;
 
 
@@ -154,11 +199,11 @@ class CooperationContextProvider extends Component {
         object: project (
           where: $where
         ){
-          ...ProjectNoNesting
+          ...Project
         }
       }
 
-      ${ProjectNoNestingFragment}
+      ${ProjectFragment}
     `;
 
 
@@ -176,12 +221,12 @@ class CooperationContextProvider extends Component {
             message
           }
           data{
-            ...ProjectNoNesting
+            ...Project
           }
         }
       }
 
-      ${ProjectNoNestingFragment}
+      ${ProjectFragment}
     `;
 
 
@@ -201,12 +246,12 @@ class CooperationContextProvider extends Component {
             message
           }
           data{
-            ...ProjectNoNesting
+            ...Project
           }
         }
       }
 
-      ${ProjectNoNestingFragment}
+      ${ProjectFragment}
     `;
 
 
@@ -221,7 +266,7 @@ class CooperationContextProvider extends Component {
 
   }
 
-  
+
   prepareTaskQuery() {
 
 
@@ -371,7 +416,7 @@ class CooperationContextProvider extends Component {
 
   }
 
-  
+
   prepareTimerQuery() {
 
 
@@ -521,7 +566,7 @@ class CooperationContextProvider extends Component {
 
   }
 
-  
+
   prepareTeamQuery() {
 
 
@@ -671,7 +716,7 @@ class CooperationContextProvider extends Component {
 
   }
 
-  
+
   preparePositionQuery() {
 
 
@@ -821,7 +866,7 @@ class CooperationContextProvider extends Component {
 
   }
 
-  
+
   prepareProjectMemberQuery() {
 
 
@@ -971,7 +1016,7 @@ class CooperationContextProvider extends Component {
 
   }
 
-  
+
   prepareServiceQuery() {
 
 
@@ -1121,7 +1166,7 @@ class CooperationContextProvider extends Component {
 
   }
 
-  
+
   prepareTaskMemberQuery() {
 
 
@@ -1271,7 +1316,7 @@ class CooperationContextProvider extends Component {
 
   }
 
-  
+
   prepareTeamMemberQuery() {
 
 

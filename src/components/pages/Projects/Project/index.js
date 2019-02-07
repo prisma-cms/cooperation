@@ -6,18 +6,21 @@ import Page from "../../layout";
 import PageNotFound from "../../404";
 import { graphql } from 'react-apollo';
 
-import {
-  Project as ProjectQuery,
-  createProjectProcessor,
-  updateProjectProcessor,
-} from "../query";
+import Context from "@prisma-cms/context";
+
+// import {
+//   Project as ProjectQuery,
+//   createProjectProcessor,
+//   updateProjectProcessor,
+// } from "../query";
 
 
 import ProjectView from "../View/Project";
+import gql from 'graphql-tag';
 
 
-const UpdateProject = graphql(updateProjectProcessor)(ProjectView);
-const CreateProject = graphql(createProjectProcessor)(ProjectView);
+// const UpdateProject = graphql(updateProjectProcessor)(ProjectView);
+// const CreateProject = graphql(createProjectProcessor)(ProjectView);
 
 
 export class ProjectPage extends Page {
@@ -32,7 +35,6 @@ export class ProjectPage extends Page {
     ...Page.defaultProps,
     showDetails: true,
   }
-
 
 
   setPageMeta(meta = {}) {
@@ -60,7 +62,30 @@ export class ProjectPage extends Page {
   }
 
 
+  componentWillMount() {
+
+    const {
+      query: {
+        createProjectProcessor,
+        updateProjectProcessor,
+      },
+    } = this.context;
+
+    // this.Renderer =
+
+    this.CreateProject = graphql(gql(createProjectProcessor))(ProjectView);
+    this.UpdateProject = graphql(gql(updateProjectProcessor))(ProjectView);
+
+    super.componentWillMount && super.componentWillMount();
+  }
+
+
   render() {
+
+    const {
+      CreateProject,
+      UpdateProject,
+    } = this;
 
     const {
       data,
@@ -108,10 +133,44 @@ export class ProjectPage extends Page {
 }
 
 
-export default (props) => {
+// export default (props) => {
 
-  return <ProjectQuery
-    View={ProjectPage}
-    {...props}
-  />
-};
+//   return <ProjectQuery
+//     View={ProjectPage}
+//     {...props}
+//   />
+// };
+
+
+export default class ProjectPageConnector extends Component {
+
+
+  componentWillMount() {
+
+    const {
+      query: {
+        project,
+      },
+    } = this.context;
+
+    // this.Renderer =
+
+    this.Renderer = graphql(project)(ProjectPage);
+
+    super.componentWillMount && super.componentWillMount();
+  }
+
+
+  render() {
+
+    const {
+      Renderer,
+    } = this;
+
+    return <Renderer
+      {...this.props}
+    />
+
+  }
+
+}
