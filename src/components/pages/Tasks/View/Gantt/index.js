@@ -14,12 +14,15 @@ import { graphql, compose } from 'react-apollo';
 
 import PrismaCmsComponent from '@prisma-cms/component';
 
-import {
-  Task as TaskQuery,
-  createTaskProcessor,
-  updateTaskProcessor,
-  taskStatusesQuery,
-} from "../../query";
+import Context from "@prisma-cms/context";
+import gql from 'graphql-tag';
+
+// import {
+//   // Task as TaskQuery,
+//   createTaskProcessor,
+//   updateTaskProcessor,
+//   taskStatusEnum,
+// } from "../../query";
 
 // const UpdateTask = graphql(updateTaskProcessor)(TaskView);
 // const CreateTask = graphql(createTaskProcessor)(TaskView);
@@ -70,10 +73,10 @@ export class GanttView extends PrismaCmsComponent {
     setFilters: PropTypes.func.isRequired,
   }
 
-  static defaultProps = {
-    createTaskProcessor,
-    updateTaskProcessor,
-  }
+  // static defaultProps = {
+  //   // createTaskProcessor,
+  //   // updateTaskProcessor,
+  // }
 
   // static contextTypes = {
   //   ...PrismaCmsComponent.contextTypes,
@@ -185,8 +188,12 @@ export class GanttView extends PrismaCmsComponent {
       relationItemTo,
     } = this.state;
 
+    const {
+      updateTaskProcessor,
+    } = this.context;
+
     await this.mutate({
-      mutation: updateTaskProcessor,
+      mutation: gql(updateTaskProcessor),
       variables: {
         where: {
           id: relationItemTo.id,
@@ -244,8 +251,12 @@ export class GanttView extends PrismaCmsComponent {
       relationItemFrom,
     } = this.state;
 
+    const {
+      updateTaskProcessor,
+    } = this.context;
+
     await this.mutate({
-      mutation: updateTaskProcessor,
+      mutation: gql(updateTaskProcessor),
       variables: {
         where: {
           id: relationItemFrom.id,
@@ -464,19 +475,71 @@ export class GanttView extends PrismaCmsComponent {
   }
 }
 
-export const processors = compose(
+// export const processors = compose(
 
-  graphql(createTaskProcessor, {
-    name: "createTask",
-  }),
-  graphql(updateTaskProcessor, {
-    name: "updateTask",
-  }),
-  graphql(taskStatusesQuery, {
-    name: "taskStatuses",
-  }),
-)
+//   graphql(createTaskProcessor, {
+//     name: "createTask",
+//   }),
+//   graphql(updateTaskProcessor, {
+//     name: "updateTask",
+//   }),
+//   graphql(taskStatusEnum, {
+//     name: "taskStatuses",
+//   }),
+// )
 
-export default processors(withStyles(styles)(props => <GanttView
+// export default processors(withStyles(styles)(props => <GanttView
+//   {...props}
+// />));
+
+
+
+export class GanttPageConnector extends Component {
+
+
+  static contextType = Context;
+
+  componentWillMount() {
+
+    const {
+      query: {
+        createTaskProcessor,
+        updateTaskProcessor,
+        taskStatusEnum,
+      },
+    } = this.context;
+
+    this.Renderer = compose(
+      graphql(gql(createTaskProcessor), {
+        name: "createTask",
+      }),
+      graphql(gql(updateTaskProcessor), {
+        name: "updateTask",
+      }),
+      graphql(gql(taskStatusEnum), {
+        name: "taskStatuses",
+      }),
+    )(GanttView);
+
+    super.componentWillMount && super.componentWillMount();
+  }
+
+
+  render() {
+
+    const {
+      Renderer,
+    } = this;
+
+    return <Renderer
+      {...this.props}
+    />
+
+  }
+
+}
+
+
+export default withStyles(styles)(props => <GanttPageConnector
   {...props}
-/>));
+/>);

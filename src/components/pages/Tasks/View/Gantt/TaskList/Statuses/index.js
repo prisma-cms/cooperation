@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 import {
   styles as defaultStyles,
-  processors,
+  // processors,
+  TaskStatusConnector,
   TaskStatus,
 } from "../../../Task/Status";
 
@@ -122,6 +123,11 @@ class TaskStatusesFilter extends TaskStatus {
 }
 
 
-export default processors(withStyles(styles)(props => <TaskStatusesFilter 
+// export default processors(withStyles(styles)(props => <TaskStatusesFilter 
+//   {...props}
+// />));
+
+export default withStyles(styles)(props => <TaskStatusConnector
   {...props}
-/>));
+  View={TaskStatusesFilter}
+/>);

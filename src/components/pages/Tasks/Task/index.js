@@ -6,23 +6,26 @@ import Page from "../../layout";
 import PageNotFound from "../../404";
 import { graphql } from 'react-apollo';
 
-import {
-  Task as TaskQuery,
-  createTaskProcessor,
-  updateTaskProcessor,
-} from "../query";
+// import {
+//   Task as TaskQuery,
+//   createTaskProcessor,
+//   updateTaskProcessor,
+// } from "../query";
 
 
 import TaskView from "../View/Task";
 
 import { Typography } from 'material-ui';
+import gql from 'graphql-tag';
+
+import Context from "@prisma-cms/context";
 
 // import {
 //   Link,
 // } from "../../../../components/ui";
 
-const UpdateTask = graphql(updateTaskProcessor)(TaskView);
-const CreateTask = graphql(createTaskProcessor)(TaskView);
+// const UpdateTask = graphql(updateTaskProcessor)(TaskView);
+// const CreateTask = graphql(createTaskProcessor)(TaskView);
 
 
 export class TaskPage extends Page {
@@ -64,7 +67,30 @@ export class TaskPage extends Page {
   }
 
 
+  componentWillMount() {
+
+    const {
+      query: {
+        createTaskProcessor,
+        updateTaskProcessor,
+      },
+    } = this.context;
+
+    // this.Renderer =
+
+    this.UpdateTask = graphql(gql(updateTaskProcessor))(TaskView);
+    this.CreateTask = graphql(gql(createTaskProcessor))(TaskView);
+
+    super.componentWillMount && super.componentWillMount();
+  }
+
+
   render() {
+
+    const {
+      UpdateTask,
+      CreateTask,
+    } = this;
 
     const {
       data,
@@ -114,10 +140,45 @@ export class TaskPage extends Page {
 }
 
 
-export default (props) => {
+// export default (props) => {
 
-  return <TaskQuery
-    View={TaskPage}
-    {...props}
-  />
-};
+//   return <TaskQuery
+//     View={TaskPage}
+//     {...props}
+//   />
+// };
+
+
+
+export default class TaskConnector extends Component {
+
+
+  static contextType = Context;
+
+  componentWillMount() {
+
+    const {
+      query: {
+        task,
+      },
+    } = this.context;
+
+    this.Renderer = graphql(gql(task))(TaskView);
+
+    super.componentWillMount && super.componentWillMount();
+  }
+
+
+  render() {
+
+    const {
+      Renderer,
+    } = this;
+
+    return <Renderer
+      {...this.props}
+    />
+
+  }
+
+}

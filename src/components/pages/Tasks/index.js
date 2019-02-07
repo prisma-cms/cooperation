@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 
 import Page from "../layout";
 
-import {
-  TasksConnector,
-} from "./query";
+// import {
+//   TasksConnector,
+// } from "./query";
 
 // import View from "./View";
 import View from "./View/Gantt";
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 
 class TasksPage extends Page {
@@ -17,7 +19,7 @@ class TasksPage extends Page {
     ...Page.propTypes,
     first: PropTypes.number.isRequired,
     orderBy: PropTypes.string.isRequired,
-    TasksConnector: PropTypes.func.isRequired,
+    // TasksConnector: PropTypes.func.isRequired,
   };
 
 
@@ -26,9 +28,28 @@ class TasksPage extends Page {
     first: 1000,
     orderBy: "createdAt_ASC",
     View,
-    TasksConnector,
+    // TasksConnector,
   }
 
+
+  componentWillMount() {
+
+    const {
+      query: {
+        tasksConnection,
+      },
+    } = this.context;
+
+    const {
+      View,
+    } = this.props;
+
+    // return;
+
+    this.Renderer = graphql(gql(tasksConnection))(View);
+
+    super.componentWillMount && super.componentWillMount();
+  }
 
 
   setPageMeta(meta = {}) {
@@ -48,13 +69,11 @@ class TasksPage extends Page {
     } = this.context;
 
 
-
-
     let {
       status_in,
     } = uri.query(true);
 
-    if(status_in && !Array.isArray(status_in)){
+    if (status_in && !Array.isArray(status_in)) {
       status_in = [status_in];
     }
 
@@ -87,19 +106,22 @@ class TasksPage extends Page {
       ...filters,
     });
 
-
-
-
     newUri.query(query);
 
-    history.push(newUri.toString());
+    history.push(newUri.resource());
   }
 
 
   render() {
 
+    // return null;
+
+    const {
+      Renderer,
+    } = this;
+
     let {
-      TasksConnector,
+      View,
       first,
       // where,
       ...other
@@ -129,13 +151,13 @@ class TasksPage extends Page {
 
 
     return super.render(
-      <TasksConnector
+      <Renderer
         where={where}
         first={first}
         skip={skip}
         page={page ? parseInt(page) : undefined}
         setFilters={filters => this.setFilters(filters)}
-        getFilters={filters => this.getFilters()}
+        getFilters={() => this.getFilters()}
         {...other}
       />
     );

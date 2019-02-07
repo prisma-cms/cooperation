@@ -71,9 +71,9 @@ class CooperationContextProvider extends Component {
     }
   }
 
-  
+
   prepareProjectQuery() {
-    
+
 
     const {
       queryFragments,
@@ -82,8 +82,53 @@ class CooperationContextProvider extends Component {
 
     const {
       ProjectNoNestingFragment,
+      UserNoNestingFragment,
+      TaskNoNestingFragment,
+      TimerNoNestingFragment,
     } = queryFragments;
 
+
+    const ProjectFragment = `fragment Project on Project {
+      ...ProjectNoNesting
+
+      CreatedBy{
+        ...UserNoNesting
+      }
+  
+      Members{
+        id
+        User{
+          ...UserNoNesting
+        }
+      }
+      
+      Tasks{
+        ...TaskNoNesting
+        Timers(
+          where:{
+            stopedAt: null
+          }
+        ){
+          ...TimerNoNesting
+          CreatedBy{
+            ...UserNoNesting
+          }
+        }
+        CreatedBy{
+          ...UserNoNesting
+        }
+        Parent {
+          ...TaskNoNesting
+        }
+      }
+
+    }
+    
+      ${ProjectNoNestingFragment}
+      ${UserNoNestingFragment}
+      ${TaskNoNestingFragment}
+      ${TimerNoNestingFragment}
+    `;
 
 
     const projectsConnection = `
@@ -110,13 +155,13 @@ class CooperationContextProvider extends Component {
           }
           edges{
             node{
-              ...ProjectNoNesting
+              ...Project
             }
           }
         }
       }
 
-      ${ProjectNoNestingFragment}
+      ${ProjectFragment}
     `;
 
 
@@ -139,11 +184,11 @@ class CooperationContextProvider extends Component {
           first: $first
           last: $last
         ){
-          ...ProjectNoNesting
+          ...Project
         }
       }
 
-      ${ProjectNoNestingFragment}
+      ${ProjectFragment}
     `;
 
 
@@ -154,11 +199,11 @@ class CooperationContextProvider extends Component {
         object: project (
           where: $where
         ){
-          ...ProjectNoNesting
+          ...Project
         }
       }
 
-      ${ProjectNoNestingFragment}
+      ${ProjectFragment}
     `;
 
 
@@ -176,12 +221,12 @@ class CooperationContextProvider extends Component {
             message
           }
           data{
-            ...ProjectNoNesting
+            ...Project
           }
         }
       }
 
-      ${ProjectNoNestingFragment}
+      ${ProjectFragment}
     `;
 
 
@@ -201,12 +246,12 @@ class CooperationContextProvider extends Component {
             message
           }
           data{
-            ...ProjectNoNesting
+            ...Project
           }
         }
       }
 
-      ${ProjectNoNestingFragment}
+      ${ProjectFragment}
     `;
 
 
@@ -221,7 +266,7 @@ class CooperationContextProvider extends Component {
 
   }
 
-  
+
   prepareTaskQuery() {
 
 
@@ -232,8 +277,47 @@ class CooperationContextProvider extends Component {
 
     const {
       TaskNoNestingFragment,
+      UserNoNestingFragment,
+      TimerNoNestingFragment,
+      ProjectNoNestingFragment,
     } = queryFragments;
 
+
+    const TaskFragment = `
+      fragment Task on Task{
+        ...TaskNoNesting
+
+        CreatedBy{
+          ...UserNoNesting
+        }
+
+        Timers(
+          orderBy: createdAt_DESC
+        ){
+          ...TimerNoNesting
+          CreatedBy{
+            ...UserNoNesting
+          }
+        }
+
+        Project{
+          ...ProjectNoNesting
+          CreatedBy{
+            ...UserNoNesting
+          }
+        }
+
+        RelatedTo{
+          ...TaskNoNesting
+        }
+        
+      }
+      
+      ${TaskNoNestingFragment}
+      ${UserNoNestingFragment}
+      ${TimerNoNestingFragment}
+      ${ProjectNoNestingFragment}
+    `
 
 
     const tasksConnection = `
@@ -260,13 +344,13 @@ class CooperationContextProvider extends Component {
           }
           edges{
             node{
-              ...TaskNoNesting
+              ...Task
             }
           }
         }
       }
 
-      ${TaskNoNestingFragment}
+      ${TaskFragment}
     `;
 
 
@@ -289,11 +373,11 @@ class CooperationContextProvider extends Component {
           first: $first
           last: $last
         ){
-          ...TaskNoNesting
+          ...Task
         }
       }
 
-      ${TaskNoNestingFragment}
+      ${TaskFragment}
     `;
 
 
@@ -304,11 +388,11 @@ class CooperationContextProvider extends Component {
         object: task (
           where: $where
         ){
-          ...TaskNoNesting
+          ...Task
         }
       }
 
-      ${TaskNoNestingFragment}
+      ${TaskFragment}
     `;
 
 
@@ -326,12 +410,12 @@ class CooperationContextProvider extends Component {
             message
           }
           data{
-            ...TaskNoNesting
+            ...Task
           }
         }
       }
 
-      ${TaskNoNestingFragment}
+      ${TaskFragment}
     `;
 
 
@@ -351,15 +435,27 @@ class CooperationContextProvider extends Component {
             message
           }
           data{
-            ...TaskNoNesting
+            ...Task
           }
         }
       }
 
-      ${TaskNoNestingFragment}
+      ${TaskFragment}
     `;
 
 
+    const taskStatusEnum = `
+      query {
+        objects: __type(
+          name: "TaskStatus"
+        ){
+          values: enumValues{
+            name
+            description
+          }
+        }
+      }
+    `;
 
     return {
       tasksConnection,
@@ -367,11 +463,12 @@ class CooperationContextProvider extends Component {
       task,
       createTaskProcessor,
       updateTaskProcessor,
+      taskStatusEnum,
     }
 
   }
 
-  
+
   prepareTimerQuery() {
 
 
@@ -382,9 +479,34 @@ class CooperationContextProvider extends Component {
 
     const {
       TimerNoNestingFragment,
+      UserNoNestingFragment,
+      TaskNoNestingFragment,
+      ProjectNoNestingFragment,
     } = queryFragments;
 
-
+    const TimerFragment = `
+      fragment Timer on Timer{
+        ...TimerNoNesting
+    
+        CreatedBy{
+          ...UserNoNesting
+        }
+    
+        Task {
+          ...TaskNoNesting
+    
+          Project{
+            ...ProjectNoNesting
+          }
+        }
+        
+      }
+      
+      ${TimerNoNestingFragment}
+      ${UserNoNestingFragment}
+      ${TaskNoNestingFragment}
+      ${ProjectNoNestingFragment}
+    `
 
     const timersConnection = `
       query timersConnection (
@@ -410,13 +532,13 @@ class CooperationContextProvider extends Component {
           }
           edges{
             node{
-              ...TimerNoNesting
+              ...Timer
             }
           }
         }
       }
 
-      ${TimerNoNestingFragment}
+      ${TimerFragment}
     `;
 
 
@@ -439,11 +561,11 @@ class CooperationContextProvider extends Component {
           first: $first
           last: $last
         ){
-          ...TimerNoNesting
+          ...Timer
         }
       }
 
-      ${TimerNoNestingFragment}
+      ${TimerFragment}
     `;
 
 
@@ -454,11 +576,11 @@ class CooperationContextProvider extends Component {
         object: timer (
           where: $where
         ){
-          ...TimerNoNesting
+          ...Timer
         }
       }
 
-      ${TimerNoNestingFragment}
+      ${TimerFragment}
     `;
 
 
@@ -476,12 +598,12 @@ class CooperationContextProvider extends Component {
             message
           }
           data{
-            ...TimerNoNesting
+            ...Timer
           }
         }
       }
 
-      ${TimerNoNestingFragment}
+      ${TimerFragment}
     `;
 
 
@@ -501,12 +623,12 @@ class CooperationContextProvider extends Component {
             message
           }
           data{
-            ...TimerNoNesting
+            ...Timer
           }
         }
       }
 
-      ${TimerNoNestingFragment}
+      ${TimerFragment}
     `;
 
 
@@ -521,7 +643,7 @@ class CooperationContextProvider extends Component {
 
   }
 
-  
+
   prepareTeamQuery() {
 
 
@@ -671,7 +793,7 @@ class CooperationContextProvider extends Component {
 
   }
 
-  
+
   preparePositionQuery() {
 
 
@@ -821,7 +943,7 @@ class CooperationContextProvider extends Component {
 
   }
 
-  
+
   prepareProjectMemberQuery() {
 
 
@@ -971,7 +1093,7 @@ class CooperationContextProvider extends Component {
 
   }
 
-  
+
   prepareServiceQuery() {
 
 
@@ -1121,7 +1243,7 @@ class CooperationContextProvider extends Component {
 
   }
 
-  
+
   prepareTaskMemberQuery() {
 
 
@@ -1271,7 +1393,7 @@ class CooperationContextProvider extends Component {
 
   }
 
-  
+
   prepareTeamMemberQuery() {
 
 

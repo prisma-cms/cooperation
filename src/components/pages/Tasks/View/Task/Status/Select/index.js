@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 import {
   styles,
-  processors,
+  // processors,
+  TaskStatusConnector,
   TaskStatus,
 } from "../";
 import { withStyles, Select, Typography } from 'material-ui';
@@ -104,6 +105,11 @@ class TaskStatusSelect extends TaskStatus {
 }
 
 
-export default processors(withStyles(styles)(props => <TaskStatusSelect
+// export default processors(withStyles(styles)(props => <TaskStatusSelect
+//   {...props}
+// />));
+
+export default withStyles(styles)(props => <TaskStatusConnector
   {...props}
-/>));
+  View={TaskStatusSelect}
+/>);

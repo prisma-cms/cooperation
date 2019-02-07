@@ -71,7 +71,7 @@ export default class SubscriptionProvider extends Component {
       .subscribe({
         next: async (data) => {
 
-          await client.reFetchObservableQueries();
+          this.reloadData();
 
         },
         error(error) {
@@ -102,7 +102,7 @@ export default class SubscriptionProvider extends Component {
       .subscribe({
         next: async (data) => {
 
-          await client.reFetchObservableQueries();
+          this.reloadData();
 
         },
         error(error) {
@@ -134,7 +134,7 @@ export default class SubscriptionProvider extends Component {
       .subscribe({
         next: async (data) => {
 
-          await client.reFetchObservableQueries();
+          this.reloadData();
 
         },
         error(error) {
@@ -165,7 +165,7 @@ export default class SubscriptionProvider extends Component {
       .subscribe({
         next: async (data) => {
 
-          await client.reFetchObservableQueries();
+          this.reloadData();
 
         },
         error(error) {
@@ -196,7 +196,7 @@ export default class SubscriptionProvider extends Component {
       .subscribe({
         next: async (data) => {
 
-          await client.reFetchObservableQueries();
+          this.reloadData();
 
         },
         error(error) {
@@ -228,7 +228,7 @@ export default class SubscriptionProvider extends Component {
       .subscribe({
         next: async (data) => {
 
-          await client.reFetchObservableQueries();
+          this.reloadData();
 
         },
         error(error) {
@@ -259,7 +259,7 @@ export default class SubscriptionProvider extends Component {
       .subscribe({
         next: async (data) => {
 
-          await client.reFetchObservableQueries();
+          this.reloadData();
 
         },
         error(error) {
@@ -291,7 +291,7 @@ export default class SubscriptionProvider extends Component {
       .subscribe({
         next: async (data) => {
 
-          await client.reFetchObservableQueries();
+          this.reloadData();
 
         },
         error(error) {
@@ -347,7 +347,7 @@ export default class SubscriptionProvider extends Component {
 
     await loadApiData();
 
-    await client.reFetchObservableQueries();
+    await client.resetStore();
 
   }
 

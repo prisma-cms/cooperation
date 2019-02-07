@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import {
   TaskView as BaseTaskView,
   styles,
-  processors,
+  TaskConnector,
+  // processors,
 } from "../../../../../Tasks/View/Task";
 
 import { withStyles } from 'material-ui';
@@ -27,6 +28,11 @@ export class TaskView extends BaseTaskView {
 }
 
 
-export default processors(withStyles(styles)(props => <TaskView
+// export default processors(withStyles(styles)(props => <TaskView
+//   {...props}
+// />));
+
+export default withStyles(styles)(props => <TaskConnector
   {...props}
-/>));
+  View={TaskView}
+/>);

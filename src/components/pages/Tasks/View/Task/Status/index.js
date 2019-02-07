@@ -3,15 +3,18 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui';
 
 
-import {
-  taskStatusesQuery,
-} from "../../../query";
+// import {
+//   taskStatusEnum,
+// } from "../../../query";
 import { compose, graphql } from 'react-apollo';
 
 
 import PrismaCmsComponent from "@prisma-cms/component";
-import { Typography } from 'material-ui';
+// import { Typography } from 'material-ui';
+import gql from 'graphql-tag';
 
+
+import Context from "@prisma-cms/context";
 
 export const locales = {
   ru: {
@@ -96,19 +99,78 @@ export class TaskStatus extends PrismaCmsComponent {
 
 
 
-export const processors = compose(
+// export const processors = compose(
 
-  graphql(taskStatusesQuery),
-  // graphql(createTaskProcessor, {
-  //   name: "createTask",
-  // }),
-  // graphql(updateTaskProcessor, {
-  //   name: "updateTask",
-  // }),
+//   graphql(taskStatusEnum),
+//   // graphql(createTaskProcessor, {
+//   //   name: "createTask",
+//   // }),
+//   // graphql(updateTaskProcessor, {
+//   //   name: "updateTask",
+//   // }),
 
-);
+// );
 
 
-export default processors(withStyles(styles)(props => <TaskStatus 
+// export default processors(withStyles(styles)(props => <TaskStatus 
+//   {...props}
+// />));
+
+
+
+export class TaskStatusConnector extends Component {
+
+  static contextType = Context;
+
+
+  static propTypes = {
+    View: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    View: TaskStatus,
+  };
+
+
+  componentWillMount() {
+
+    const {
+      query: {
+        taskStatusEnum,
+      },
+    } = this.context;
+
+    const {
+      View,
+    } = this.props;
+
+    this.Renderer = graphql(gql(taskStatusEnum))(View);
+
+    super.componentWillMount && super.componentWillMount();
+  }
+
+
+  render() {
+
+    const {
+      Renderer,
+    } = this;
+
+    const {
+      View,
+      ...other
+    } = this.props;
+
+    return <Renderer
+      {...other}
+    />
+
+  }
+
+}
+
+
+export default withStyles(styles)(props => <TaskStatusConnector
   {...props}
-/>));
+/>);
+

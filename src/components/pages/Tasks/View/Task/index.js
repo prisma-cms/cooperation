@@ -16,24 +16,25 @@ import Grid from "@prisma-cms/front/lib/modules/ui/Grid";
 
 import moment from "moment";
 
-
+import Context from "@prisma-cms/context";
 
 import TimersListView from "../../../Timers/View/List";
 
 
-import {
-  createTaskProcessor,
-  updateTaskProcessor,
-} from "../../query";
+// import {
+//   createTaskProcessor,
+//   updateTaskProcessor,
+// } from "../../query";
 
-import {
-  createTimerProcessor,
-  updateTimerProcessor,
-} from "../../../Timers/query";
+// import {
+//   createTimerProcessor,
+//   updateTimerProcessor,
+// } from "../../../Timers/query";
 
 import { compose, graphql } from 'react-apollo';
 
 import TaskStatusSelect from "./Status/Select";
+import gql from 'graphql-tag';
 
 export const styles = theme => {
 
@@ -832,31 +833,104 @@ export class TaskView extends EditableView {
 
 
 
-const processors = compose(
+// const processors = compose(
 
-  graphql(createTaskProcessor, {
-    name: "createTask",
-  }),
-  graphql(updateTaskProcessor, {
-    name: "updateTask",
-  }),
-  graphql(createTimerProcessor, {
-    name: "createTimer",
-  }),
-  graphql(updateTimerProcessor, {
-    name: "updateTimer",
-  }),
-  // graphql(taskQuery, {
-  //   name: "getTask",
-  // }),
+//   graphql(createTaskProcessor, {
+//     name: "createTask",
+//   }),
+//   graphql(updateTaskProcessor, {
+//     name: "updateTask",
+//   }),
+//   graphql(createTimerProcessor, {
+//     name: "createTimer",
+//   }),
+//   graphql(updateTimerProcessor, {
+//     name: "updateTimer",
+//   }),
+//   // graphql(taskQuery, {
+//   //   name: "getTask",
+//   // }),
 
-);
+// );
 
-export {
-  processors,
+// export {
+//   processors,
+// }
+
+// export default processors(withStyles(styles)(props => <TaskView 
+//   {...props}
+// />));
+
+
+
+export class TaskConnector extends Component {
+
+  static contextType = Context;
+
+  static propTypes = {
+    View: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    View: TaskView,
+  }
+
+
+  componentWillMount() {
+
+    const {
+      query: {
+        createTaskProcessor,
+        updateTaskProcessor,
+        createTimerProcessor,
+        updateTimerProcessor,
+      },
+    } = this.context;
+
+    const {
+      View,
+    } = this.props;
+
+    this.Renderer = compose(
+
+      graphql(gql(createTaskProcessor), {
+        name: "createTask",
+      }),
+      graphql(gql(updateTaskProcessor), {
+        name: "updateTask",
+      }),
+      graphql(gql(createTimerProcessor), {
+        name: "createTimer",
+      }),
+      graphql(gql(updateTimerProcessor), {
+        name: "updateTimer",
+      }),
+    )(View);
+
+    super.componentWillMount && super.componentWillMount();
+  }
+
+
+  render() {
+
+    const {
+      Renderer,
+    } = this;
+
+    const {
+      View,
+      ...other
+    } = this.props;
+
+    return <Renderer
+      {...other}
+    />
+
+  }
+
 }
 
-export default processors(withStyles(styles)(props => <TaskView 
+export default withStyles(styles)(props => <TaskConnector
   {...props}
-/>));
+/>);
 

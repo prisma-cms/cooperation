@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 
 import Page from "../layout";
 
-import {
-  TimersConnector,
-} from "./query";
+// import {
+//   TimersConnector,
+// } from "./query";
 
 import View from "./View";
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 
 class TimersPage extends Page {
@@ -38,11 +40,36 @@ class TimersPage extends Page {
   }
 
 
+  componentWillMount() {
+
+    const {
+      query: {
+        timersConnection,
+      },
+    } = this.context;
+
+    const {
+      View,
+    } = this.props;
+
+    // return;
+
+    this.Renderer = graphql(gql(timersConnection))(View);
+
+    super.componentWillMount && super.componentWillMount();
+  }
+
+
   render() {
+
+    const {
+      Renderer,
+    } = this;
 
     let {
       first,
       where,
+      View,
       ...other
     } = this.props;
 
@@ -66,7 +93,7 @@ class TimersPage extends Page {
     }
 
     return super.render(
-      <TimersConnector
+      <Renderer
         where={where}
         first={first}
         skip={skip}

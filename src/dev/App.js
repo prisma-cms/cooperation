@@ -2,27 +2,27 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 
 import PrismaCmsApp, {
-  Renderer as PrismaCmsRenderer,
+  // Renderer as PrismaCmsRenderer,
 } from '@prisma-cms/front'
 
-import { withStyles } from 'material-ui';
+// import { withStyles } from 'material-ui';
 
 import "moment/locale/ru";
 
-import * as queryFragments from "@prisma-cms/front/lib/schema/generated/api.fragments";
+import * as queryFragments from "../schema/generated/api.fragments";
 
 
-import {
-  SubscriptionProvider,
-  ProjectsPage,
-  ProjectPage,
-  ProjectCreatePage,
-  TasksPage,
-  TaskPage,
-  TaskCreatePage,
-  TimersPage,
-  TimerPage,
-} from "../App";
+// import {
+//   SubscriptionProvider,
+//   ProjectsPage,
+//   ProjectPage,
+//   ProjectCreatePage,
+//   TasksPage,
+//   TaskPage,
+//   TaskCreatePage,
+//   TimersPage,
+//   TimerPage,
+// } from "../App";
 
 import DevRenderer from "./Renderer";
 
