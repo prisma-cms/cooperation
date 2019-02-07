@@ -1,3 +1,6 @@
+=================================
+- Fix Tasks::setFilters
+
 1.6.0
 =================================
 - Move Project query into context

@@ -106,12 +106,9 @@ class TasksPage extends Page {
       ...filters,
     });
 
-
-
-
     newUri.query(query);
 
-    history.push(newUri.toString());
+    history.push(newUri.resource());
   }
 
 
@@ -160,7 +157,7 @@ class TasksPage extends Page {
         skip={skip}
         page={page ? parseInt(page) : undefined}
         setFilters={filters => this.setFilters(filters)}
-        getFilters={filters => this.getFilters()}
+        getFilters={() => this.getFilters()}
         {...other}
       />
     );
