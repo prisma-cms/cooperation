@@ -6,21 +6,24 @@ import Page from "../../layout";
 import PageNotFound from "../../404";
 import { graphql } from 'react-apollo';
 
-import {
-  Timer as TimerQuery,
-  updateTimerProcessor,
-} from "../query";
+// import {
+//   Timer as TimerQuery,
+//   updateTimerProcessor,
+// } from "../query";
 
 
 import TimerView from "../View/Timer";
 
 import { Typography } from 'material-ui';
+import gql from 'graphql-tag';
+
+import Context from "@prisma-cms/context";
 
 // import {
 //   Link,
 // } from "../../../../components/ui";
 
-const UpdateTimer = graphql(updateTimerProcessor)(TimerView);
+// const UpdateTimer = graphql(updateTimerProcessor)(TimerView);
 
 
 class TimerPage extends Page {
@@ -34,6 +37,19 @@ class TimerPage extends Page {
     ...Page.defaultProps,
   }
 
+
+  componentWillMount() {
+
+    const {
+      query: {
+        updateTimerProcessor,
+      },
+    } = this.context;
+
+    this.UpdateTimer = graphql(gql(updateTimerProcessor))(TimerView);
+
+    super.componentWillMount && super.componentWillMount();
+  }
 
 
   setPageMeta(meta = {}) {
@@ -68,6 +84,10 @@ class TimerPage extends Page {
   render() {
 
     const {
+      UpdateTimer,
+    } = this;
+
+    const {
       data,
       ...other
     } = this.props;
@@ -100,10 +120,46 @@ class TimerPage extends Page {
 }
 
 
-export default (props) => {
+// export default (props) => {
 
-  return <TimerQuery
-    View={TimerPage}
-    {...props}
-  />
-};
+//   return <TimerQuery
+//     View={TimerPage}
+//     {...props}
+//   />
+// };
+
+
+
+export default class TimerPageConnector extends Component {
+
+
+  static contextType = Context;
+
+  componentWillMount() {
+
+    const {
+      query: {
+        timer,
+      },
+    } = this.context;
+
+    this.Renderer = graphql(gql(timer))(TimerPage);
+
+    super.componentWillMount && super.componentWillMount();
+  }
+
+
+  render() {
+
+    const {
+      Renderer,
+    } = this;
+
+    return <Renderer
+      {...this.props}
+    />
+
+  }
+
+}
+

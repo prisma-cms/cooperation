@@ -16,6 +16,7 @@ import AddIcon from "material-ui-icons/AddCircleOutline";
 import TaskView, {
   styles as taskStyles,
 } from "./Task";
+import gql from 'graphql-tag';
 
 
 export const styles = theme => {
@@ -96,9 +97,15 @@ export class ProjectTasksListView extends TasksListView {
       treeData, node, nextParentNode, prevPath, prevTreeIndex, nextPath, nextTreeIndex
     } = data;
 
+    // const {
+    //   updateTaskProcessorQuery,
+    // } = this.props;
+
     const {
-      updateTaskProcessorQuery,
-    } = this.props;
+      query: {
+        updateTaskProcessor,
+      },
+    } = this.context;
 
     const {
       id,
@@ -125,7 +132,7 @@ export class ProjectTasksListView extends TasksListView {
     }
 
     const result = await this.mutate({
-      mutation: updateTaskProcessorQuery,
+      mutation: gql(updateTaskProcessor),
       variables: {
         where: {
           id,

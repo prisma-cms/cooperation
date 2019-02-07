@@ -3,32 +3,64 @@ import PropTypes from 'prop-types';
 
 import { graphql } from 'react-apollo';
 
-import {
-  // createTimerProcessor,
-  updateTimerProcessor,
-} from "../../query";
+import Context from "@prisma-cms/context";
+
+// import {
+//   // createTimerProcessor,
+//   updateTimerProcessor,
+// } from "../../query";
 
 import Timer from "../Timer";
+import gql from 'graphql-tag';
 
 // const NewTimer = graphql(createTimerProcessor)(Timer);
-const UpdateTimer = graphql(updateTimerProcessor)(Timer);
+// const UpdateTimer = graphql(updateTimerProcessor)(Timer);
 
 class TimersList extends Component {
 
+  static contextType = Context;
+
   static propTypes = {
     timers: PropTypes.array.isRequired,
+    View: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
+    View: Timer,
   };
+
+  componentWillMount() {
+
+    const {
+      query: {
+        updateTimerProcessor,
+      },
+    } = this.context;
+
+    const {
+      View,
+    } = this.props;
+
+    // return;
+
+    this.UpdateTimer = graphql(gql(updateTimerProcessor))(View);
+
+    super.componentWillMount && super.componentWillMount();
+  }
+
 
   render() {
 
     const {
+      UpdateTimer,
+    } = this;
+
+    const {
       timers,
+      View,
     } = this.props;
 
-    if(!timers){
+    if (!timers) {
       return null;
     }
 

@@ -1,7 +1,8 @@
-
+1.6.0
 =================================
 - Move Project query into context
-- Move Tasks query into context
+- Move Task query into context
+- Move Timer query into context
 
 1.5.6
 =================================

@@ -479,9 +479,34 @@ class CooperationContextProvider extends Component {
 
     const {
       TimerNoNestingFragment,
+      UserNoNestingFragment,
+      TaskNoNestingFragment,
+      ProjectNoNestingFragment,
     } = queryFragments;
 
-
+    const TimerFragment = `
+      fragment Timer on Timer{
+        ...TimerNoNesting
+    
+        CreatedBy{
+          ...UserNoNesting
+        }
+    
+        Task {
+          ...TaskNoNesting
+    
+          Project{
+            ...ProjectNoNesting
+          }
+        }
+        
+      }
+      
+      ${TimerNoNestingFragment}
+      ${UserNoNestingFragment}
+      ${TaskNoNestingFragment}
+      ${ProjectNoNestingFragment}
+    `
 
     const timersConnection = `
       query timersConnection (
@@ -507,13 +532,13 @@ class CooperationContextProvider extends Component {
           }
           edges{
             node{
-              ...TimerNoNesting
+              ...Timer
             }
           }
         }
       }
 
-      ${TimerNoNestingFragment}
+      ${TimerFragment}
     `;
 
 
@@ -536,11 +561,11 @@ class CooperationContextProvider extends Component {
           first: $first
           last: $last
         ){
-          ...TimerNoNesting
+          ...Timer
         }
       }
 
-      ${TimerNoNestingFragment}
+      ${TimerFragment}
     `;
 
 
@@ -551,11 +576,11 @@ class CooperationContextProvider extends Component {
         object: timer (
           where: $where
         ){
-          ...TimerNoNesting
+          ...Timer
         }
       }
 
-      ${TimerNoNestingFragment}
+      ${TimerFragment}
     `;
 
 
@@ -573,12 +598,12 @@ class CooperationContextProvider extends Component {
             message
           }
           data{
-            ...TimerNoNesting
+            ...Timer
           }
         }
       }
 
-      ${TimerNoNestingFragment}
+      ${TimerFragment}
     `;
 
 
@@ -598,12 +623,12 @@ class CooperationContextProvider extends Component {
             message
           }
           data{
-            ...TimerNoNesting
+            ...Timer
           }
         }
       }
 
-      ${TimerNoNestingFragment}
+      ${TimerFragment}
     `;
 
 
