@@ -12,6 +12,8 @@ import TaskView from "../../../../Tasks/View/Task";
 
 
 import StatusesList from "./Statuses";
+import Projects from "./Projects";
+
 import { Button } from 'material-ui';
 
 const styles = {
@@ -153,7 +155,13 @@ class TaskListCustom extends TaskList {
       />
     </div>
 
+    let projectsFilter = <Projects
+
+    />
+
     return <div>
+
+      {projectsFilter}
 
       {statusesFilter}
 
@@ -163,7 +171,7 @@ class TaskListCustom extends TaskList {
 }
 
 
-export default withStyles(styles)(props => <TaskListCustom 
+export default withStyles(styles)(props => <TaskListCustom
   {...props}
 />);
 

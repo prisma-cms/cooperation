@@ -9,6 +9,8 @@ import TeamLink from "./Link/Team";
 import TeamMemberLink from "./Link/TeamMember";
 import TimerLink from "./Link/Timer";
 
+import ProjectAutocomplete from "./Autocomplete/Project";
+
 export {
   PositionLink,
   ProjectLink,
@@ -19,4 +21,5 @@ export {
   TeamLink,
   TeamMemberLink,
   TimerLink,
+  ProjectAutocomplete,
 }
