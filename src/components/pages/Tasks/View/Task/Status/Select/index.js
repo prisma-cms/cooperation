@@ -5,7 +5,7 @@ import {
   styles,
   // processors,
   TaskStatusConnector,
-  TaskStatus,
+  TaskStatusItem as TaskStatus,
 } from "../";
 import { withStyles, Select, Typography } from 'material-ui';
 

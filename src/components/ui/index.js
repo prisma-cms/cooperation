@@ -11,6 +11,10 @@ import TimerLink from "./Link/Timer";
 
 import ProjectAutocomplete from "./Autocomplete/Project";
 
+import {
+  TaskStatus,
+} from "../pages/Tasks/View/Task/Status";
+
 export {
   PositionLink,
   ProjectLink,
@@ -22,4 +26,5 @@ export {
   TeamMemberLink,
   TimerLink,
   ProjectAutocomplete,
+  TaskStatus,
 }

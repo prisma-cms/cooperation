@@ -15,6 +15,7 @@ import gql from 'graphql-tag';
 
 
 import Context from "@prisma-cms/context";
+import { Typography } from 'material-ui';
 
 export const locales = {
   ru: {
@@ -42,6 +43,7 @@ export const styles = {
   },
   status: {
     color: "#333",
+    padding: 2,
   },
   statusNew: {
     backgroundColor: "#aa8cb9",
@@ -76,11 +78,12 @@ export const styles = {
 }
 
 
-export class TaskStatus extends PrismaCmsComponent {
+export class TaskStatusItem extends PrismaCmsComponent {
 
   static propTypes = {
     ...PrismaCmsComponent.propTypes,
     inEditMode: PropTypes.bool.isRequired,
+    value: PropTypes.string,
   };
 
   static defaultProps = {
@@ -92,12 +95,30 @@ export class TaskStatus extends PrismaCmsComponent {
 
   render() {
 
-    return null;
+    const {
+      value,
+      classes,
+    } = this.props;
+
+    let content = null;
+
+    if (value) {
+
+      return <Typography
+        component="span"
+        className={[classes.status, classes[`status${value}`]].join(" ")}
+      >
+        {this.lexicon(value)}
+      </Typography>
+    }
+
+    return content;
   }
 
 }
 
 
+export const TaskStatus = withStyles(styles)(TaskStatusItem);
 
 // export const processors = compose(
 
@@ -128,7 +149,7 @@ export class TaskStatusConnector extends Component {
   }
 
   static defaultProps = {
-    View: TaskStatus,
+    View: TaskStatusItem,
   };
 
 

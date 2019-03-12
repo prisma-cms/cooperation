@@ -154,7 +154,8 @@ export class MainMenu extends Component {
             item
           >
             <Link
-              to="/tasks?status_in=New&status_in=Accepted&status_in=Progress&status_in=Paused&status_in=RevisionsRequired&status_in=Discuss&status_in=Approved&status_in=Done"
+              // to='/tasks?filters=%7B"status_in"%3A%5B"New"%2C"Accepted"%2C"Progress"%2C"Paused"%2C"RevisionsRequired"%2C"Discuss"%2C"Approved"%2C"Done"%5D%7D'
+              to='/tasks?filters=%7B"status_not"%3A"Done"%7D'
             >
               <Typography
                 component="span"
