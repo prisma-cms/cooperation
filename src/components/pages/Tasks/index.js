@@ -9,7 +9,7 @@ import Page from "../layout";
 
 import View from "./View";
 // import View from "./View/Gantt";
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 
@@ -37,6 +37,10 @@ class TasksPage extends Page {
     const {
       query: {
         tasksConnection,
+        createTaskProcessor,
+        updateTaskProcessor,
+        createTimerProcessor,
+        updateTimerProcessor,
       },
     } = this.context;
 
@@ -46,7 +50,21 @@ class TasksPage extends Page {
 
     // return;
 
-    this.Renderer = graphql(gql(tasksConnection))(View);
+    this.Renderer = compose(
+      graphql(gql(tasksConnection)),
+      graphql(gql(createTaskProcessor), {
+        name: "createTaskProcessor",
+      }),
+      graphql(gql(updateTaskProcessor), {
+        name: "updateTaskProcessor",
+      }),
+      graphql(gql(createTimerProcessor), {
+        name: "createTimerProcessor",
+      }),
+      graphql(gql(updateTimerProcessor), {
+        name: "updateTimerProcessor",
+      }),
+    )(View);
 
     super.componentWillMount && super.componentWillMount();
   }
@@ -94,11 +112,11 @@ class TasksPage extends Page {
       ...filters,
     };
 
-    if(status_in !== undefined) {
+    if (status_in !== undefined) {
       result.status_in = status_in;
     }
 
-    if(projectId !== undefined) {
+    if (projectId !== undefined) {
       result.projectId = projectId;
     }
 

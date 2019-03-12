@@ -1,5 +1,8 @@
+1.7.0
 =================================
+- Added @prisma-cms/filters
 - Added TasksPage filters
+- Added TimersPage filters
 
 1.6.2
 =================================

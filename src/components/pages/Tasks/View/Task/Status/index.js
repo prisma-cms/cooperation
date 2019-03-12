@@ -118,7 +118,9 @@ export class TaskStatusItem extends PrismaCmsComponent {
 }
 
 
-export const TaskStatus = withStyles(styles)(TaskStatusItem);
+export const TaskStatus = withStyles(styles)(props => <TaskStatusItem 
+  {...props}
+/>);
 
 // export const processors = compose(
 

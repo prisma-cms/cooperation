@@ -105,13 +105,19 @@ export class TaskView extends EditableView {
     ...EditableView.propTypes,
     classes: PropTypes.object.isRequired,
     showDetails: PropTypes.bool.isRequired,
+    showStatus: PropTypes.bool.isRequired,
+    showCreatedBy: PropTypes.bool.isRequired,
     TaskStatusSelect: PropTypes.func.isRequired,
     mutate: PropTypes.func,
+    createTimer: PropTypes.func.isRequired,
+    updateTimer: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     ...EditableView.defaultProps,
     showDetails: false,
+    showStatus: true,
+    showCreatedBy: true,
     TaskStatusSelect,
   };
 
@@ -475,6 +481,7 @@ export class TaskView extends EditableView {
 
     const {
       classes,
+      showCreatedBy,
     } = this.props;
 
     const {
@@ -570,7 +577,7 @@ export class TaskView extends EditableView {
             </Grid> */}
 
 
-            <Grid
+            {showCreatedBy ? <Grid
               item
             >
               {CreatedBy
@@ -584,6 +591,8 @@ export class TaskView extends EditableView {
                 null
               }
             </Grid>
+              : null
+            }
 
           </Grid>
 
@@ -603,6 +612,7 @@ export class TaskView extends EditableView {
     const {
       classes,
       showDetails,
+      showStatus,
       TaskStatusSelect,
     } = this.props;
 
@@ -668,7 +678,7 @@ export class TaskView extends EditableView {
       className={[classes.item, status || ""].join()}
     >
 
-      {status ?
+      {(showStatus || inEditMode) && status ?
         <TaskStatusSelect
           value={status}
           inEditMode={inEditMode}
