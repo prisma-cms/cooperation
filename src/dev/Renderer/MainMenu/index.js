@@ -1,21 +1,23 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-// import {Grid} from '../../../components/ui';
+import Context from "@prisma-cms/context";
 
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import UserItem from './User';
 import { withStyles } from 'material-ui/styles';
-import Context from "@prisma-cms/context";
 
+// console.log("MainMenu Context", Context);
 
-const styles = theme => {
+// import Modal from './AuthModal';
+
+export const styles = theme => {
 
 
   const {
@@ -29,11 +31,14 @@ const styles = theme => {
     root: {
 
       // Fix contrast 
-      "& a, & button": {
-        "&, & *": {
-          color: paletteType === "light" ? "#fff" : undefined,
-        },
-      },
+      // "& a, & button": {
+      //   "&, & *": {
+      //     color: paletteType === "light" ? "#fff" : undefined,
+      //   },
+      // },
+    },
+    link: {
+      color: paletteType === "light" ? "#fff" : undefined,
     },
   }
 }
@@ -45,6 +50,12 @@ export class MainMenu extends Component {
   }
 
 
+  // static contextTypes = {
+  //   logout: PropTypes.func.isRequired,
+  //   onAuthSuccess: PropTypes.func.isRequired,
+  //   user: PropTypes.object,
+  //   openLoginForm: PropTypes.func.isRequired,
+  // }
   static contextType = Context;
 
   state = {
@@ -61,6 +72,10 @@ export class MainMenu extends Component {
 
   }
 
+  // componentWillMount(){
+  //   console.log("menu componentWillMount");
+  // }
+
   // handleClose = () => {
 
   //   this.setState({
@@ -74,7 +89,6 @@ export class MainMenu extends Component {
 
     const {
       user,
-      Link,
       Grid,
     } = this.context;
 
@@ -116,12 +130,13 @@ export class MainMenu extends Component {
             >
               <Typography
                 component="span"
+                className={classes.link}
               >
-                Главная страница
+                Main page
             </Typography>
             </Link>
           </Grid>
- 
+
           <Grid
             item
           >
@@ -130,12 +145,13 @@ export class MainMenu extends Component {
             >
               <Typography
                 component="span"
+                className={classes.link}
               >
-                Пользователи
+                Users
             </Typography>
             </Link>
           </Grid>
- 
+
           <Grid
             item
           >
@@ -144,27 +160,28 @@ export class MainMenu extends Component {
             >
               <Typography
                 component="span"
+                className={classes.link}
               >
-                Проекты
+                Projects
             </Typography>
             </Link>
           </Grid>
- 
+
           <Grid
             item
           >
             <Link
-              // to='/tasks?filters=%7B"status_in"%3A%5B"New"%2C"Accepted"%2C"Progress"%2C"Paused"%2C"RevisionsRequired"%2C"Discuss"%2C"Approved"%2C"Done"%5D%7D'
-              to='/tasks?filters=%7B"status_not"%3A"Done"%7D'
+              to={`/tasks?filters=%7B"status_not"%3A"Done"%7D`}
             >
               <Typography
                 component="span"
+                className={classes.link}
               >
-                Задачи
+                Tasks
             </Typography>
             </Link>
           </Grid>
- 
+
           <Grid
             item
           >
@@ -173,10 +190,26 @@ export class MainMenu extends Component {
             >
               <Typography
                 component="span"
+                className={classes.link}
               >
-                Таймеры
-            </Typography>
+                Timers
+              </Typography>
             </Link>
+          </Grid>
+
+          <Grid
+            item
+          >
+            <a
+              href="/graphql-voyager"
+            >
+              <Typography
+                component="span"
+                className={classes.link}
+              >
+                Graphql Voyager
+              </Typography>
+            </a>
           </Grid>
 
 
@@ -196,6 +229,7 @@ export class MainMenu extends Component {
                 <UserItem
                   key={userId}
                   user={user}
+                  classes={classes}
                 />
               </Grid>,
               <Grid
@@ -204,9 +238,10 @@ export class MainMenu extends Component {
               >
                 <Button
                   onClick={() => this.logout()}
+                  className={classes.link}
                 >
                   Signout
-              </Button>
+                </Button>
 
               </Grid>
             ]
@@ -228,6 +263,7 @@ export class MainMenu extends Component {
               >
                 <Typography
                   component="span"
+                  className={classes.link}
                 >
                   Signin
               </Typography>
@@ -245,6 +281,6 @@ export class MainMenu extends Component {
   }
 }
 
-export default withStyles(styles)(props => <MainMenu 
+export default withStyles(styles)(props => <MainMenu
   {...props}
 />);

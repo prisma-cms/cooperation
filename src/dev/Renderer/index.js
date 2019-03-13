@@ -171,6 +171,13 @@ class DevRenderer extends PrismaCmsRenderer {
   }
 
 
+
+  renderMenu() {
+
+    return <MainMenu />
+  }
+  
+
   renderWrapper() {
 
     return <ContextProvider>
