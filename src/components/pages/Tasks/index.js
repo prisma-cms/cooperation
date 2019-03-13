@@ -41,6 +41,8 @@ class TasksPage extends Page {
         updateTaskProcessor,
         createTimerProcessor,
         updateTimerProcessor,
+        // createTaskReactionProcessor,
+        deleteTaskReaction,
       },
     } = this.context;
 
@@ -63,6 +65,12 @@ class TasksPage extends Page {
       }),
       graphql(gql(updateTimerProcessor), {
         name: "updateTimerProcessor",
+      }),
+      // graphql(gql(createTaskReactionProcessor), {
+      //   name: "createTaskReactionProcessor",
+      // }),
+      graphql(gql(deleteTaskReaction), {
+        name: "deleteTaskReaction",
       }),
     )(View);
 

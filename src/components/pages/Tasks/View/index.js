@@ -23,7 +23,10 @@ import { IconButton } from 'material-ui';
 
 import StartIcon from "material-ui-icons/PlayArrow";
 import StopIcon from "material-ui-icons/Stop";
+// import FavoritedIcon from "material-ui-icons/Favorite";
+import FavoriteIcon from "material-ui-icons/ThumbUp";
 import { TaskView } from './Task';
+import gql from 'graphql-tag';
 
 
 export class TasksView extends TableView {
@@ -36,6 +39,8 @@ export class TasksView extends TableView {
     updateTaskProcessor: PropTypes.func.isRequired,
     createTimerProcessor: PropTypes.func.isRequired,
     updateTimerProcessor: PropTypes.func.isRequired,
+    // createTaskReactionProcessor: PropTypes.func.isRequired,
+    deleteTaskReaction: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -173,13 +178,23 @@ export class TasksView extends TableView {
       UserLink,
       TaskLink,
       TaskStatus,
+      user: currentUser,
+      query: {
+        createTaskReactionProcessor,
+      },
     } = this.context;
+
+    const {
+      id: currentUserId,
+    } = currentUser || {}
 
     const {
       classes,
       updateTaskProcessor,
       createTimerProcessor,
       updateTimerProcessor,
+      deleteTaskReaction,
+      // createTaskReactionProcessor
     } = this.props;
 
     return [
@@ -295,6 +310,107 @@ export class TasksView extends TableView {
             key={n.id}
             object={n}
           />).reduce((a, b) => [a, ", ", b]) : null;
+        },
+      },
+      {
+        id: "Reactions",
+        label: "Нравится",
+        renderer: (value, record) => {
+
+          if (!value) {
+            return null;
+          }
+
+          const {
+            id: taskId,
+          } = record;
+
+
+          const users = value && value.length ? value.filter(n => n.CreatedBy && n.CreatedBy.id !== currentUserId) : [];
+
+          let like;
+
+          const liked = currentUserId && value && value.find(n => n.CreatedBy && n.CreatedBy.id === currentUserId) || null;
+
+          if (liked) {
+
+            const {
+              id: likedId,
+            } = liked;
+
+            like = <IconButton
+              onClick={event => {
+
+                deleteTaskReaction({
+                  variables: {
+                    where: {
+                      id: likedId,
+                    },
+                  },
+                });
+
+              }}
+            >
+              <FavoriteIcon
+                color="primary"
+              />
+            </IconButton>
+          }
+          else {
+            like = <IconButton
+              onClick={event => {
+
+                // createTaskReactionProcessor({
+                // });
+
+                this.mutate({
+                  mutation: gql(createTaskReactionProcessor),
+                  variables: {
+                    data: {
+                      type: "UpVote",
+                      Task: {
+                        connect: {
+                          id: taskId,
+                        },
+                      },
+                    },
+                  },
+                });
+
+              }}
+            >
+              <FavoriteIcon
+                color="action"
+              />
+            </IconButton>
+          }
+
+          return <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+
+            <Grid
+              container
+              spacing={8}
+            >
+              {users.length ? users.map(n => <Grid
+                key={n.id}
+                item
+              >
+                <UserLink
+                  user={n.CreatedBy}
+                  size="small"
+                  showName={false}
+                />
+              </Grid>)
+                : null}
+            </Grid>
+
+            {like}
+          </div>
         },
       },
       // {

@@ -239,6 +239,37 @@ export default class SubscriptionProvider extends Component {
     subscriptions.push(taskSub);
 
 
+    const subscribeTaskReaction = gql`
+      subscription taskReaction{
+        taskReaction{
+          mutation
+          node{
+            id
+          }
+        }
+      }
+    `;
+
+    const taskReactionSub = await client
+      .subscribe({
+        query: subscribeTaskReaction,
+        variables: {
+        },
+      })
+      .subscribe({
+        next: async (data) => {
+
+          this.reloadData();
+
+        },
+        error(error) {
+          console.error('subscribeCalls callback with error: ', error)
+        },
+      });
+
+    subscriptions.push(taskReactionSub);
+
+
     const subscribeService = gql`
       subscription service{
         service{

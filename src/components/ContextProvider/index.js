@@ -61,6 +61,7 @@ class CooperationContextProvider extends Component {
     return {
       ...this.prepareProjectQuery(),
       ...this.prepareTaskQuery(),
+      ...this.prepareTaskReactionQuery(),
       ...this.prepareTimerQuery(),
       ...this.prepareTeamQuery(),
       ...this.preparePositionQuery(),
@@ -277,6 +278,7 @@ class CooperationContextProvider extends Component {
 
     const {
       TaskNoNestingFragment,
+      TaskReactionNoNestingFragment,
       UserNoNestingFragment,
       TimerNoNestingFragment,
       ProjectNoNestingFragment,
@@ -310,10 +312,18 @@ class CooperationContextProvider extends Component {
         RelatedTo{
           ...TaskNoNesting
         }
+
+        Reactions{
+          ...TaskReactionNoNesting
+          CreatedBy{
+            ...UserNoNesting
+          }
+        }
         
       }
       
       ${TaskNoNestingFragment}
+      ${TaskReactionNoNestingFragment}
       ${UserNoNestingFragment}
       ${TimerNoNestingFragment}
       ${ProjectNoNestingFragment}
@@ -464,6 +474,195 @@ class CooperationContextProvider extends Component {
       createTaskProcessor,
       updateTaskProcessor,
       taskStatusEnum,
+    }
+
+  }
+
+
+  prepareTaskReactionQuery() {
+
+
+    const {
+      queryFragments,
+    } = this.context;
+
+
+    const {
+      TaskReactionNoNestingFragment,
+      TaskNoNestingFragment,
+      UserNoNestingFragment,
+    } = queryFragments;
+
+
+    const TaskReactionFragment = `
+      fragment TaskReaction on TaskReaction{
+        ...TaskReactionNoNesting
+
+        CreatedBy{
+          ...UserNoNesting
+        }
+
+        Task{
+          ...TaskNoNesting
+          CreatedBy{
+            ...UserNoNesting
+          }
+        }
+        
+      }
+      
+      ${TaskNoNestingFragment}
+      ${TaskReactionNoNestingFragment}
+      ${UserNoNestingFragment}
+    `
+
+
+    const taskReactionsConnection = `
+      query taskReactionsConnection (
+        $where: TaskReactionWhereInput
+        $orderBy: TaskReactionOrderByInput
+        $skip: Int
+        $after: String
+        $before: String
+        $first: Int
+        $last: Int
+      ){
+        objectsConnection: taskReactionsConnection (
+          where: $where
+          orderBy: $orderBy
+          skip: $skip
+          after: $after
+          before: $before
+          first: $first
+          last: $last
+        ){
+          aggregate{
+            count
+          }
+          edges{
+            node{
+              ...TaskReaction
+            }
+          }
+        }
+      }
+
+      ${TaskReactionFragment}
+    `;
+
+
+    const taskReactions = `
+      query taskReactions (
+        $where: TaskReactionWhereInput
+        $orderBy: TaskReactionOrderByInput
+        $skip: Int
+        $after: String
+        $before: String
+        $first: Int
+        $last: Int
+      ){
+        objects: taskReactions (
+          where: $where
+          orderBy: $orderBy
+          skip: $skip
+          after: $after
+          before: $before
+          first: $first
+          last: $last
+        ){
+          ...TaskReaction
+        }
+      }
+
+      ${TaskReactionFragment}
+    `;
+
+
+    const taskReaction = `
+      query taskReaction (
+        $where: TaskReactionWhereUniqueInput!
+      ){
+        object: taskReaction (
+          where: $where
+        ){
+          ...TaskReaction
+        }
+      }
+
+      ${TaskReactionFragment}
+    `;
+
+
+    const createTaskReactionProcessor = `
+      mutation createTaskReactionProcessor(
+        $data: TaskReactionCreateInput!
+      ) {
+        response: createTaskReactionProcessor(
+          data: $data
+        ){
+          success
+          message
+          errors{
+            key
+            message
+          }
+          data{
+            ...TaskReaction
+          }
+        }
+      }
+
+      ${TaskReactionFragment}
+    `;
+
+
+    const updateTaskReactionProcessor = `
+      mutation updateTaskReactionProcessor(
+        $data: TaskReactionUpdateInput!
+        $where: TaskReactionWhereUniqueInput!
+      ) {
+        response: updateTaskReactionProcessor(
+          data: $data
+          where: $where
+        ){
+          success
+          message
+          errors{
+            key
+            message
+          }
+          data{
+            ...TaskReaction
+          }
+        }
+      }
+
+      ${TaskReactionFragment}
+    `;
+
+    const deleteTaskReaction = `
+      mutation deleteTaskReaction(
+        $where: TaskReactionWhereUniqueInput!
+      ) {
+        deleteTaskReaction(
+          where: $where
+        ){
+          ...TaskReactionNoNesting
+        }
+      }
+
+      ${TaskReactionNoNestingFragment}
+    `;
+
+
+
+    return {
+      taskReactionsConnection,
+      taskReactions,
+      taskReaction,
+      createTaskReactionProcessor,
+      updateTaskReactionProcessor,
+      deleteTaskReaction,
     }
 
   }
