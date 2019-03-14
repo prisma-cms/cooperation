@@ -155,6 +155,10 @@ export default class TaskConnector extends Component {
 
   static contextType = Context;
 
+  static defaultProps = {
+    showChat: true,
+  }
+
   componentWillMount() {
 
     const {

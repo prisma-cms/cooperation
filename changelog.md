@@ -1,5 +1,8 @@
+1.9.0
 =================================
 - Upgrade boilerplate
+- Added @prisma-cms/society
+- Added Chat in Task
 
 1.8.0
 =================================

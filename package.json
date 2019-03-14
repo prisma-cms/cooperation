@@ -17,6 +17,7 @@
     "@prisma-cms/context": "latest",
     "@prisma-cms/react-timeline-gantt": "latest",
     "@prisma-cms/filters": "latest",
+    "@prisma-cms/society": "latest",
     "graphql": "14.0.2",
     "react-dnd": "7.0.2",
     "react-sortable-tree": "^2.6.0"

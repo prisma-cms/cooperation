@@ -282,6 +282,7 @@ class CooperationContextProvider extends Component {
       UserNoNestingFragment,
       TimerNoNestingFragment,
       ProjectNoNestingFragment,
+      ProjectMemberNoNestingFragment,
     } = queryFragments;
 
 
@@ -307,6 +308,12 @@ class CooperationContextProvider extends Component {
           CreatedBy{
             ...UserNoNesting
           }
+          Members{
+            ...ProjectMemberNoNesting
+            User{
+              ...UserNoNesting
+            }
+          }
         }
 
         RelatedTo{
@@ -327,6 +334,7 @@ class CooperationContextProvider extends Component {
       ${UserNoNestingFragment}
       ${TimerNoNestingFragment}
       ${ProjectNoNestingFragment}
+      ${ProjectMemberNoNestingFragment}
     `
 
 

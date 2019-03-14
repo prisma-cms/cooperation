@@ -34,6 +34,8 @@ import TimersListView from "../../../Timers/View/List";
 import { compose, graphql } from 'react-apollo';
 
 import TaskStatusSelect from "./Status/Select";
+import ChatRooms from "./ChatRooms";
+
 import gql from 'graphql-tag';
 
 export const styles = theme => {
@@ -111,6 +113,7 @@ export class TaskView extends EditableView {
     mutate: PropTypes.func,
     createTimer: PropTypes.func.isRequired,
     updateTimer: PropTypes.func.isRequired,
+    showChat: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -119,6 +122,7 @@ export class TaskView extends EditableView {
     showStatus: true,
     showCreatedBy: true,
     TaskStatusSelect,
+    showChat: false,
   };
 
   // static contextTypes = {
@@ -607,6 +611,46 @@ export class TaskView extends EditableView {
   }
 
 
+  renderChat() {
+
+    const {
+      showChat,
+      updateChatRoomProcessor,
+    } = this.props;
+
+    if (!showChat) {
+      return null;
+    }
+
+    const object = this.getObjectWithMutations();
+
+    // const {
+    //   user: currentUser,
+    // } = this.context;
+
+    const {
+      id,
+    } = object || {};
+
+    if (!id) {
+      return null;
+    }
+
+    return <ChatRooms
+      task={object}
+      where={{
+        Task: {
+          id,
+        },
+      }}
+      first={1}
+      addObject={() => { }}
+      updateChatRoomProcessor={updateChatRoomProcessor}
+    // currentUser={currentUser}
+    />
+  }
+
+
   renderDefaultView() {
 
     const {
@@ -618,12 +662,13 @@ export class TaskView extends EditableView {
 
     const {
       Editor,
+      user: currentUser,
     } = this.context;
 
-    const task = this.getObjectWithMutations();
+    const object = this.getObjectWithMutations();
 
 
-    if (!task) {
+    if (!object) {
       return null;
     }
 
@@ -635,7 +680,7 @@ export class TaskView extends EditableView {
       startDate,
       endDate,
       status,
-    } = task;
+    } = object;
 
 
     const inEditMode = this.isInEditMode();
@@ -791,6 +836,13 @@ export class TaskView extends EditableView {
 
       {details}
 
+      <Grid
+        item
+        xs={12}
+      >
+        {this.renderChat()}
+      </Grid>
+
     </Grid>;
   }
 
@@ -894,6 +946,7 @@ export class TaskConnector extends Component {
         updateTaskProcessor,
         createTimerProcessor,
         updateTimerProcessor,
+        updateChatRoomProcessor,
       },
     } = this.context;
 
@@ -914,6 +967,9 @@ export class TaskConnector extends Component {
       }),
       graphql(gql(updateTimerProcessor), {
         name: "updateTimer",
+      }),
+      graphql(gql(updateChatRoomProcessor), {
+        name: "updateChatRoomProcessor",
       }),
     )(View);
 

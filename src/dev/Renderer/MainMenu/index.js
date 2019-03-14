@@ -13,6 +13,8 @@ import { Link } from 'react-router-dom';
 import UserItem from './User';
 import { withStyles } from 'material-ui/styles';
 
+import { Notices } from '@prisma-cms/society';
+
 // console.log("MainMenu Context", Context);
 
 // import Modal from './AuthModal';
@@ -222,6 +224,18 @@ export class MainMenu extends Component {
           {user
             ?
             [
+              <Grid
+                key="notifications"
+                item
+              >
+                <Notices
+                  key={userId}
+                  user={user}
+                  classes={{
+                    icon: classes.link,
+                  }}
+                />
+              </Grid>,
               <Grid
                 key="user"
                 item

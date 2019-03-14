@@ -20,6 +20,12 @@ import { withStyles } from 'material-ui';
 import MainMenu from './MainMenu';
 
 
+import {
+  ContextProvider as SocietyContextProvider,
+  SubscriptionProvider as SocietySubscriptionProvider,
+} from "@prisma-cms/society";
+
+
 export const styles = {
   root: {
     fontSize: 16,
@@ -55,7 +61,7 @@ class DevRenderer extends PrismaCmsRenderer {
     pure: false,
   }
 
-  
+
   renderMenu() {
 
     return <MainMenu />
@@ -176,15 +182,19 @@ class DevRenderer extends PrismaCmsRenderer {
 
     return <MainMenu />
   }
-  
+
 
   renderWrapper() {
 
-    return <ContextProvider>
-      <SubscriptionProvider>
-        {super.renderWrapper()}
-      </SubscriptionProvider>
-    </ContextProvider>;
+    return <SocietyContextProvider>
+      <SocietySubscriptionProvider>
+        <ContextProvider>
+          <SubscriptionProvider>
+            {super.renderWrapper()}
+          </SubscriptionProvider>
+        </ContextProvider>
+      </SocietySubscriptionProvider>
+    </SocietyContextProvider>
 
   }
 
