@@ -292,7 +292,9 @@ class TasksPage extends Page {
           this.setState({
             showAll: status,
           });
-          this.setFilters({});
+          this.setFilters({
+            ...this.getFilters(),
+          });
         }}
         {...other}
       />
