@@ -1,3 +1,9 @@
+1.10.0
+=================================
+- Upgrade boilerplate
+- Added @prisma-cms/timeline
+- Added TasksView Timeline
+
 1.9.0
 =================================
 - Upgrade boilerplate

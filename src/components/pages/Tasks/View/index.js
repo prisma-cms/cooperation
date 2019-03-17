@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 // import Context from "@prisma-cms/context";
 
 import Filters from "@prisma-cms/filters";
+import Timeline from "@prisma-cms/timeline";
 
 import { Typography } from 'material-ui';
 
@@ -27,6 +28,7 @@ import StopIcon from "material-ui-icons/Stop";
 import FavoriteIcon from "material-ui-icons/ThumbUp";
 import { TaskView } from './Task';
 import gql from 'graphql-tag';
+import { Button } from 'material-ui';
 
 
 export class TasksView extends TableView {
@@ -283,7 +285,49 @@ export class TasksView extends TableView {
         label: "Дата",
         renderer: (value, record) => {
 
-          return value ? moment(value).format("lll") : null;
+          const date = value ? moment(value).format("lll") : null;
+
+          let dates = [];
+
+          const {
+            createdAt,
+            startDatePlaning,
+            startDate,
+            endDatePlaning,
+            endDate,
+          } = record;
+
+          let min = moment(startDate || startDatePlaning || createdAt);
+          let max = (endDate || endDatePlaning) ? moment(endDate || endDatePlaning) : null;
+
+          // console.log("startDate", min);
+          // console.log("endDate", endDate);
+
+          if (min && max) {
+
+            const startTime = min.toDate().getTime();
+            const endTime = max.toDate().getTime();
+
+            dates.push({
+              startDate: startTime,
+              endDate: endTime,
+            });
+
+          }
+
+
+          return <div
+            style={{
+              width: 250,
+            }}
+          >
+            {date}
+
+            {dates.length ? this.renderTimeline(dates, {
+
+            }) : null}
+
+          </div>;
         },
       },
       {
@@ -296,22 +340,22 @@ export class TasksView extends TableView {
           /> : null;
         },
       },
-      {
-        id: "RelatedTo",
-        label: "Связано с",
-        renderer: (value, record) => {
-          // console.log("status", TaskLink);
+      // {
+      //   id: "RelatedTo",
+      //   label: "Связано с",
+      //   renderer: (value, record) => {
+      //     // console.log("status", TaskLink);
 
-          // return value ? <TaskStatus
-          //   value={value}
-          // /> : null;
+      //     // return value ? <TaskStatus
+      //     //   value={value}
+      //     // /> : null;
 
-          return value && value.length ? value.map(n => <TaskLink
-            key={n.id}
-            object={n}
-          />).reduce((a, b) => [a, ", ", b]) : null;
-        },
-      },
+      //     return value && value.length ? value.map(n => <TaskLink
+      //       key={n.id}
+      //       object={n}
+      //     />).reduce((a, b) => [a, ", ", b]) : null;
+      //   },
+      // },
       {
         id: "Reactions",
         label: "Нравится",
@@ -429,11 +473,151 @@ export class TasksView extends TableView {
       setFilters,
     } = this.props;
 
-    return filters && setFilters ? <Filters
-      queryName="tasks"
-      filters={filters}
-      setFilters={setFilters}
-    /> : null;
+    return <Fragment>
+
+      {filters && setFilters ? <Filters
+        queryName="tasks"
+        filters={filters}
+        setFilters={setFilters}
+      /> : null}
+
+      {this.renderTimeline()}
+
+    </Fragment>;
+  }
+
+
+  renderTimeline(defaultDates, options) {
+
+    const {
+      Grid,
+      theme,
+    } = this.context;
+
+    // console.log(this.context);
+
+    const {
+      typography: {
+        caption,
+      },
+    } = theme;
+
+    const {
+      data: {
+        objectsConnection,
+      },
+      classes,
+    } = this.props;
+
+    const tasks = objectsConnection ? objectsConnection.edges.map(n => n.node) : [];
+
+    let minDate = 0;
+    let maxDate = 0;
+
+
+    let dates = [];
+
+    tasks.map(n => {
+
+      const {
+        createdAt,
+        startDatePlaning,
+        startDate,
+        endDatePlaning,
+        endDate,
+      } = n;
+
+      let min = moment(startDate || startDatePlaning || createdAt);
+      let max = (endDate || endDatePlaning) ? moment(endDate || endDatePlaning) : null;
+
+      // console.log("startDate", min);
+      // console.log("endDate", endDate);
+
+      if (min && max) {
+
+        const startTime = min.toDate().getTime();
+        const endTime = max.toDate().getTime();
+
+        dates.push({
+          startDate: startTime,
+          endDate: endTime,
+        });
+
+        if (!minDate || minDate > startTime) {
+          minDate = startTime;
+        }
+
+        if (!maxDate || maxDate < endTime) {
+          maxDate = endTime;
+        }
+
+      }
+
+    });
+
+    const showDates = defaultDates ? defaultDates : dates;
+
+    // console.log("dates", dates);
+    // console.log("tasks", tasks);
+    // console.log("minDate", minDate);
+    // console.log("maxDate", maxDate);
+
+    let timeline;
+
+    if (minDate && maxDate && showDates && showDates.length) {
+      timeline = <Grid
+        container
+      >
+
+        <Grid
+          item
+        >
+          <span
+            style={{
+              ...caption,
+              padding: 5,
+            }}
+          >
+            {moment(minDate).format("DD.MM.YYYY")}
+          </span>
+        </Grid>
+
+        <Grid
+          item
+          xs
+        >
+          <Timeline
+            minDate={minDate}
+            maxDate={maxDate}
+            dates={showDates}
+            onStartDateChange={() => { }}
+            onEndDateChange={() => { }}
+            {...options}
+          />
+        </Grid>
+
+        <Grid
+          item
+        >
+          <Grid
+            item
+          >
+            <span
+              style={{
+                ...caption,
+                padding: 5,
+              }}
+            >
+              {moment(maxDate).format("DD.MM.YYYY")}
+            </span>
+          </Grid>
+        </Grid>
+
+      </Grid>
+    }
+
+    return timeline;
+
   }
 
 
@@ -441,10 +625,13 @@ export class TasksView extends TableView {
 
     const {
       Pagination,
+      Grid,
     } = this.context;
 
     const {
       page,
+      setShowAll,
+      showAll,
     } = this.props;
 
 
@@ -467,18 +654,66 @@ export class TasksView extends TableView {
     } = aggregate || {};
 
 
+    let showAllButton;
+
+    if (showAll) {
+      showAllButton = <Button
+        onClick={event => setShowAll(false)}
+      >
+        Скрыть
+      </Button>
+    }
+    else if (limit && count && count > limit && setShowAll) {
+
+      showAllButton = <Button
+        onClick={event => setShowAll(true)}
+      >
+        Показать все ({count})
+      </Button>
+
+    }
+
+
     let content = <Fragment>
 
       {super.render()}
 
-      <Pagination
-        limit={limit}
-        total={count}
-        page={page || 1}
+      <div
         style={{
-          marginTop: 20,
+          textAlign: "center"
         }}
-      />
+      >
+        <Grid
+          container
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            width: "auto",
+          }}
+        >
+
+
+          <Grid
+            item
+          >
+            <Pagination
+              limit={limit}
+              total={count}
+              page={page || 1}
+              style={{
+                marginTop: 20,
+              }}
+            />
+          </Grid>
+
+          <Grid
+            item
+          >
+            {showAllButton}
+          </Grid>
+
+        </Grid>
+      </div>
 
     </Fragment>
 

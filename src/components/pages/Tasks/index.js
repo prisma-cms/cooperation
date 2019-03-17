@@ -228,6 +228,10 @@ class TasksPage extends Page {
     } = this.props;
 
     const {
+      showAll,
+    } = this.state;
+
+    const {
       uri,
     } = this.context;
 
@@ -278,11 +282,18 @@ class TasksPage extends Page {
     return super.render(
       <Renderer
         where={where}
-        first={first}
+        first={!showAll ? first : undefined}
         skip={skip}
         page={page ? parseInt(page) : undefined}
         filters={filters || {}}
         setFilters={filters => this.setFilters(filters)}
+        showAll={showAll}
+        setShowAll={status => {
+          this.setState({
+            showAll: status,
+          });
+          this.setFilters({});
+        }}
         {...other}
       />
     );
