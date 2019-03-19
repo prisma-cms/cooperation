@@ -15,6 +15,7 @@ import {
   styles,
   TableView,
 } from "apollo-cms/lib/DataView/List/Table";
+
 import { withStyles } from 'material-ui';
 
 import TaskStatusSelect from "./Task/Status/Select";
@@ -50,6 +51,27 @@ export class TasksView extends TableView {
     title: "",
   }
 
+
+  constructor(props) {
+
+    super(props);
+
+
+    this.state = {
+      ...this.state,
+    }
+
+  }
+
+
+  componentWillMount() {
+
+
+    this.state.columnData = this.initColumns()
+
+    super.componentWillMount && super.componentWillMount();
+
+  }
 
 
   getButtons(object) {
@@ -171,7 +193,7 @@ export class TasksView extends TableView {
   }
 
 
-  getColumns() {
+  initColumns() {
 
 
     const {
@@ -222,6 +244,7 @@ export class TasksView extends TableView {
       {
         id: "status",
         label: "Статус",
+        hidden: false,
         renderer: (value, record) => {
           // console.log("status", record);
 
@@ -263,8 +286,31 @@ export class TasksView extends TableView {
         },
       },
       {
-        id: "id",
+        id: "name",
         label: "Задача",
+        hidden: true,
+        renderer: (value, record) => {
+
+          return record ? <TaskLink
+            object={record}
+          /> : null;
+        },
+      },
+      {
+        id: "Project",
+        label: "Проект",
+        hidden: true,
+        renderer: (value, record) => {
+
+          return value ? <ProjectLink
+            object={value}
+          /> : null;
+        },
+      },
+      {
+        id: "id",
+        label: "Подробности задачи",
+        hidden: false,
         renderer: (value, record) => {
 
           return record ? <TaskView
@@ -282,7 +328,53 @@ export class TasksView extends TableView {
       },
       {
         id: "createdAt",
-        label: "Дата",
+        label: "Дата постановки",
+        hidden: false,
+        renderer: (value, record) => {
+
+          return this.renderDate(value);
+        },
+      },
+      {
+        id: "startDatePlaning",
+        label: "Планируемая дата начала",
+        hidden: true,
+        renderer: (value, record) => {
+
+          return this.renderDate(value);
+        },
+      },
+      {
+        id: "endDatePlaning",
+        label: "Планируемая дата завершения",
+        hidden: true,
+        renderer: (value, record) => {
+
+          return this.renderDate(value);
+        },
+      },
+      {
+        id: "startDate",
+        label: "Дата начала",
+        hidden: true,
+        renderer: (value, record) => {
+
+          return this.renderDate(value);
+        },
+      },
+      {
+        id: "endDate",
+        label: "Дата завершения",
+        hidden: true,
+        renderer: (value, record) => {
+
+          return this.renderDate(value);
+        },
+      },
+      {
+        id: "planes",
+        label: "Плановые сроки",
+        hidden: false,
         renderer: (value, record) => {
 
           const date = value ? moment(value).format("lll") : null;
@@ -316,23 +408,15 @@ export class TasksView extends TableView {
           }
 
 
-          return <div
-            style={{
-              width: 250,
-            }}
-          >
-            {date}
+          return dates.length ? this.renderTimeline(dates, {
 
-            {dates.length ? this.renderTimeline(dates, {
-
-            }) : null}
-
-          </div>;
+          }) : null;
         },
       },
       {
         id: "CreatedBy",
         label: "Постановщик",
+        hidden: false,
         renderer: (value, record) => {
           return value ? <UserLink
             user={value}
@@ -359,6 +443,7 @@ export class TasksView extends TableView {
       {
         id: "Reactions",
         label: "Нравится",
+        hidden: false,
         renderer: (value, record) => {
 
           if (!value) {
@@ -464,6 +549,21 @@ export class TasksView extends TableView {
     ];
   }
 
+
+  renderDate(date) {
+
+    return date ? moment(date).format("lll") : null;
+  }
+
+  getColumns() {
+
+
+    const {
+      columnData,
+    } = this.state;
+
+    return columnData;
+  }
 
 
   renderFilters() {
