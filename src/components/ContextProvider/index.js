@@ -705,6 +705,10 @@ class CooperationContextProvider extends Component {
           Project{
             ...ProjectNoNesting
           }
+    
+          CreatedBy{
+            ...UserNoNesting
+          }
         }
         
       }

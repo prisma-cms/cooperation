@@ -226,10 +226,7 @@ class TasksPage extends Page {
       where: propsWhere,
       ...other
     } = this.props;
-
-    const {
-      showAll,
-    } = this.state;
+ 
 
     const {
       uri,
@@ -251,6 +248,7 @@ class TasksPage extends Page {
     }
 
     const {
+      showAll,
       projectId,
       ...filters
     } = this.getFilters();
@@ -288,12 +286,17 @@ class TasksPage extends Page {
         filters={filters || {}}
         setFilters={filters => this.setFilters(filters)}
         showAll={showAll}
-        setShowAll={status => {
-          this.setState({
-            showAll: status,
-          });
+        setShowAll={showAll => {
+          // this.setState({
+          //   showAll: status,
+          // });
+          // this.setFilters({
+          //   ...this.getFilters(),
+          // });
+
           this.setFilters({
-            ...this.getFilters(),
+            ...filters,
+            showAll: showAll ? true : undefined,
           });
         }}
         {...other}

@@ -17,6 +17,7 @@ import { withStyles } from 'material-ui';
 import Filters from "@prisma-cms/filters";
 
 import moment from "moment";
+import { Button } from 'material-ui';
 
 
 class TimersView extends TableView {
@@ -35,7 +36,31 @@ class TimersView extends TableView {
   }
 
 
-  getColumns() {
+
+  componentWillMount() {
+
+
+    this.state.columnData = this.initColumns()
+
+    super.componentWillMount && super.componentWillMount();
+
+  }
+
+
+
+  renderDate(date) {
+
+    return date ? <span
+      style={{
+        whiteSpace: "nowrap",
+      }}
+    >
+      {moment(date).format("DD.MM.YYYY HH:mm:ss")}
+    </span> : null;
+  }
+  
+
+  initColumns() {
 
 
     const {
@@ -49,6 +74,7 @@ class TimersView extends TableView {
       {
         id: "Project",
         label: "Проект",
+        hidden: false,
         renderer: (value, record) => {
 
           const {
@@ -63,6 +89,7 @@ class TimersView extends TableView {
       {
         id: "Task",
         label: "Задача",
+        hidden: false,
         renderer: (value, record) => {
 
           // console.log(record);
@@ -75,6 +102,7 @@ class TimersView extends TableView {
       {
         id: "status",
         label: "Статус",
+        hidden: false,
         renderer: (value, record) => {
 
           const {
@@ -87,24 +115,44 @@ class TimersView extends TableView {
         },
       },
       {
-        id: "createdAt",
-        label: "Начало",
+        id: "TaskCreatedAt",
+        label: "Дата постановки задачи",
+        hidden: true,
         renderer: (value, record) => {
 
-          return value ? moment(value).format("lll") : null;
+          const {
+            Task,
+          } = record || {};
+
+          const {
+            createdAt,
+          } = Task || {}
+
+          return this.renderDate(createdAt);
+        },
+      },
+      {
+        id: "createdAt",
+        label: "Начало",
+        hidden: false,
+        renderer: (value, record) => {
+
+          return this.renderDate(value);
         },
       },
       {
         id: "stopedAt",
         label: "Конец",
+        hidden: false,
         renderer: (value, record) => {
 
-          return value ? moment(value).format("lll") : null;
+          return this.renderDate(value);
         },
       },
       {
         id: "duration",
         label: "Длительность",
+        hidden: false,
         renderer: (value, record) => {
 
           let output = null;
@@ -129,6 +177,7 @@ class TimersView extends TableView {
       {
         id: "CreatedBy",
         label: "Исполнитель",
+        hidden: false,
         renderer: (value, record) => {
           return value ? <UserLink
             user={value}
@@ -136,23 +185,50 @@ class TimersView extends TableView {
           /> : null;
         },
       },
-      // {
-      //   id: "RelatedTo",
-      //   label: "Связано с",
-      //   renderer: (value, record) => {
-      //     console.log("status", TaskLink);
+      {
+        id: "Author",
+        label: "Постановщик задачи",
+        hidden: true,
+        renderer: (value, record) => {
 
-      //     // return value ? <TaskStatus
-      //     //   value={value}
-      //     // /> : null;
+          const {
+            Task,
+          } = record || {};
 
-      //     return value && value.length ? value.map(n => <TaskLink
-      //       key={n.id}
-      //       object={n}
-      //     />).reduce((a, b) => [a, ", ", b]) : null;
-      //   },
-      // },
+          const {
+            CreatedBy,
+          } = Task || {};
+
+          return CreatedBy ? <UserLink
+            user={CreatedBy}
+            size="small"
+          /> : null;
+        },
+      },
+      {
+        id: "RelatedTo",
+        label: "Связано с",
+        hidden: true,
+        renderer: (value, record) => {
+          console.log("status", TaskLink);
+
+          // return value ? <TaskStatus
+          //   value={value}
+          // /> : null;
+
+          return value && value.length ? value.map(n => <TaskLink
+            key={n.id}
+            object={n}
+          />).reduce((a, b) => [a, ", ", b]) : null;
+        },
+      },
     ];
+  }
+
+
+  getColumns() {
+
+    return this.state.columnData;
   }
 
 
@@ -176,10 +252,14 @@ class TimersView extends TableView {
 
     const {
       Pagination,
+      Grid,
     } = this.context;
 
     const {
       page,
+      showAll,
+      setShowAll,
+      filters,
     } = this.props;
 
 
@@ -200,105 +280,75 @@ class TimersView extends TableView {
     const {
       count = 0,
     } = aggregate || {};
+ 
+
+    let showAllButton;
+
+    if (showAll) {
+      showAllButton = <Button
+        onClick={event => setShowAll(false)}
+      >
+        Скрыть
+      </Button>
+    }
+    else if (limit && count && count > limit && setShowAll) {
+
+      showAllButton = <Button
+        onClick={event => setShowAll(true)}
+      >
+        Показать все ({count})
+      </Button>
+
+    }
+
 
 
     let content = <Fragment>
 
       {super.render()}
 
-      <Pagination
-        limit={limit}
-        total={count}
-        page={page || 1}
+      <div
         style={{
-          marginTop: 20,
+          textAlign: "center"
         }}
-      />
+      >
+        <Grid
+          container
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            width: "auto",
+          }}
+        >
+
+
+          <Grid
+            item
+          >
+            <Pagination
+              limit={limit}
+              total={count}
+              page={page || 1}
+              style={{
+                marginTop: 20,
+              }}
+            />
+          </Grid>
+
+          <Grid
+            item
+          >
+            {showAllButton}
+          </Grid>
+
+        </Grid>
+      </div>
 
     </Fragment>
 
     return content;
   }
 
-
-  render__() {
-
-    const {
-      Grid,
-      Pagination,
-    } = this.context;
-
-    const {
-      page,
-    } = this.props;
-
-
-    const {
-      objectsConnection,
-      loading,
-      variables: {
-        first: limit,
-      },
-    } = this.props.data;
-
-
-    const {
-      edges,
-      aggregate,
-    } = objectsConnection || {};
-
-    const {
-      count = 0,
-    } = aggregate || {};
-
-    if (!edges || !edges.length) {
-
-      if (loading) {
-        return null;
-      }
-      else {
-        return <Typography>
-          Данные не были получены
-        </Typography>
-      }
-
-    }
-
-
-    let timers = edges.map(n => n.node);
-
-
-    let content = <Grid
-      container
-      spacing={0}
-    >
-
-      {edges && edges.length ? <Grid
-        item
-        xs={12}
-
-      >
-
-        <TimersList
-          timers={timers}
-        />
-
-        <Pagination
-          limit={limit}
-          total={count}
-          page={page || 1}
-          style={{
-            marginTop: 20,
-          }}
-        />
-      </Grid> : null
-      }
-
-    </Grid>
-
-
-    return (content);
-  }
 }
 
 

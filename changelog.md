@@ -1,5 +1,9 @@
+1.11.0
 =================================
 - Upgrade task columns
+- Upgrade timers columns
+- Added export tasks
+- Added export timers
 
 1.10.1
 =================================

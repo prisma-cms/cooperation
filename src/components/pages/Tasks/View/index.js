@@ -52,16 +52,16 @@ export class TasksView extends TableView {
   }
 
 
-  constructor(props) {
+  // constructor(props) {
 
-    super(props);
+  //   super(props);
 
 
-    this.state = {
-      ...this.state,
-    }
+  //   this.state = {
+  //     ...this.state,
+  //   }
 
-  }
+  // }
 
 
   componentWillMount() {
@@ -820,84 +820,6 @@ export class TasksView extends TableView {
     return content;
   }
 
-  render__() {
-
-    const {
-      Grid,
-      Pagination,
-    } = this.context;
-
-    const {
-      page,
-    } = this.props;
-
-
-    const {
-      objectsConnection,
-      loading,
-      variables: {
-        first: limit,
-      },
-    } = this.props.data;
-
-
-    const {
-      edges,
-      aggregate,
-    } = objectsConnection || {};
-
-    const {
-      count = 0,
-    } = aggregate || {};
-
-    if (!edges || !edges.length) {
-
-      if (loading) {
-        return null;
-      }
-      else {
-        return <Typography>
-          Данные не были получены
-        </Typography>
-      }
-
-    }
-
-
-    let tasks = edges.map(n => n.node);
-
-
-    let content = <Grid
-      container
-      spacing={0}
-    >
-
-      {edges && edges.length ? <Grid
-        item
-        xs={12}
-
-      >
-
-        <TasksList
-          tasks={tasks}
-        />
-
-        <Pagination
-          limit={limit}
-          total={count}
-          page={page || 1}
-          style={{
-            marginTop: 20,
-          }}
-        />
-      </Grid> : null
-      }
-
-    </Grid>
-
-
-    return (content);
-  }
 }
 
 

@@ -59,7 +59,7 @@ class TimersPage extends Page {
     super.componentWillMount && super.componentWillMount();
   }
 
-  
+
 
   setFilters(filters) {
 
@@ -73,6 +73,11 @@ class TimersPage extends Page {
     // console.log("setFilters", filters);
 
     let newUri = uri.clone();
+
+    // let filters = {
+    //   ...this.getFilters(),
+    //   ...newFilters,
+    // };
 
     try {
 
@@ -114,6 +119,28 @@ class TimersPage extends Page {
   }
 
 
+  getFilters() {
+
+    const {
+      uri,
+    } = this.context;
+
+    let {
+      filters,
+    } = uri.query(true);
+
+
+    try {
+      filters = filters && JSON.parse(filters) || null;
+    }
+    catch (error) {
+      console.error(console.error(error));
+    }
+
+    return filters;
+  }
+
+
   render() {
 
     const {
@@ -127,6 +154,14 @@ class TimersPage extends Page {
       ...other
     } = this.props;
 
+
+    const {
+      showAll,
+      ...filters
+    } = this.getFilters() || {};
+
+    // console.log("this.getFilters", filters);
+
     const {
       uri,
     } = this.context;
@@ -134,17 +169,7 @@ class TimersPage extends Page {
 
     let {
       page,
-      filters,
     } = uri.query(true);
-
-
-    try {
-      filters = filters && JSON.parse(filters) || null;
-    }
-    catch (error) {
-      console.error(console.error(error));
-    }
-
 
     let AND = [];
 
@@ -174,11 +199,19 @@ class TimersPage extends Page {
     return super.render(
       <Renderer
         where={where}
-        first={first}
+        first={showAll ? undefined : first}
         skip={skip}
         page={page ? parseInt(page) : undefined}
         filters={filters || {}}
         setFilters={filters => this.setFilters(filters)}
+        showAll={showAll}
+        setShowAll={(showAll) => {
+
+          this.setFilters({
+            ...filters,
+            showAll: showAll ? true : undefined,
+          });
+        }}
         {...other}
       />
     );
