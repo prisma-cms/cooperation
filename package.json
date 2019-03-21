@@ -1,6 +1,6 @@
 {
   "name": "@prisma-cms/cooperation",
-  "version": "1.11.0",
+  "version": "1.11.1",
   "private": false,
   "main": "lib/App.js",
   "scripts": {
@@ -21,7 +21,7 @@
     "@prisma-cms/timeline": "latest",
     "graphql": "14.0.2",
     "react-dnd": "7.0.2",
-    "react-sortable-tree": "^2.6.0"
+    "react-sortable-tree": "2.6.1"
   },
   "devDependencies": {
     "@prisma-cms/front": "latest",
