@@ -27,7 +27,7 @@ class CreateTaskPage extends Component {
           history,
         } = this.props;
 
-        history.push(`/tasks/${id}/`);
+        history.push(`/tasks/${id}`);
       }
 
     }

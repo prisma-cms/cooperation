@@ -27,7 +27,7 @@ class CreateProjectPage extends Component {
           history,
         } = this.props;
 
-        history.push(`/projects/${id}/`);
+        history.push(`/projects/${id}`);
       }
 
     }
