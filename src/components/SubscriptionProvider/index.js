@@ -378,7 +378,7 @@ export default class SubscriptionProvider extends Component {
 
     await loadApiData();
 
-    // await client.resetStore();
+    await client.reFetchObservableQueries();
 
   }
 
