@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 
-import {
+import App, {
   ContextProvider,
   SubscriptionProvider,
   ProjectsPage,
@@ -18,6 +18,7 @@ import { Renderer as PrismaCmsRenderer } from '@prisma-cms/front'
 import { withStyles } from 'material-ui';
 
 import MainMenu from './MainMenu';
+// import DevMainPage from './pages/MainPage';
 
 
 import {
@@ -27,26 +28,46 @@ import {
 
 
 export const styles = {
+
   root: {
-    fontSize: 16,
-    fontFamily: "serif",
+    // border: "1px solid blue",
     height: "100%",
-    // border: "1px solid red",
     display: "flex",
     flexDirection: "column",
 
     "& #Renderer--body": {
+      // border: "1px solid green",
       flex: 1,
-      // border: "1px solid blue",
-
-      "& a": {
-        "&, & span": {
-          color: "#0369ce",
-        },
-      },
+      overflow: "auto",
+      display: "flex",
+      flexDirection: "column",
     },
   },
 }
+
+
+
+// export const styles = {
+//   root: {
+//     fontSize: 16,
+//     fontFamily: "serif",
+//     height: "100%",
+//     // border: "1px solid red",
+//     display: "flex",
+//     flexDirection: "column",
+
+//     "& #Renderer--body": {
+//       flex: 1,
+//       // border: "1px solid blue",
+
+//       "& a": {
+//         "&, & span": {
+//           color: "#0369ce",
+//         },
+//       },
+//     },
+//   },
+// }
 
 class DevRenderer extends PrismaCmsRenderer {
 
@@ -164,11 +185,11 @@ class DevRenderer extends PrismaCmsRenderer {
             }}
             {...props}
           />
-        }
+        },
       },
       // {
       //   path: "*",
-      //   render: props => this.renderOtherPages(props),
+      //   component: DevMainPage,
       // },
     ].concat(super.getRoutes());
 
@@ -190,6 +211,7 @@ class DevRenderer extends PrismaCmsRenderer {
       <SocietySubscriptionProvider>
         <ContextProvider>
           <SubscriptionProvider>
+            {this.renderMenu()}
             {super.renderWrapper()}
           </SubscriptionProvider>
         </ContextProvider>
@@ -207,18 +229,28 @@ class DevRenderer extends PrismaCmsRenderer {
       ...other
     } = this.props;
 
-    return <div
-      className={classes.root}
-    >
-      {pure ? null : super.render()}
-    </div>
+    return pure ? <App
+      {...other}
+    /> :
+      <div
+        className={classes.root}
+      >
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+            body, html, #root{
+              height: 100%;
+            }
+          `,
+          }}
+        />
+        {super.render()}
+      </div>;
 
   }
 
 }
 
-// export default DevRenderer;
-
 export default withStyles(styles)(props => <DevRenderer
   {...props}
-/>)
+/>);

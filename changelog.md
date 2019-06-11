@@ -1,3 +1,9 @@
+1.12.0
+=================================
+- Upgrade boilerplate
+- Fix Subscriptions
+- Code refactoring
+
 1.11.2
 =================================
 - Fix @prisma-cms/front pages

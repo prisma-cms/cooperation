@@ -378,7 +378,7 @@ export default class SubscriptionProvider extends Component {
 
     await loadApiData();
 
-    await client.resetStore();
+    // await client.resetStore();
 
   }
 
@@ -387,16 +387,18 @@ export default class SubscriptionProvider extends Component {
 
     const {
       children,
-      user,
-      client,
-      loadApiData,
-      ...other
+      // user,
+      // client,
+      // loadApiData,
+      // ...other
     } = this.props;
 
-    return children ? <children.type
-      {...children.props}
-      {...other}
-    /> : null;
+    return children;
+
+    // return children ? <children.type
+    //   {...children.props}
+    //   {...other}
+    // /> : null;
 
   }
 

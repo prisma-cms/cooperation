@@ -223,7 +223,6 @@ export default class DevApp extends Component {
 
   static defaultProps = {
     queryFragments,
-    lang: "ru",
   }
 
   render() {
