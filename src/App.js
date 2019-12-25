@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 
 import "./styles/less/styles.css";
 
@@ -31,9 +30,24 @@ export {
   TimerPage,
 }
 
-export default class App extends Component {
+export default class App extends PureComponent {
 
   render() {
-    return null;
+
+    const {
+      children,
+      ...other
+    } = this.props;
+
+    return (
+      <div
+        {...other}
+      >
+        <h2>
+          My awesome component
+        </h2>
+        {children}
+      </div>
+    );
   }
 }

@@ -18,7 +18,7 @@ import { Renderer as PrismaCmsRenderer } from '@prisma-cms/front'
 import { withStyles } from 'material-ui';
 
 import MainMenu from './MainMenu';
-// import DevMainPage from './pages/MainPage';
+import DevMainPage from './pages/MainPage';
 
 
 import {
@@ -26,6 +26,9 @@ import {
   SubscriptionProvider as SocietySubscriptionProvider,
 } from "@prisma-cms/society";
 
+import Context from '@prisma-cms/context';
+
+import * as queryFragments from '../../schema/generated/api.fragments';
 
 export const styles = {
 
@@ -187,6 +190,21 @@ class DevRenderer extends PrismaCmsRenderer {
           />
         },
       },
+      {
+        exact: false,
+        path: "/",
+        // component: DevMainPage,
+        render: props => {
+          // console.log("props", { ...props });
+          return <DevMainPage
+          >
+          </DevMainPage>;
+        }
+        // render: props => {
+        //   console.log("props", { ...props });
+        //   return null;
+        // }
+      },
       // {
       //   path: "*",
       //   component: DevMainPage,
@@ -198,25 +216,48 @@ class DevRenderer extends PrismaCmsRenderer {
   }
 
 
-
-  renderMenu() {
-
-    return <MainMenu />
-  }
-
-
   renderWrapper() {
 
-    return <SocietyContextProvider>
-      <SocietySubscriptionProvider>
-        <ContextProvider>
-          <SubscriptionProvider>
-            {this.renderMenu()}
-            {super.renderWrapper()}
-          </SubscriptionProvider>
-        </ContextProvider>
-      </SocietySubscriptionProvider>
-    </SocietyContextProvider>
+
+    if (!queryFragments) {
+      return null;
+    }
+
+
+    return <Context.Consumer>
+      {context => {
+
+        const {
+          schema,
+        } = context;
+
+        if (!schema || !queryFragments) {
+          return null;
+        }
+
+        return <Context.Provider
+          value={Object.assign(context, {
+            queryFragments,
+          })}
+        >
+
+          <SocietyContextProvider>
+            <SocietySubscriptionProvider>
+              <ContextProvider>
+                <SubscriptionProvider>
+                  {this.renderMenu()}
+                  {super.renderWrapper()}
+                </SubscriptionProvider>
+              </ContextProvider>
+            </SocietySubscriptionProvider>
+          </SocietyContextProvider>
+
+
+        </Context.Provider>
+      }}
+    </Context.Consumer>
+
+
 
   }
 

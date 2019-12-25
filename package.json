@@ -14,7 +14,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@prisma-cms/context": "latest",
+    "@prisma-cms/context": "1.3.2",
     "@prisma-cms/react-timeline-gantt": "latest",
     "@prisma-cms/filters": "latest",
     "@prisma-cms/society": "latest",
@@ -24,6 +24,7 @@
     "react-sortable-tree": "2.6.1"
   },
   "devDependencies": {
+    "@prisma-cms/performance": "latest",
     "@prisma-cms/front": "latest",
     "@prisma-cms/front-editor": "latest",
     "@prisma-cms/server": "latest",
@@ -33,6 +34,7 @@
     "react-scripts": "2.1.2"
   },
   "resolutions": {
+    "@prisma-cms/context": "1.3.2",
     "graphql": "14.0.2",
     "react-dnd": "7.0.2",
     "react-router": "4.3.1",
