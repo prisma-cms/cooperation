@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import Page from "../../layout";
 
@@ -14,7 +14,7 @@ import { graphql } from 'react-apollo';
 
 import TimerView from "../View/Timer";
 
-import { Typography } from 'material-ui';
+// import Typography from 'material-ui/Typography';
 import gql from 'graphql-tag';
 
 import Context from "@prisma-cms/context";
@@ -28,9 +28,9 @@ import Context from "@prisma-cms/context";
 
 class TimerPage extends Page {
 
-  static propTypes = {
-    ...Page.propTypes,
-  };
+  // static propTypes = {
+  //   ...Page.propTypes,
+  // };
 
 
   static defaultProps = {
@@ -66,7 +66,7 @@ class TimerPage extends Page {
     }
 
     const {
-      Task: Task,
+      Task,
     } = timer;
 
     const {

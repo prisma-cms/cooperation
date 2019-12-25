@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 // import Context from "@prisma-cms/context";
@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 import Filters from "@prisma-cms/filters";
 import Timeline from "@prisma-cms/timeline";
 
-import { Typography } from 'material-ui';
+// import Typography from 'material-ui/Typography';
 
-import TasksList from "./List";
+// import TasksList from "./List";
 
 
 import {
@@ -16,12 +16,12 @@ import {
   TableView,
 } from "apollo-cms/lib/DataView/List/Table";
 
-import { withStyles } from 'material-ui';
+import withStyles from 'material-ui/styles/withStyles';
 
-import TaskStatusSelect from "./Task/Status/Select";
+// import TaskStatusSelect from "./Task/Status/Select";
 
 import moment from "moment";
-import { IconButton } from 'material-ui';
+import IconButton from 'material-ui/IconButton';
 
 import StartIcon from "material-ui-icons/PlayArrow";
 import StopIcon from "material-ui-icons/Stop";
@@ -29,12 +29,13 @@ import StopIcon from "material-ui-icons/Stop";
 import FavoriteIcon from "material-ui-icons/ThumbUp";
 import { TaskView } from './Task';
 import gql from 'graphql-tag';
-import { Button } from 'material-ui';
+import Button from 'material-ui/Button';
 
 
 export class TasksView extends TableView {
 
   static propTypes = {
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...TableView.propTypes,
     filters: PropTypes.object,
     setFilters: PropTypes.func,
@@ -98,21 +99,21 @@ export class TasksView extends TableView {
 
       const {
         id: taskId,
-        name,
+        // name,
         Timers,
-        CreatedBy,
+        // CreatedBy,
 
       } = object;
 
-      const {
-        id: createdById,
-      } = CreatedBy || {};
+      // const {
+      //   id: createdById,
+      // } = CreatedBy || {};
 
       const {
         user: currentUser,
       } = this.context;
 
-      let activeTimers = Timers && Timers.filter(n => n.stopedAt === null) || []
+      let activeTimers = Timers ? Timers.filter(n => n.stopedAt === null) : []
 
 
       if (activeTimers.length) {
@@ -129,6 +130,8 @@ export class TasksView extends TableView {
             size="small"
             showName={false}
           />);
+
+          return null;
         });
 
       }
@@ -377,7 +380,7 @@ export class TasksView extends TableView {
         hidden: false,
         renderer: (value, record) => {
 
-          const date = value ? moment(value).format("lll") : null;
+          // const date = value ? moment(value).format("lll") : null;
 
           let dates = [];
 
@@ -459,7 +462,7 @@ export class TasksView extends TableView {
 
           let like;
 
-          const liked = currentUserId && value && value.find(n => n.CreatedBy && n.CreatedBy.id === currentUserId) || null;
+          const liked = (currentUserId && value && value.find(n => n.CreatedBy && n.CreatedBy.id === currentUserId)) || null;
 
           if (liked) {
 
@@ -606,7 +609,7 @@ export class TasksView extends TableView {
       data: {
         objectsConnection,
       },
-      classes,
+      // classes,
     } = this.props;
 
     const tasks = objectsConnection ? objectsConnection.edges.map(n => n.node) : [];
@@ -653,6 +656,7 @@ export class TasksView extends TableView {
 
       }
 
+      return null;
     });
 
     const showDates = defaultDates ? defaultDates : dates;
@@ -737,7 +741,7 @@ export class TasksView extends TableView {
 
     const {
       objectsConnection,
-      loading,
+      // loading,
       variables: {
         first: limit,
       },
@@ -745,7 +749,7 @@ export class TasksView extends TableView {
 
 
     const {
-      edges,
+      // edges,
       aggregate,
     } = objectsConnection || {};
 

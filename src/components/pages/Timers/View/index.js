@@ -1,29 +1,30 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 
-import { Typography } from 'material-ui';
+// import Typography from 'material-ui/Typography';
 
 
-import TimersList from "./List";
+// import TimersList from "./List";
 // import Context from "@prisma-cms/context";
 
 import {
   styles,
   TableView,
 } from "apollo-cms/lib/DataView/List/Table";
-import { withStyles } from 'material-ui';
+import withStyles from 'material-ui/styles/withStyles';
 
 import Filters from "@prisma-cms/filters";
 
 import moment from "moment";
-import { Button } from 'material-ui';
+import Button from 'material-ui/Button';
 
 
 class TimersView extends TableView {
 
 
   static propTypes = {
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...TableView.propTypes,
     filters: PropTypes.object,
     setFilters: PropTypes.func,
@@ -58,7 +59,7 @@ class TimersView extends TableView {
       {moment(date).format("DD.MM.YYYY HH:mm:ss")}
     </span> : null;
   }
-  
+
 
   initColumns() {
 
@@ -78,12 +79,18 @@ class TimersView extends TableView {
         renderer: (value, record) => {
 
           const {
-            Project,
-          } = record && record.Task || {};
+            TaskProjects,
+          } = (record && record.Task) || {};
 
-          return Project ? <ProjectLink
-            object={Project}
-          /> : null;
+          const Projects = TaskProjects ? TaskProjects.map(({ Project }) => Project).filter(n => n) : [];
+
+          return Projects && Projects.length ? Projects.map((Project, index) => {
+            return <ProjectLink
+              key={Project.id || index}
+              object={Project}
+            />;
+          }).reduce((curr, next) => [curr, ", ", next]) : [];
+
         },
       },
       {
@@ -107,7 +114,7 @@ class TimersView extends TableView {
 
           const {
             status,
-          } = record && record.Task || {};
+          } = (record && record.Task) || {};
 
           return status ? <TaskStatus
             value={status}
@@ -259,13 +266,13 @@ class TimersView extends TableView {
       page,
       showAll,
       setShowAll,
-      filters,
+      // filters,
     } = this.props;
 
 
     const {
       objectsConnection,
-      loading,
+      // loading,
       variables: {
         first: limit,
       },
@@ -273,14 +280,14 @@ class TimersView extends TableView {
 
 
     const {
-      edges,
+      // edges,
       aggregate,
     } = objectsConnection || {};
 
     const {
       count = 0,
     } = aggregate || {};
- 
+
 
     let showAllButton;
 

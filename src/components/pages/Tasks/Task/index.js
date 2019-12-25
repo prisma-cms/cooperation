@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import Page from "../../layout";
 
@@ -15,7 +15,7 @@ import { graphql } from 'react-apollo';
 
 import TaskView from "../View/Task";
 
-import { Typography } from 'material-ui';
+// import Typography from 'material-ui/Typography';
 import gql from 'graphql-tag';
 
 import Context from "@prisma-cms/context";
@@ -30,9 +30,9 @@ import Context from "@prisma-cms/context";
 
 export class TaskPage extends Page {
 
-  static propTypes = {
-    ...Page.propTypes,
-  };
+  // static propTypes = {
+  //   ...Page.propTypes,
+  // };
 
 
   static defaultProps = {

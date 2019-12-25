@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
   TaskList,
 } from "@prisma-cms/react-timeline-gantt";
-import { withStyles } from 'material-ui';
+import withStyles from 'material-ui/styles/withStyles';
 
 // import Row from "./Row";
 
@@ -14,7 +14,7 @@ import TaskView from "../../../../Tasks/View/Task";
 import StatusesList from "./Statuses";
 import Projects from "./Projects";
 
-import { Button } from 'material-ui';
+import Button from 'material-ui/Button';
 
 const styles = {
 }

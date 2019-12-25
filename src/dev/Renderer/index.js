@@ -15,7 +15,7 @@ import App, {
 } from "../../App";
 
 import { Renderer as PrismaCmsRenderer } from '@prisma-cms/front'
-import { withStyles } from 'material-ui';
+import withStyles from 'material-ui/styles/withStyles';
 
 import MainMenu from './MainMenu';
 import DevMainPage from './pages/MainPage';
@@ -137,10 +137,7 @@ class DevRenderer extends PrismaCmsRenderer {
       },
       {
         exact: false,
-        path: [
-          "/tasks/create/:projectId",
-          // "/tasks/create",
-        ],
+        path: "/tasks/create/:projectId",
         component: TaskCreatePage,
       },
       {

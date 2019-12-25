@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -7,13 +7,17 @@ import {
   TaskStatusConnector,
   TaskStatusItem as TaskStatus,
 } from "../";
-import { withStyles, Select, Typography } from 'material-ui';
+
+import Typography from 'material-ui/Typography';
+import withStyles from "material-ui/styles/withStyles";
+import Select from 'material-ui/Select';
 
 
 class TaskStatusSelect extends TaskStatus {
 
 
   static propTypes = {
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...TaskStatus.propTypes,
     value: PropTypes.string.isRequired,
     defaultValue: PropTypes.string.isRequired,
@@ -42,7 +46,7 @@ class TaskStatusSelect extends TaskStatus {
 
     const {
       objects,
-      loading,
+      // loading,
     } = data;
 
     if (!objects) {

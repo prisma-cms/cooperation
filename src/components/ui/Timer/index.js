@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Grid, IconButton } from 'material-ui';
+
+import withStyles from 'material-ui/styles/withStyles';
+import IconButton from 'material-ui/IconButton';
 
 import { Link } from "react-router-dom";
 

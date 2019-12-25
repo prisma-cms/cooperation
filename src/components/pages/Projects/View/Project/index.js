@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import EditableView from 'apollo-cms/lib/DataView/Object/Editable';
 
 import withStyles from "material-ui/styles/withStyles";
-import { Typography } from 'material-ui';
+import Typography from 'material-ui/Typography';
 
 import Grid from "@prisma-cms/front/lib/modules/ui/Grid";
 
@@ -26,6 +26,7 @@ export class ProjectView extends EditableView {
 
 
   static propTypes = {
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...EditableView.propTypes,
     classes: PropTypes.object.isRequired,
     showDetails: PropTypes.bool.isRequired,
@@ -106,8 +107,8 @@ export class ProjectView extends EditableView {
     const {
       id: projectId,
       CreatedBy,
-      createdAt,
-      Tasks,
+      // createdAt,
+      // Tasks,
     } = object || {}
 
 
@@ -224,9 +225,10 @@ export class ProjectView extends EditableView {
 
     const {
       id: projectId,
-      Tasks,
+      ProjectTasks,
     } = project;
 
+    const Tasks = ProjectTasks ? ProjectTasks.map(({ Task }) => Task).filter(n => n) : [];
 
     return <Fragment >
       <Typography
@@ -265,7 +267,7 @@ export class ProjectView extends EditableView {
   renderDefaultView() {
 
     const {
-      classes,
+      // classes,
       showDetails,
     } = this.props;
 
@@ -277,15 +279,15 @@ export class ProjectView extends EditableView {
       return null;
     }
 
-    const {
-      id: projectId,
-      content,
-      Tasks,
-    } = project;
+    // const {
+    //   id: projectId,
+    //   content,
+    //   Tasks,
+    // } = project;
 
 
-    const inEditMode = this.isInEditMode();
-    const allow_edit = this.canEdit();
+    // const inEditMode = this.isInEditMode();
+    // const allow_edit = this.canEdit();
 
     let details;
 

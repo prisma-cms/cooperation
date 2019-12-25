@@ -57,7 +57,7 @@ class TimersList extends Component {
 
     const {
       timers,
-      View,
+      // View,
     } = this.props;
 
     if (!timers) {

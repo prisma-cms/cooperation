@@ -8,7 +8,7 @@ import { ListItem } from 'material-ui/List';
 
 import gql from 'graphql-tag';
 // import { withState } from 'recompose';
-import { withStyles } from 'material-ui';
+import withStyles from 'material-ui/styles/withStyles';
 import IconButton from 'material-ui/IconButton';
 
 import DoneIcon from 'material-ui-icons/Done';

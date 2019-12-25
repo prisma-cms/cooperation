@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui';
+import withStyles from 'material-ui/styles/withStyles';
 
 
 // import {
 //   taskStatusEnum,
 // } from "../../../query";
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
 
 
 import PrismaCmsComponent from "@prisma-cms/component";
-// import { Typography } from 'material-ui';
+// import Typography from 'material-ui/Typography';
 import gql from 'graphql-tag';
 
 
 import Context from "@prisma-cms/context";
-import { Typography } from 'material-ui';
+import Typography from 'material-ui/Typography';
 
 export const locales = {
   ru: {
@@ -81,6 +81,7 @@ export const styles = {
 export class TaskStatusItem extends PrismaCmsComponent {
 
   static propTypes = {
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...PrismaCmsComponent.propTypes,
     inEditMode: PropTypes.bool.isRequired,
     value: PropTypes.string,

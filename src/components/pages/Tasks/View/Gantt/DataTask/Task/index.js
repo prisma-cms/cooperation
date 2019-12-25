@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
 import {
   styles,
@@ -8,7 +7,7 @@ import {
   TaskConnector,
 } from "../../../../../Tasks/View/Task";
 
-import { withStyles, IconButton } from 'material-ui';
+import withStyles from 'material-ui/styles/withStyles';
 
 
 class GanttTaskView extends TaskView {

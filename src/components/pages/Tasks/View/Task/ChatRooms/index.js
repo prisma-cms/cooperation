@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -10,7 +10,7 @@ import ChatRoomView from "@prisma-cms/society/lib/components/pages/ChatRooms/Vie
 
 import PrismaCmsComponent from "@prisma-cms/component";
 
-import { Button } from 'material-ui';
+import Button from 'material-ui/Button';
 import gql from 'graphql-tag';
 
 
@@ -109,7 +109,7 @@ class ChatRoomsByTaskView extends PrismaCmsComponent {
       id: projectCreatedById,
     } = projectCreatedBy || {};
 
-    const chatRoom = objectsConnection && objectsConnection.edges[0] && objectsConnection.edges[0].node || null;
+    const chatRoom = (objectsConnection && objectsConnection.edges[0] && objectsConnection.edges[0].node) || null;
 
     // console.log("task", task);
 

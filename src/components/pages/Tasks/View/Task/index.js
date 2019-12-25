@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import EditableView from 'apollo-cms/lib/DataView/Object/Editable';
 
 import withStyles from "material-ui/styles/withStyles";
-import { Typography, IconButton } from 'material-ui';
+
+import IconButton from 'material-ui/IconButton';
+import Typography from 'material-ui/Typography';
+
 import StartIcon from "material-ui-icons/PlayArrow";
 import StopIcon from "material-ui-icons/Stop";
 import SubdirectoryArrowRight from "material-ui-icons/SubdirectoryArrowRight";
@@ -104,6 +107,7 @@ export class TaskView extends EditableView {
 
 
   static propTypes = {
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...EditableView.propTypes,
     classes: PropTypes.object.isRequired,
     showDetails: PropTypes.bool.isRequired,
@@ -135,10 +139,10 @@ export class TaskView extends EditableView {
   // };
 
 
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
 
-  }
+  // }
 
 
   canEdit() {
@@ -192,6 +196,10 @@ export class TaskView extends EditableView {
       updateTask,
     } = this.props;
 
+    console.log('mutate', mutate);
+
+    // return;
+
     if (!mutate) {
 
       const {
@@ -213,7 +221,13 @@ export class TaskView extends EditableView {
 
     const mutation = this.getMutation(data);
 
-    return mutate(mutation);
+    console.log('mutate 2', mutate);
+    console.log('mutation', mutation);
+
+    return this.mutate({
+      mutate,
+      ...mutation,
+    });
 
     // const result = await mutate(mutation).then(r => r).catch(e => {
 
@@ -227,6 +241,181 @@ export class TaskView extends EditableView {
     // return result;
 
   }
+
+
+  // async mutate(props) {
+
+
+  //   const {
+  //     // _dirty,
+  //     loading,
+  //   } = this.state;
+
+  //   const {
+  //     client,
+  //   } = this.context;
+
+
+  //   if (loading) {
+  //     return;
+  //   }
+
+  //   let {
+  //     mutate,
+  //     mutation,
+  //   } = {
+  //     ...this.props,
+  //     ...props,
+  //   };
+
+
+  //   console.log('mutate', mutate);
+
+  //   return;
+
+  //   return new Promise((resolve, reject) => {
+
+
+  //     // console.log("mutate props", props);
+
+
+  //     if (mutation && !props.mutation) {
+  //       props.mutation = mutation;
+  //     }
+
+  //     if (!mutate) {
+
+  //       const {
+  //         client,
+  //       } = this.context;
+
+  //       mutate = client.mutate;
+  //     }
+
+  //     // console.log("mutate", mutate);
+
+  //     if (!mutate) {
+  //       throw (new Error("Mutate is not defined"));
+  //     }
+
+
+  //     this.setState({
+  //       loading: true,
+  //     }, async () => {
+
+
+  //       let newState = {
+  //         loading: false,
+  //       };
+
+  //       const result = await mutate(props)
+  //         .then(async result => {
+
+
+
+  //           // console.log("await this.saveObject 2", typeof result, result instanceof Error, result);
+
+  //           if (result instanceof Error) {
+
+  //             // console.log("await this.saveObject result", result);
+  //             // reject(result);
+
+  //           }
+  //           else {
+
+  //             const {
+  //               data: resultData,
+  //             } = result || {};
+
+  //             const {
+  //               response,
+  //             } = resultData || {};
+
+  //             // console.log("result", result);
+  //             // console.log("resultData", resultData);
+
+  //             let {
+  //               success,
+  //               message,
+  //               errors = null,
+  //               ...other
+  //             } = response || {};
+
+
+  //             Object.assign(newState, {
+  //               errors,
+  //             });
+
+
+  //             if (success === undefined) {
+
+  //               success = true;
+
+  //             }
+
+  //             if (!success) {
+
+  //               this.addError(message || "Request error");
+
+  //               // errors && errors.map(error => {
+  //               //   this.addError(error);
+  //               // });
+
+  //               // result = new Error(message || "Request error", result);
+
+  //               return reject(result);
+
+  //             }
+  //             else {
+
+  //               // Object.assign(newState, {
+  //               //   _dirty: null,
+  //               //   inEditMode: false,
+  //               // });
+
+  //               // this.clearCache();
+
+  //               if (!client.queryManager.fetchQueryRejectFns.size) {
+  //                 await client.resetStore().catch(console.error);
+  //               }
+
+  //               // await client.cache.reset();
+  //               // console.log("client.cache.clearStore");
+
+  //               // await client.clearStore().catch(console.error);
+
+  //               // await client.reFetchObservableQueries().catch(console.error);
+
+  //             }
+
+
+  //           }
+
+
+  //           return result;
+  //         })
+  //         .catch(error => {
+
+  //           const message = error.message && error.message.replace(/^GraphQL error: */, '') || "";
+
+  //           this.addError(message);
+
+  //           return error;
+  //         });
+
+
+  //       this.setState(newState, () => {
+
+  //         return resolve(result);
+  //       });
+
+  //       return;
+
+  //     });
+
+  //   });
+
+  // }
 
 
 
@@ -265,7 +454,7 @@ export class TaskView extends EditableView {
 
       const {
         id: taskId,
-        name,
+        // name,
         Timers,
         CreatedBy,
 
@@ -289,7 +478,7 @@ export class TaskView extends EditableView {
         user: currentUser,
       } = this.context;
 
-      let activeTimers = Timers && Timers.filter(n => n.stopedAt === null) || []
+      let activeTimers = Timers ? Timers.filter(n => n.stopedAt === null) : []
 
 
       if (activeTimers.length) {
@@ -306,6 +495,8 @@ export class TaskView extends EditableView {
             size="small"
             showName={false}
           />);
+
+          return null;
         });
 
       }
@@ -500,10 +691,14 @@ export class TaskView extends EditableView {
     const {
       id: taskId,
       CreatedBy,
-      createdAt,
-      Project,
+      // createdAt,
+      // Project,
+      TaskProjects,
     } = object || {}
 
+    const Projects = TaskProjects ? TaskProjects.map(({ Project }) => Project).filter(n => n) : [];
+
+    // console.log('Project', Project);
 
 
     const inEditMode = this.isInEditMode();
@@ -552,10 +747,15 @@ export class TaskView extends EditableView {
                 taskId ? <Fragment>
                   <TaskLink
                     object={object}
-                  /> {Project ? <span> (<ProjectLink
-                    object={Project}
-                  />)
-                  </span> : null}
+                  /> {Projects && Projects.length ?
+
+                    Projects.map((Project, index) => <span
+                      key={Project.id || index}
+                    > (<ProjectLink
+                        object={Project}
+                      />)
+                  </span>)
+                    : null}
                 </Fragment>
                   :
                   null
@@ -662,7 +862,7 @@ export class TaskView extends EditableView {
 
     const {
       Editor,
-      user: currentUser,
+      // user: currentUser,
     } = this.context;
 
     const object = this.getObjectWithMutations();
@@ -684,7 +884,7 @@ export class TaskView extends EditableView {
 
 
     const inEditMode = this.isInEditMode();
-    const allow_edit = this.canEdit();
+    // const allow_edit = this.canEdit();
 
 
     let details;
@@ -772,7 +972,7 @@ export class TaskView extends EditableView {
             name: "startDatePlaning",
             label: "Планируемая дата начала",
             type: "date",
-            value: startDatePlaning && moment(startDatePlaning).format("YYYY-MM-DD") || "дд.мм.гггг",
+            value: (startDatePlaning && moment(startDatePlaning).format("YYYY-MM-DD")) || "дд.мм.гггг",
             disabled: !inEditMode,
           })}
 
@@ -790,7 +990,7 @@ export class TaskView extends EditableView {
             name: "endDatePlaning",
             label: "Планируемая дата завершения",
             type: "date",
-            value: endDatePlaning && moment(endDatePlaning).format("YYYY-MM-DD") || "дд.мм.гггг",
+            value: (endDatePlaning && moment(endDatePlaning).format("YYYY-MM-DD")) || "дд.мм.гггг",
             disabled: !inEditMode,
           })}
 
@@ -808,7 +1008,7 @@ export class TaskView extends EditableView {
             name: "startDate",
             label: "Дата начала",
             type: "date",
-            value: startDate && moment(startDate).format("YYYY-MM-DD") || "дд.мм.гггг",
+            value: (startDate && moment(startDate).format("YYYY-MM-DD")) || "дд.мм.гггг",
             disabled: !inEditMode,
           })}
 
@@ -826,7 +1026,7 @@ export class TaskView extends EditableView {
             name: "endDate",
             label: "Дата завершения",
             type: "date",
-            value: endDate && moment(endDate).format("YYYY-MM-DD") || "дд.мм.гггг",
+            value: (endDate && moment(endDate).format("YYYY-MM-DD")) || "дд.мм.гггг",
             disabled: !inEditMode,
           })}
 

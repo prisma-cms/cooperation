@@ -67,6 +67,7 @@ class ContextProvider extends PureComponent {
       UserNoNestingFragment,
       TaskNoNestingFragment,
       TimerNoNestingFragment,
+      ProjectTaskNoNestingFragment,
     } = queryFragments;
 
 
@@ -83,24 +84,27 @@ class ContextProvider extends PureComponent {
           ...UserNoNesting
         }
       }
-      
-      Tasks{
-        ...TaskNoNesting
-        Timers(
-          where:{
-            stopedAt: null
+
+      ProjectTasks{
+        ...ProjectTaskNoNesting
+        Task{
+          ...TaskNoNesting
+          Timers(
+            where:{
+              stopedAt: null
+            }
+          ){
+            ...TimerNoNesting
+            CreatedBy{
+              ...UserNoNesting
+            }
           }
-        ){
-          ...TimerNoNesting
           CreatedBy{
             ...UserNoNesting
           }
-        }
-        CreatedBy{
-          ...UserNoNesting
-        }
-        Parent {
-          ...TaskNoNesting
+          Parent {
+            ...TaskNoNesting
+          }
         }
       }
 
@@ -110,6 +114,7 @@ class ContextProvider extends PureComponent {
       ${UserNoNestingFragment}
       ${TaskNoNestingFragment}
       ${TimerNoNestingFragment}
+      ${ProjectTaskNoNestingFragment}
     `;
 
 
@@ -264,6 +269,7 @@ class ContextProvider extends PureComponent {
       TimerNoNestingFragment,
       ProjectNoNestingFragment,
       ProjectMemberNoNestingFragment,
+      ProjectTaskNoNestingFragment,
     } = queryFragments;
 
 
@@ -284,18 +290,22 @@ class ContextProvider extends PureComponent {
           }
         }
 
-        Project{
-          ...ProjectNoNesting
-          CreatedBy{
-            ...UserNoNesting
-          }
-          Members{
-            ...ProjectMemberNoNesting
-            User{
+        TaskProjects {
+          ...ProjectTaskNoNesting
+          Project{
+            ...ProjectNoNesting
+            CreatedBy{
               ...UserNoNesting
+            }
+            Members{
+              ...ProjectMemberNoNesting
+              User{
+                ...UserNoNesting
+              }
             }
           }
         }
+
 
         RelatedTo{
           ...TaskNoNesting
@@ -316,6 +326,7 @@ class ContextProvider extends PureComponent {
       ${TimerNoNestingFragment}
       ${ProjectNoNestingFragment}
       ${ProjectMemberNoNestingFragment}
+      ${ProjectTaskNoNestingFragment}
     `
 
 
@@ -670,6 +681,7 @@ class ContextProvider extends PureComponent {
       UserNoNestingFragment,
       TaskNoNestingFragment,
       ProjectNoNestingFragment,
+      ProjectTaskNoNestingFragment,
     } = queryFragments;
 
     const TimerFragment = `
@@ -682,9 +694,11 @@ class ContextProvider extends PureComponent {
     
         Task {
           ...TaskNoNesting
-    
-          Project{
-            ...ProjectNoNesting
+          TaskProjects{
+            ...ProjectTaskNoNesting
+            Project{
+              ...ProjectNoNesting
+            }
           }
     
           CreatedBy{
@@ -698,6 +712,7 @@ class ContextProvider extends PureComponent {
       ${UserNoNestingFragment}
       ${TaskNoNestingFragment}
       ${ProjectNoNestingFragment}
+      ${ProjectTaskNoNestingFragment}
     `
 
     const timersConnection = `

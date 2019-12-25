@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
   DataTask,
 } from "@prisma-cms/react-timeline-gantt";
 
-import { withStyles, IconButton } from 'material-ui';
+import withStyles from 'material-ui/styles/withStyles';
 // import StartIcon from "material-ui-icons/PlayArrow";
 // import StopIcon from "material-ui-icons/Stop";
 

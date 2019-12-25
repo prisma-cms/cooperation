@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import {
   TaskPage,
@@ -14,7 +14,7 @@ class CreateTaskPage extends Component {
 
       const {
         data: object,
-      } = result.data && result.data.response || {}
+      } = (result.data && result.data.response) || {}
 
 
       const {

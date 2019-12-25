@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Page from "../layout";
@@ -15,6 +15,7 @@ import gql from 'graphql-tag';
 class TimersPage extends Page {
 
   static propTypes = {
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...Page.propTypes,
     first: PropTypes.number.isRequired,
     orderBy: PropTypes.string.isRequired,
@@ -131,7 +132,7 @@ class TimersPage extends Page {
 
 
     try {
-      filters = filters && JSON.parse(filters) || null;
+      filters = (filters && JSON.parse(filters)) || null;
     }
     catch (error) {
       console.error(console.error(error));
@@ -190,7 +191,7 @@ class TimersPage extends Page {
 
     let skip;
 
-    page = page && parseInt(page) || 0;
+    page = (page && parseInt(page)) || 0;
 
     if (first && page > 1) {
       skip = (page - 1) * first;

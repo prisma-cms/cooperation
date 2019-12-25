@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
 import {
   TaskView as BaseTaskView,
@@ -8,7 +7,7 @@ import {
   // processors,
 } from "../../../../../Tasks/View/Task";
 
-import { withStyles } from 'material-ui';
+import withStyles from 'material-ui/styles/withStyles';
 
 
 export {

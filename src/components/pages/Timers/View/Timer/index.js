@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import EditableView from 'apollo-cms/lib/DataView/Object/Editable';
 
 import withStyles from "material-ui/styles/withStyles";
-import { Typography, IconButton } from 'material-ui';
+import IconButton from 'material-ui/IconButton';
 import StopIcon from 'material-ui-icons/Stop';
 
 import Grid from "@prisma-cms/front/lib/modules/ui/Grid";
@@ -26,6 +26,7 @@ class TimerView extends EditableView {
 
 
   static propTypes = {
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...EditableView.propTypes,
     classes: PropTypes.object.isRequired,
   };
@@ -155,7 +156,7 @@ class TimerView extends EditableView {
     const object = this.getObjectWithMutations();
 
     const {
-      id: timerId,
+      // id: timerId,
       CreatedBy,
       createdAt,
       stopedAt,
@@ -170,7 +171,7 @@ class TimerView extends EditableView {
 
 
 
-    const inEditMode = this.isInEditMode();
+    // const inEditMode = this.isInEditMode();
 
 
     return <div
@@ -286,9 +287,9 @@ class TimerView extends EditableView {
 
   renderDefaultView() {
 
-    const {
-      classes,
-    } = this.props;
+    // const {
+    //   classes,
+    // } = this.props;
 
 
     const timer = this.getObjectWithMutations();
@@ -298,13 +299,13 @@ class TimerView extends EditableView {
       return null;
     }
 
-    const {
-      content,
-    } = timer;
+    // const {
+    //   content,
+    // } = timer;
 
 
-    const inEditMode = this.isInEditMode();
-    const allow_edit = this.canEdit();
+    // const inEditMode = this.isInEditMode();
+    // const allow_edit = this.canEdit();
 
 
     return <Grid

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -8,7 +8,7 @@ import {
   TaskStatus,
 } from "../../../Task/Status";
 
-import { withStyles, Select, Typography } from 'material-ui';
+import withStyles from 'material-ui/styles/withStyles';
 
 import Chip from 'material-ui/Chip';
 

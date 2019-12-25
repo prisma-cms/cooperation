@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import 'react-sortable-tree/style.css';
 
 import SortableTree, {
-  addNodeUnderParent,
-  removeNodeAtPath,
+  // addNodeUnderParent,
+  // removeNodeAtPath,
 } from "react-sortable-tree";
 
 import TasksListView from "../../../../Tasks/View/List";
-import { withStyles, IconButton } from 'material-ui';
+import withStyles from 'material-ui/styles/withStyles';
+import IconButton from 'material-ui/IconButton';
 
 import AddIcon from "material-ui-icons/AddCircleOutline";
 
@@ -56,6 +57,7 @@ export class ProjectTasksListView extends TasksListView {
 
 
   static propTypes = {
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...TasksListView.propTypes,
     classes: PropTypes.object.isRequired,
     project: PropTypes.object.isRequired,
@@ -94,7 +96,9 @@ export class ProjectTasksListView extends TasksListView {
   onMoveNode = async (data) => {
 
     const {
-      treeData, node, nextParentNode, prevPath, prevTreeIndex, nextPath, nextTreeIndex
+      node,
+      nextParentNode,
+      prevPath,
     } = data;
 
     // const {
@@ -131,7 +135,7 @@ export class ProjectTasksListView extends TasksListView {
       }
     }
 
-    const result = await this.mutate({
+    await this.mutate({
       mutation: gql(updateTaskProcessor),
       variables: {
         where: {
@@ -169,9 +173,9 @@ export class ProjectTasksListView extends TasksListView {
       return null;
     }
 
-    const {
-      ProjectLink,
-    } = this.context;
+    // const {
+    //   ProjectLink,
+    // } = this.context;
 
     const {
       id: projectId,
@@ -185,7 +189,7 @@ export class ProjectTasksListView extends TasksListView {
 
       return {
         ...n,
-        expanded: expandedAll || id && expanded.indexOf(id) !== -1 ? true : false,
+        expanded: expandedAll || (id && expanded.indexOf(id) !== -1) ? true : false,
         children: [],
       };
     }).concat(newChilds);
@@ -228,7 +232,7 @@ export class ProjectTasksListView extends TasksListView {
 
           parentNode.children.push(n);
 
-          return;
+          return null;
         }
 
       }
@@ -238,6 +242,7 @@ export class ProjectTasksListView extends TasksListView {
        */
       nodesTree.push(n);
 
+      return null;
     });
 
 
@@ -245,6 +250,7 @@ export class ProjectTasksListView extends TasksListView {
 
       treeData.push(n);
 
+      return null;
     });
 
     return <div
@@ -303,7 +309,7 @@ export class ProjectTasksListView extends TasksListView {
 
           const {
             id: taskId,
-            name: title,
+            // name: title,
             status,
           } = node;
 
