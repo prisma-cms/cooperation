@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import Context from "@prisma-cms/context";
 
 import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
+// import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 
@@ -14,6 +14,10 @@ import UserItem from './User';
 import { withStyles } from 'material-ui/styles';
 
 import { Notices } from '@prisma-cms/society';
+
+import {
+  Timer,
+} from '../../../App';
 
 // console.log("MainMenu Context", Context);
 
@@ -94,9 +98,9 @@ export class MainMenu extends PureComponent {
       Grid,
     } = this.context;
 
-    const {
-      // opened,
-    } = this.state;
+    // const {
+    //   // opened,
+    // } = this.state;
 
     const {
       classes,
@@ -104,8 +108,11 @@ export class MainMenu extends PureComponent {
 
     const {
       id: userId,
-      sudo,
+      // sudo,
+      Timers,
     } = user || {}
+
+    const [ActiveTimer] = (Timers || []);
 
     return (
 
@@ -223,7 +230,8 @@ export class MainMenu extends PureComponent {
 
           {user
             ?
-            [
+            <Fragment>
+
               <Grid
                 key="notifications"
                 item
@@ -235,7 +243,22 @@ export class MainMenu extends PureComponent {
                     icon: classes.link,
                   }}
                 />
-              </Grid>,
+              </Grid>
+
+              {ActiveTimer
+                ?
+                <Grid
+                  key="timer"
+                  item
+                >
+                  <Timer
+                    timer={ActiveTimer}
+                    iconClassName={classes.link}
+                  />
+                </Grid>
+                : null
+              }
+
               <Grid
                 key="user"
                 item
@@ -245,7 +268,7 @@ export class MainMenu extends PureComponent {
                   user={user}
                   classes={classes}
                 />
-              </Grid>,
+              </Grid>
               <Grid
                 key="logout"
                 item
@@ -255,10 +278,10 @@ export class MainMenu extends PureComponent {
                   className={classes.link}
                 >
                   Signout
-                </Button>
+                  </Button>
 
               </Grid>
-            ]
+            </Fragment>
             :
             <Grid
               key="login"

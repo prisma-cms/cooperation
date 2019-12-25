@@ -217,7 +217,7 @@ class TimersView extends TableView {
         label: "Связано с",
         hidden: true,
         renderer: (value, record) => {
-          console.log("status", TaskLink);
+          // console.log("status", TaskLink);
 
           // return value ? <TaskStatus
           //   value={value}

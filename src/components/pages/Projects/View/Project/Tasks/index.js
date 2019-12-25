@@ -265,7 +265,7 @@ export class ProjectTasksListView extends TasksListView {
           // this.setState({ treeData });
         }}
         onVisibilityToggle={({ treeData, node, expanded, path }) => {
-          console.log("onVisibilityToggle treeData", treeData, node, expanded, path);
+          // console.log("onVisibilityToggle treeData", treeData, node, expanded, path);
           // this.setState({ treeData });
 
           const {

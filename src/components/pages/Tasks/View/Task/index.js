@@ -196,7 +196,7 @@ export class TaskView extends EditableView {
       updateTask,
     } = this.props;
 
-    console.log('mutate', mutate);
+    // console.log('mutate', mutate);
 
     // return;
 
@@ -221,8 +221,8 @@ export class TaskView extends EditableView {
 
     const mutation = this.getMutation(data);
 
-    console.log('mutate 2', mutate);
-    console.log('mutation', mutation);
+    // console.log('mutate 2', mutate);
+    // console.log('mutation', mutation);
 
     return this.mutate({
       mutate,

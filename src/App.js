@@ -16,6 +16,7 @@ import TaskCreatePage from "./components/pages/Tasks/Task/Create";
 import TimersPage from "./components/pages/Timers";
 import TimerPage from "./components/pages/Timers/Timer";
 
+import Timer from './components/ui/Timer';
 
 export {
   ContextProvider,
@@ -28,6 +29,7 @@ export {
   TaskCreatePage,
   TimersPage,
   TimerPage,
+  Timer,
 }
 
 export default class App extends PureComponent {
