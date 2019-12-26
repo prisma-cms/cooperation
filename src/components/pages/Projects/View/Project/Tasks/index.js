@@ -88,9 +88,12 @@ export class ProjectTasksListView extends TasksListView {
 
     const {
       id,
+      key,
     } = node;
 
-    return id || treeIndex;
+    // console.log('getNodeKey', key);
+
+    return key || id || treeIndex;
   }
 
   onMoveNode = async (data) => {
@@ -320,29 +323,17 @@ export class ProjectTasksListView extends TasksListView {
             buttons.push(<IconButton
               onClick={(event) => {
 
-                // console.log("onAddClick", event);
-
-                // return;
-
-                // this.setState(state => ({
-                //   treeData: addNodeUnderParent({
-                //     treeData,
-                //     parentKey: path[path.length - 1],
-                //     expandParent: true,
-                //     getNodeKey: this.getNodeKey,
-                //     newNode: {
-                //       id: "DSfsdf",
-                //       title: `rgergerg`,
-                //     },
-                //     // addAsFirstChild: state.addAsFirstChild,
-                //     addAsFirstChild: true,
-                //   }).treeData,
-                // }))
-
                 let newItem = {
                   Parent: {
                     id: taskId,
                   },
+
+                  /**
+                    Ключ нужен, так как иначе при сохранении новой задачи
+                    нарушается порядок и не сбрасывается кеш элемента
+                   */
+                  key: Math.random(),
+
                   _dirty: {
                     name: "",
                     Project: {
@@ -388,7 +379,7 @@ export class ProjectTasksListView extends TasksListView {
                 }
 
                 this.setState({
-                  newChilds: [...newChilds].concat([newItem]),
+                  newChilds: [].concat(newChilds, [newItem]),
                 });
               }}
             >
@@ -405,13 +396,14 @@ export class ProjectTasksListView extends TasksListView {
             //   />
             // </div>,
             title: () => {
-              return this.renderItem(node);
+              return this.renderItem(node, {
+              });
             },
             buttons,
           };
         }}
       />
-    </div >
+    </div>
   }
 
 

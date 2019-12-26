@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { graphql } from 'react-apollo';
@@ -19,6 +19,7 @@ import gql from 'graphql-tag';
 class TasksList extends PrismaCmsComponent {
 
   static propTypes = {
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...PrismaCmsComponent.propTypes,
     tasks: PropTypes.array.isRequired,
     showDetails: PropTypes.bool.isRequired,

@@ -127,6 +127,7 @@ export class TaskView extends EditableView {
     showCreatedBy: true,
     TaskStatusSelect,
     showChat: false,
+    cacheKeyPrefix: 'task_',
   };
 
   // static contextTypes = {
@@ -419,14 +420,23 @@ export class TaskView extends EditableView {
 
 
 
-  getCacheKey() {
+  // getCacheKey() {
 
-    const {
-      id,
-    } = this.getObject() || {};
+  //   const {
+  //     id,
+  //     ...other
+  //   } = this.getObject() || {};
 
-    return `task_${id || "new"}`;
-  }
+  //   const {
+  //     cacheKey,
+  //   } = this.props;
+
+  //   if(!id) {
+  //     console.log('Other', other, this.props);
+  //   }
+
+  //   return cacheKey !== undefined ? cacheKey : `task_${id || "new"}`;
+  // }
 
 
   getButtons() {
