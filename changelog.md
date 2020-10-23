@@ -1,3 +1,8 @@
+1.14.0
+=================================
+- Remove styles due styled-components compatibility
+  https://err.sh/next.js/css-npm
+
 1.13.2
 =================================
 - Fix create new task

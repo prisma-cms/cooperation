@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import 'react-sortable-tree/style.css';
+// import 'react-sortable-tree/style.css';
 
 import SortableTree, {
   // addNodeUnderParent,
